@@ -1,0 +1,592 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-04T00:00:00Z",
+    "nextVersion": "16.2.10",
+    "router": "app",
+    "imageDomains": ["images.unsplash.com", "images.squarespace-cdn.com"],
+    "notes": [
+      "app/page.js is a 'use client' component, so it CANNOT export `metadata` or `generateMetadata` (Next.js forbids metadata exports from client components). All SEO/meta content for '/' therefore comes only from app/layout.js's root `metadata` export, which Next merges into every route including Home.",
+      "app/layout.js metadata only sets `title` and `description`. There is no openGraph, twitter, icons, keywords, canonical, or robots block anywhere in the app. No app/favicon.ico, app/icon.*, or app/opengraph-image.* file exists, so Next.js emits no custom favicon/OG image for this app — flagged so the schema author knows these fields are currently entirely absent, not merely empty.",
+      "components/Home/HomeSection/WorkLookBanner.jsx exists on disk (video hero banner: 'This is what the' / 'work looks like.', video/work-look-banner.mp4) but is NOT imported by components/Home/HomePage.jsx and is not referenced anywhere else in the repo (verified via grep). It is therefore dead/unused code and is EXCLUDED from this inventory per the Home-page-only scope. If it is meant to render on Home, it should be added back to HomePage.jsx and re-audited.",
+      "components/Blog/BlogCard.jsx is not imported by components/Home/HomeSection/BlogSection.jsx (BlogSection builds its own <article> markup inline instead of reusing BlogCard). BlogCard.jsx is therefore out of scope for this audit.",
+      "components/Blog/data/blogData.js is imported by BlogSection.jsx and IS in scope, but only 4 of its 7 fields per entry render on the Home page (title, date, category, image/alt via the 3-up preview grid). The `excerpt`, `comments`, and `content` (long-form HTML) fields exist in the data file but are not rendered anywhere on '/' — they belong to the /blog and /blog/[slug] routes, which are explicitly out of scope. Not included as Home-page fields for that reason.",
+      "blogData.js currently has exactly 3 entries and BlogSection does `blogs.slice(0, 3)`, so all 3 blog posts in the data file appear on Home today. If a 4th post is added to the data file it will NOT appear on Home (slice cap), which the CMS schema/population script should account for.",
+      "CustomCursor.jsx (rendered by app/App.js, part of the shared shell) renders only a decorative cursor-follower <div> with no text/media content — excluded as pure structure/interaction, not content.",
+      "Loader.jsx exists at the project root but is NOT imported/rendered anywhere (app/App.js implements its own inline loader instead, with brand text captured under globals.loader). Loader.jsx is dead code and out of scope.",
+      "app/App.js (rendered by app/layout.js around <Header/>{children}<Footer/>) contains an intro loader with a hardcoded brand string, captured under globals.loader since it appears on every page load of '/' as part of the shared shell.",
+      "HeroSection.jsx declares an unused `gridCells` array (Array.from({length:60})) that is never referenced in the returned JSX — dead code, not rendered, excluded as content.",
+      "Several literal background-image URLs live in components/Home/HomeCss.css rather than in inline `style` attributes: `.three-pillars-stack-card { background-image: url(\"/images/three-pillars-banner.jpg\") }` (HomeCss.css:395) backing all 3 ThreePillarsSection cards, and `.creative-future-col:nth-child(n) .creative-future-card::after { background-image: url(\"/images/future-iconN.png\") }` (HomeCss.css:722,726,730,734) backing the 4 CreativeFutureSection stat cards. These are genuine rendered media (not decorative CSS-only patterns) so they ARE captured below as media fields on their respective sections, with a note that today they are only editable by changing the CSS file, not via any component prop — a CMS-driven version would need to convert these to inline styles or next/image elements.",
+      "Two other CSS background-image declarations were found and deliberately EXCLUDED as pure design (repeating grid-line patterns, not depicting any subject): components/Home/HomeCss.css:29-32 (`.hero-section-area::before`, a linear-gradient grid overlay) and public/styles/style.css:74-78 (`.hero-section::before`, an unrelated/unused grid overlay for a `.hero-section` class that does not appear in any Home component's className list).",
+      "BrandsSection.jsx builds each of its 14 tile background images from a template: `linear-gradient(135deg, ${t.tone}cc, ${t.tone}66), url(https://picsum.photos/seed/${t.seed}/800/1000)` — i.e. every 'brand' tile is currently a random Lorem-Picsum placeholder photo keyed by a `seed` string, NOT a real product/campaign photo, and NOT run through next/image. `t.tone` is a hex color used only for the gradient overlay and is DESIGN, excluded from content; `t.seed` is captured below because it is the only content-relevant driver of which placeholder image renders. The `https://picsum.photos` host is not declared in next.config.js `images.remotePatterns` (which only lists images.unsplash.com and images.squarespace-cdn.com) — this is fine today only because the image is applied via raw CSS background, not next/image, and no remotePatterns entry in next.config.js is actually consumed anywhere in the Home page scope as audited.",
+      "Two strings use JSX HTML entities in source rather than plain unicode: HeroSection.jsx:63 `doesn&apos;t` and TheShifSection.jsx:47 `isn&apos;t`. Both are recorded below using their RENDERED value (a plain straight apostrophe, U+0027) since that is what reaches the DOM/CMS field; the entity form is preserved here in this note for traceability.",
+      "OutlinedBandSection.jsx repeats the literal phrase \"ORGANIC - PAID - AI - \" 15 times via `.repeat(15)` to fill a marquee track; the field below stores the base phrase plus the repeat count rather than the full ~330-character concatenated string, since the repeat count is itself a code-level layout detail a CMS field would not need to store verbatim.",
+      "Every anchor currently pointing to href=\"#\" (Header primary/submenu items except Blog, the Header CTA, all Footer links except the mailto, all Three Pillars list-item links, the Talk Discovery CTA) is a PLACEHOLDER destination with no real target page. Flagged per-field below with `\"notes\"` but called out here in aggregate: a CMS `href` field for these should not be assumed production-ready.",
+      "No raw inline <svg>...</svg> markup was found anywhere in the audited scope (app/page.js, app/layout.js, app/App.js, HomePage.jsx, all 10 rendered HomeSection components, Header.jsx, Footer.jsx, CustomCursor.jsx) — verified via grep for '<svg'. All icon-like assets in scope are either Font Awesome webfont classes (Footer social icons) or raster/SVG *files* referenced by path (logo-img.svg, logo-img2.svg) rather than inlined markup, so the ./inventory-assets folder created for this audit contains no extracted files.",
+      "Font Awesome CDN stylesheet and 3 Google Fonts <link> tags in app/layout.js (lines 16-21) are asset/typography loading, not content strings, and are excluded per the DOES-NOT-COUNT design rule.",
+      "Header.jsx's mobile hamburger toggle button renders 3 empty <span> bars with no text/aria-label at all (Header.jsx:109-113) — flagged as a real accessibility gap (missing aria-label on the toggle button) but there is no string literal to capture as content."
+    ]
+  },
+  "globals": {
+    "navbar": {
+      "sourceFile": "components/Header/Header.jsx",
+      "fields": [
+        { "name": "logoDefault", "type": "media", "value": "/images/logo-img.svg", "alt": "ROI MANTRA", "width": null, "height": null, "required": true, "location": "components/Header/Header.jsx:48", "notes": "Shown while unscrolled (scrolled === false). No explicit width/height set in code (raw <img>, not next/image)." },
+        { "name": "logoScrolled", "type": "media", "value": "/images/logo-img2.svg", "alt": "ROI MANTRA", "width": null, "height": null, "required": true, "location": "components/Header/Header.jsx:48", "notes": "Same <img> element, src swaps once window.scrollY > 24 (Header.jsx:14)." },
+        { "name": "logoMobile", "type": "media", "value": "/images/logo-img2.svg", "alt": "ROI MANTRA", "width": null, "height": null, "required": true, "location": "components/Header/Header.jsx:58", "notes": "Separate logo shown only inside the slide-out mobile menu." },
+        { "name": "ctaLabel", "type": "string", "value": "Start a conversation ", "required": true, "location": "components/Header/Header.jsx:104", "notes": "Note the literal trailing space before the closing </span>, preserved byte-for-byte." },
+        { "name": "ctaHref", "type": "string", "value": "#", "required": true, "location": "components/Header/Header.jsx:103", "notes": "Placeholder destination — internal (next/link), no real target." },
+        { "name": "ctaArrowGlyph", "type": "string", "value": "↗", "required": false, "location": "components/Header/Header.jsx:105", "notes": "Decorative arrow glyph rendered in its own <span className=\"arr\">." }
+      ],
+      "repeatables": [
+        {
+          "name": "primaryNavItems",
+          "suggestedStrapiComponent": "shared.link",
+          "minItems": 6,
+          "maxItems": 6,
+          "itemShape": [
+            { "name": "label", "type": "string" },
+            { "name": "href", "type": "string" },
+            { "name": "isExternal", "type": "boolean" },
+            { "name": "hasSubmenu", "type": "boolean" }
+          ],
+          "items": [
+            { "label": "The Work", "href": "#", "isExternal": false, "hasSubmenu": false, "location": "components/Header/Header.jsx:63" },
+            { "label": "The Thinking", "href": "#", "isExternal": false, "hasSubmenu": true, "location": "components/Header/Header.jsx:66" },
+            { "label": "About", "href": "#", "isExternal": false, "hasSubmenu": false, "location": "components/Header/Header.jsx:87" },
+            { "label": "Careers", "href": "#", "isExternal": false, "hasSubmenu": false, "location": "components/Header/Header.jsx:90" },
+            { "label": "Blog", "href": "/blog", "isExternal": false, "hasSubmenu": false, "location": "components/Header/Header.jsx:93", "notes": "Only real (non-'#') destination in the primary nav." },
+            { "label": "Contact", "href": "/contact", "isExternal": false, "hasSubmenu": false, "location": "components/Header/Header.jsx:96", "notes": "Updated from placeholder '#' now that /contact is a real route." }
+          ]
+        },
+        {
+          "name": "theThinkingSubmenuItems",
+          "suggestedStrapiComponent": "shared.link",
+          "minItems": 5,
+          "maxItems": 5,
+          "itemShape": [
+            { "name": "label", "type": "string" },
+            { "name": "href", "type": "string" },
+            { "name": "isExternal", "type": "boolean" }
+          ],
+          "items": [
+            { "label": "HR Management", "href": "#", "isExternal": false, "location": "components/Header/Header.jsx:69" },
+            { "label": "Payroll Management", "href": "#", "isExternal": false, "location": "components/Header/Header.jsx:72" },
+            { "label": "Attendance Management", "href": "#", "isExternal": false, "location": "components/Header/Header.jsx:75" },
+            { "label": "Leave Management", "href": "#", "isExternal": false, "location": "components/Header/Header.jsx:78" },
+            { "label": "Employee Management", "href": "#", "isExternal": false, "location": "components/Header/Header.jsx:81" }
+          ]
+        }
+      ]
+    },
+    "loader": {
+      "sourceFile": "app/App.js",
+      "fields": [
+        { "name": "brandText", "type": "string", "value": "ROI MANTRA", "required": true, "location": "app/App.js:11", "notes": "Split into individual animated <span> chars (App.js:48-56); rendered inside the intro site-loader shown on every first page load (part of the shared shell wrapping Home)." },
+        { "name": "progressCounterTemplate", "type": "string", "value": "{progress}%", "required": false, "location": "app/App.js:65", "notes": "progress is fully computed client-side (random increments), not hardcoded copy — only the literal '%' suffix is static content." }
+      ],
+      "repeatables": []
+    },
+    "footer": {
+      "sourceFile": "components/Footer/Footer.jsx",
+      "fields": [
+        { "name": "footerLogoText", "type": "string", "value": " ROI MANTRA", "required": true, "location": "components/Footer/Footer.jsx:12", "notes": "Literal leading space before 'ROI MANTRA', preserved byte-for-byte." },
+        { "name": "reachUsEmailLabel", "type": "string", "value": "hello@roimantra.com", "required": true, "location": "components/Footer/Footer.jsx:75", "notes": "Link label text." },
+        { "name": "reachUsEmailHref", "type": "string", "value": "mailto:hello@roimantra.com", "required": true, "location": "components/Footer/Footer.jsx:75", "notes": "Only mailto: link in the footer; external by nature." },
+        { "name": "reachUsLocation1", "type": "string", "value": "Dallas, TX", "required": true, "location": "components/Footer/Footer.jsx:77" },
+        { "name": "reachUsLocation2", "type": "string", "value": "Delhi NCR", "required": true, "location": "components/Footer/Footer.jsx:78" }
+      ],
+      "repeatables": [
+        {
+          "name": "footerLinkColumns",
+          "suggestedStrapiComponent": "shared.link-column",
+          "minItems": 2,
+          "maxItems": 2,
+          "itemShape": [
+            { "name": "columnTitle", "type": "string" },
+            { "name": "links", "type": "component (repeatable shared.link)" }
+          ],
+          "items": [
+            {
+              "columnTitle": "Capabilities",
+              "location": "components/Footer/Footer.jsx:17",
+              "links": [
+                { "label": "SEO", "href": "#", "location": "components/Footer/Footer.jsx:21" },
+                { "label": "AEO", "href": "#", "location": "components/Footer/Footer.jsx:24" },
+                { "label": "GEO", "href": "#", "location": "components/Footer/Footer.jsx:27" },
+                { "label": "ASO", "href": "#", "location": "components/Footer/Footer.jsx:30" },
+                { "label": "Performance", "href": "#", "location": "components/Footer/Footer.jsx:33" },
+                { "label": "Social", "href": "#", "location": "components/Footer/Footer.jsx:36" },
+                { "label": "Content", "href": "#", "location": "components/Footer/Footer.jsx:39" },
+                { "label": "Web", "href": "#", "location": "components/Footer/Footer.jsx:42" },
+                { "label": "CRO", "href": "#", "location": "components/Footer/Footer.jsx:45" }
+              ]
+            },
+            {
+              "columnTitle": "Company",
+              "location": "components/Footer/Footer.jsx:51",
+              "links": [
+                { "label": "About", "href": "#", "location": "components/Footer/Footer.jsx:55" },
+                { "label": "Careers", "href": "#", "location": "components/Footer/Footer.jsx:58" },
+                { "label": "Blog", "href": "#", "location": "components/Footer/Footer.jsx:61", "notes": "Unlike the Header's Blog link, this footer Blog link is still '#' — inconsistent with the working /blog route." },
+                { "label": "Press", "href": "#", "location": "components/Footer/Footer.jsx:64" },
+                { "label": "Contact", "href": "/contact", "location": "components/Footer/Footer.jsx:67", "notes": "Updated from placeholder '#' now that /contact is a real route." }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "socialLinks",
+          "suggestedStrapiComponent": "shared.social-link",
+          "minItems": 4,
+          "maxItems": 4,
+          "itemShape": [
+            { "name": "iconName", "type": "string", "notes": "Font Awesome 4 class name, e.g. 'fa-facebook'." },
+            { "name": "href", "type": "string" },
+            { "name": "isExternal", "type": "boolean" }
+          ],
+          "items": [
+            { "iconName": "fa-facebook", "href": "#", "isExternal": true, "location": "components/Footer/Footer.jsx:85" },
+            { "iconName": "fa-times", "href": "#", "isExternal": true, "location": "components/Footer/Footer.jsx:88", "notes": "Font Awesome 4 has no native 'X' (Twitter rebrand) glyph; 'fa-times' (a close/X icon) is being reused here to stand in for X/Twitter — likely intentional workaround, flagged for the schema author since 'fa-times' semantically means 'close'." },
+            { "iconName": "fa-linkedin", "href": "#", "isExternal": true, "location": "components/Footer/Footer.jsx:91" },
+            { "iconName": "fa-instagram", "href": "#", "isExternal": true, "location": "components/Footer/Footer.jsx:94" }
+          ]
+        }
+      ]
+    }
+  },
+  "seo": {
+    "sourceFile": "app/layout.js",
+    "fields": [
+      { "name": "metaTitle", "type": "string", "value": "ROI Mantra", "required": true, "location": "app/layout.js:8" },
+      { "name": "metaDescription", "type": "text", "value": "ROI Mantra website", "required": true, "location": "app/layout.js:9" }
+    ]
+  },
+  "sections": [
+    {
+      "key": "hero",
+      "order": 1,
+      "sourceFile": "components/Home/HomeSection/HeroSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:17",
+      "suggestedStrapiComponent": "sections.hero",
+      "props": [],
+      "fields": [
+        { "name": "badgeText", "type": "string", "value": "Discovery is broken into three. We rebuild it as one.", "required": true, "location": "components/Home/HomeSection/HeroSection.jsx:54" },
+        { "name": "headingLine1", "type": "string", "value": "Your customer", "required": true, "location": "components/Home/HomeSection/HeroSection.jsx:59-60", "notes": "Source splits 'Your' and 'customer' into two separately-animated <span> for a staggered reveal (design detail, --d delay values); combined here into one heading line." },
+        { "name": "headingLine2", "type": "string", "value": "doesn't think in", "required": true, "location": "components/Home/HomeSection/HeroSection.jsx:63-65", "notes": "Source text is 'doesn&apos;t' (HTML entity) — rendered value uses a plain straight apostrophe. Also split across 3 staggered <span> words." },
+        { "name": "headingRotatorDefaultWord", "type": "string", "value": "CHANNELS", "required": true, "location": "components/Home/HomeSection/HeroSection.jsx:69", "notes": "Initial/SSR value of #rotatorWord before JS rotation begins." },
+        { "name": "headingTrailingPeriod", "type": "string", "value": ".", "required": false, "location": "components/Home/HomeSection/HeroSection.jsx:71", "notes": "Static punctuation after the rotating word." },
+        { "name": "subtitle", "type": "string", "value": "So why does most marketing?", "required": true, "location": "components/Home/HomeSection/HeroSection.jsx:75" },
+        { "name": "infoStrip", "type": "string", "value": "100+ brands / 100 Cr managed media / Dallas, TX / Delhi NCR", "required": true, "location": "components/Home/HomeSection/HeroSection.jsx:88", "notes": "Contains 2 numeric-literal stats inline: '100+' (brands count) and '100 Cr' (managed media spend, INR crore) alongside 2 city names. Not modeled as separate stat fields because the source renders it as one plain-text string, not a structured list." },
+        { "name": "scrollCueText", "type": "string", "value": " ↓ Scroll", "required": false, "location": "components/Home/HomeSection/HeroSection.jsx:91", "notes": "Literal leading space before the ↓ glyph, preserved byte-for-byte." }
+      ],
+      "repeatables": [
+        {
+          "name": "ctaButtons",
+          "suggestedStrapiComponent": "shared.link",
+          "minItems": 2,
+          "maxItems": 2,
+          "itemShape": [
+            { "name": "label", "type": "string" },
+            { "name": "href", "type": "string" },
+            { "name": "isExternal", "type": "boolean" },
+            { "name": "arrowGlyph", "type": "string" }
+          ],
+          "items": [
+            { "label": "The Work", "href": "#work", "isExternal": false, "arrowGlyph": "↗", "location": "components/Home/HomeSection/HeroSection.jsx:78" },
+            { "label": "The Thinking", "href": "#thinking", "isExternal": false, "arrowGlyph": "↗", "location": "components/Home/HomeSection/HeroSection.jsx:82" }
+          ]
+        },
+        {
+          "name": "headingRotatorWords",
+          "suggestedStrapiComponent": "N/A — plain string array / enumeration",
+          "minItems": 5,
+          "maxItems": 5,
+          "itemShape": [ { "name": "word", "type": "enumeration", "options": ["CHANNELS", "SEARCHES", "FEEDS", "ANSWERS", "ADS"] } ],
+          "items": [
+            { "word": "CHANNELS", "location": "components/Home/HomeSection/HeroSection.jsx:11" },
+            { "word": "SEARCHES", "location": "components/Home/HomeSection/HeroSection.jsx:11" },
+            { "word": "FEEDS", "location": "components/Home/HomeSection/HeroSection.jsx:11" },
+            { "word": "ANSWERS", "location": "components/Home/HomeSection/HeroSection.jsx:11" },
+            { "word": "ADS", "location": "components/Home/HomeSection/HeroSection.jsx:11" }
+          ]
+        }
+      ],
+      "conditionals": [
+        "Word rotation (headingRotatorWords cycling every 2500ms) is entirely skipped when `window.matchMedia('(prefers-reduced-motion: reduce)').matches` is true — hardcoded true/false check, not a CMS toggle (HeroSection.jsx:13-17)."
+      ]
+    },
+    {
+      "key": "partner-logo-marquee",
+      "order": 2,
+      "sourceFile": "components/Home/HomeSection/PartnerSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:18",
+      "suggestedStrapiComponent": "sections.logo-marquee",
+      "props": [],
+      "fields": [
+        { "name": "sectionAriaLabel", "type": "string", "value": "Trusted partner brands", "required": false, "location": "components/Home/HomeSection/PartnerSection.jsx:14", "notes": "aria-label on the <section>, not visible text, but still content per the audit's accessibility-text rule." }
+      ],
+      "repeatables": [
+        {
+          "name": "partnerLogos",
+          "suggestedStrapiComponent": "shared.logo",
+          "minItems": 6,
+          "maxItems": 6,
+          "itemShape": [
+            { "name": "logo", "type": "media" },
+            { "name": "alt", "type": "string" }
+          ],
+          "items": [
+            { "logo": "/images/max-logo.png", "alt": "Max", "width": 160, "height": 64, "priority": true, "location": "components/Home/HomeSection/PartnerSection.jsx:4" },
+            { "logo": "/images/easemytrip-logo.png", "alt": "EaseMyTrip", "width": 160, "height": 64, "priority": true, "location": "components/Home/HomeSection/PartnerSection.jsx:5" },
+            { "logo": "/images/pvr-logo.png", "alt": "PVR", "width": 160, "height": 64, "priority": true, "location": "components/Home/HomeSection/PartnerSection.jsx:6" },
+            { "logo": "/images/jkcement-logo.png", "alt": "JK Cement", "width": 160, "height": 64, "priority": true, "location": "components/Home/HomeSection/PartnerSection.jsx:7" },
+            { "logo": "/images/emaar-logo.png", "alt": "Emaar", "width": 160, "height": 64, "priority": true, "location": "components/Home/HomeSection/PartnerSection.jsx:8" },
+            { "logo": "/images/nikon-logo.png", "alt": "Nikon", "width": 160, "height": 64, "priority": true, "location": "components/Home/HomeSection/PartnerSection.jsx:9" }
+          ]
+        }
+      ],
+      "conditionals": [
+        "The full 6-logo array is rendered TWICE (PartnerSection.jsx:18 `[0,1].map`) to create a seamless CSS marquee loop. The 2nd copy has `alt=''` and `aria-hidden` and `priority=false` (PartnerSection.jsx:26,30) — it is a presentational duplicate of the same 6 items above, not additional content; a CMS should store only one set of 6 logos."
+      ]
+    },
+    {
+      "key": "the-shift",
+      "order": 3,
+      "sourceFile": "components/Home/HomeSection/TheShifSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:19",
+      "suggestedStrapiComponent": "sections.timeline-shift",
+      "props": [],
+      "fields": [
+        { "name": "eyebrow", "type": "string", "value": "⟶ The Shift", "required": true, "location": "components/Home/HomeSection/TheShifSection.jsx:43" },
+        { "name": "heading", "type": "string", "value": "Search isn't one box anymore.", "required": true, "location": "components/Home/HomeSection/TheShifSection.jsx:47", "notes": "Source text is 'isn&apos;t' (HTML entity) — rendered value uses a plain straight apostrophe." }
+      ],
+      "repeatables": [
+        {
+          "name": "shiftRows",
+          "suggestedStrapiComponent": "shared.numbered-row",
+          "minItems": 6,
+          "maxItems": 6,
+          "itemShape": [
+            { "name": "number", "type": "string" },
+            { "name": "verb", "type": "string" }
+          ],
+          "items": [
+            { "number": "01", "verb": "They Google.", "location": "components/Home/HomeSection/TheShifSection.jsx:27" },
+            { "number": "02", "verb": "Then ask ChatGPT.", "location": "components/Home/HomeSection/TheShifSection.jsx:28" },
+            { "number": "03", "verb": "Scroll past an ad.", "location": "components/Home/HomeSection/TheShifSection.jsx:29" },
+            { "number": "04", "verb": "Read a review.", "location": "components/Home/HomeSection/TheShifSection.jsx:30" },
+            { "number": "05", "verb": "Watch a Reel.", "location": "components/Home/HomeSection/TheShifSection.jsx:31" },
+            { "number": "06", "verb": "Decide.", "location": "components/Home/HomeSection/TheShifSection.jsx:32" }
+          ]
+        }
+      ],
+      "conditionals": [
+        "Each row's opacity/translateY 'reveal' state is driven by scroll-progress thresholds computed from `rowThresholds` (TheShifSection.jsx:35) — purely a design/animation gate, all 6 rows are always present in the DOM regardless."
+      ]
+    },
+    {
+      "key": "three-pillars",
+      "order": 4,
+      "sourceFile": "components/Home/HomeSection/ThreePillarsSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:20",
+      "suggestedStrapiComponent": "sections.three-pillars",
+      "props": [],
+      "fields": [
+        { "name": "backgroundImage", "type": "media", "value": "/images/three-pillars-banner.jpg", "alt": null, "width": null, "height": null, "required": true, "location": "components/Home/HomeCss.css:395", "notes": "Set via CSS class `.three-pillars-stack-card { background-image: url(...) }`, not an inline style or <Image>/<img> element — shared across all 3 sticky pillar cards. No alt text exists since it's a CSS background, not an <img>; flag for CMS author to decide on an accessible text alternative if this becomes an editable image." }
+      ],
+      "repeatables": [
+        {
+          "name": "pillars",
+          "suggestedStrapiComponent": "sections.pillar-card",
+          "minItems": 3,
+          "maxItems": 3,
+          "itemShape": [
+            { "name": "number", "type": "string" },
+            { "name": "tag", "type": "string" },
+            { "name": "title", "type": "string" },
+            { "name": "listItems", "type": "component (repeatable shared.link)" }
+          ],
+          "items": [
+            {
+              "number": "01",
+              "tag": "01 / Organic Discovery",
+              "title": "Show up where buyers go looking.",
+              "location": "components/Home/HomeSection/ThreePillarsSection.jsx:9-14",
+              "listItems": [
+                { "label": "Search engines", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:17" },
+                { "label": "Marketplaces", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:18" },
+                { "label": "Reddit", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:19" },
+                { "label": "Wikipedia", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:20" },
+                { "label": "LinkedIn", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:21" },
+                { "label": "App stores", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:22" },
+                { "label": "Knowledge graphs", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:23" }
+              ]
+            },
+            {
+              "number": "02",
+              "tag": "02 / Paid Discovery",
+              "title": "Meet intent at the right moment.",
+              "location": "components/Home/HomeSection/ThreePillarsSection.jsx:36-40",
+              "listItems": [
+                { "label": " Google", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:44", "notes": "Literal leading space before 'Google', preserved byte-for-byte." },
+                { "label": "Meta", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:45" },
+                { "label": "programmatic", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:46" },
+                { "label": "YouTube", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:47" },
+                { "label": "Snap", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:48" },
+                { "label": "Retargeting", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:49" },
+                { "label": "Every rupee tied to outcome", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:50" }
+              ]
+            },
+            {
+              "number": "03",
+              "tag": "03 / AI Discovery",
+              "title": "Be the answer when buyers ask the machine.",
+              "location": "components/Home/HomeSection/ThreePillarsSection.jsx:62-67",
+              "listItems": [
+                { "label": " ChatGPT", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:71", "notes": "Literal leading space before 'ChatGPT', preserved byte-for-byte." },
+                { "label": "Perplexity", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:72" },
+                { "label": "Gemini", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:73" },
+                { "label": "AI Overviews", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:74" },
+                { "label": "Claude", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:75" },
+                { "label": "Built to be cited", "href": "#", "location": "components/Home/HomeSection/ThreePillarsSection.jsx:76" }
+              ]
+            }
+          ]
+        }
+      ],
+      "conditionals": [
+        "The 3 cards use `position: sticky` to stack/pin one over another while scrolling (design/CSS only, all 3 always render)."
+      ]
+    },
+    {
+      "key": "creative-future-stats",
+      "order": 5,
+      "sourceFile": "components/Home/HomeSection/CreativeFutureSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:21",
+      "suggestedStrapiComponent": "sections.stats-grid",
+      "props": [],
+      "fields": [
+        { "name": "eyebrow", "type": "string", "value": "⟶ In their words", "required": true, "location": "components/Home/HomeSection/CreativeFutureSection.jsx:10" },
+        { "name": "heading", "type": "string", "value": "Future-Ready Creativity", "required": true, "location": "components/Home/HomeSection/CreativeFutureSection.jsx:12-14" }
+      ],
+      "repeatables": [
+        {
+          "name": "statCards",
+          "suggestedStrapiComponent": "shared.stat-card",
+          "minItems": 4,
+          "maxItems": 4,
+          "itemShape": [
+            { "name": "number", "type": "string", "notes": "Kept as string, not integer/decimal, since values mix formats ('98%', '15M', '$423K', '83+')." },
+            { "name": "title", "type": "string" },
+            { "name": "body", "type": "text" },
+            { "name": "icon", "type": "media" }
+          ],
+          "items": [
+            { "number": "98%", "title": "Success Through Our Clients", "body": "Partnering with visionary brands to deliver measurable impact.", "icon": "/images/future-icon1.png", "location": "components/Home/HomeSection/CreativeFutureSection.jsx:24-28", "iconLocation": "components/Home/HomeCss.css:722" },
+            { "number": "15M", "title": "Unmatched Success Record", "body": "Partnering with visionary brands to deliver measurable impact.", "icon": "/images/future-icon2.png", "location": "components/Home/HomeSection/CreativeFutureSection.jsx:37-41", "iconLocation": "components/Home/HomeCss.css:726", "duplicateOf": "sections[4].repeatables[0].items[0].body" },
+            { "number": "$423K", "title": "High-Value Projects Delivered", "body": "Partnering with visionary brands to deliver measurable impact.", "icon": "/images/future-icon3.png", "location": "components/Home/HomeSection/CreativeFutureSection.jsx:50-54", "iconLocation": "components/Home/HomeCss.css:730", "duplicateOf": "sections[4].repeatables[0].items[0].body" },
+            { "number": "83+", "title": "Our Expert Members", "body": "Partnering with visionary brands to deliver measurable impact.", "icon": "/images/future-icon4.png", "location": "components/Home/HomeSection/CreativeFutureSection.jsx:63-67", "iconLocation": "components/Home/HomeCss.css:734", "duplicateOf": "sections[4].repeatables[0].items[0].body" }
+          ]
+        }
+      ],
+      "conditionals": [
+        "The `body` copy ('Partnering with visionary brands to deliver measurable impact.') is IDENTICAL across all 4 stat cards in the current source — almost certainly placeholder/lorem-style copy rather than 4 distinct sentences; flagged via `duplicateOf` on items 2-4 pointing back to item 1 so the schema author can decide whether to give each card real distinct copy.",
+        "Each card's icon is applied via a CSS `::after` pseudo-element keyed to `:nth-child(n)` (HomeCss.css:721-735), not a prop — a CMS-driven version would need to convert these into real <Image> elements per card."
+      ]
+    },
+    {
+      "key": "brands-showcase",
+      "order": 6,
+      "sourceFile": "components/Home/HomeSection/BrandsSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:22",
+      "suggestedStrapiComponent": "sections.brand-tile-marquee",
+      "props": [],
+      "fields": [
+        { "name": "headingPrefix", "type": "string", "value": "Fourteen Brands One ", "required": true, "location": "components/Home/HomeSection/BrandsSection.jsx:55", "notes": "Literal trailing space before the emphasized word, preserved byte-for-byte." },
+        { "name": "headingEmphasis", "type": "string", "value": "Playbook.", "required": true, "location": "components/Home/HomeSection/BrandsSection.jsx:55", "notes": "Wrapped in its own <span> for color/style emphasis in CSS (design detail)." }
+      ],
+      "repeatables": [
+        {
+          "name": "brandTiles",
+          "suggestedStrapiComponent": "shared.brand-tile",
+          "minItems": 14,
+          "maxItems": 14,
+          "itemShape": [
+            { "name": "name", "type": "string" },
+            { "name": "category", "type": "string" },
+            { "name": "photo", "type": "media", "notes": "Currently a Lorem-Picsum placeholder built from `seed`: `https://picsum.photos/seed/{seed}/800/1000` — see meta.notes." }
+          ],
+          "items": [
+            { "name": "Ease My Trip", "category": "Performance", "photoSeedUrl": "https://picsum.photos/seed/easemytrip/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:10" },
+            { "name": "PVR", "category": "Brand · Search", "photoSeedUrl": "https://picsum.photos/seed/pvrcinema/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:11" },
+            { "name": "Nikon", "category": "Performance", "photoSeedUrl": "https://picsum.photos/seed/nikoncamera/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:12" },
+            { "name": "Whirlpool", "category": "AEO · SEO", "photoSeedUrl": "https://picsum.photos/seed/whirlpool/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:13" },
+            { "name": "JK Cement", "category": "B2B Lead Gen", "photoSeedUrl": "https://picsum.photos/seed/jkcement/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:14" },
+            { "name": "Arata", "category": "D2C", "photoSeedUrl": "https://picsum.photos/seed/arata/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:15" },
+            { "name": "Emaar", "category": "Real Estate", "photoSeedUrl": "https://picsum.photos/seed/emaar/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:16" },
+            { "name": "County Group", "category": "Real Estate", "photoSeedUrl": "https://picsum.photos/seed/countygroup/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:17" },
+            { "name": "Zivame", "category": "D2C", "photoSeedUrl": "https://picsum.photos/seed/zivame/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:18" },
+            { "name": "Bodycare", "category": "D2C", "photoSeedUrl": "https://picsum.photos/seed/bodycare/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:19" },
+            { "name": "Max Healthcare", "category": "Healthcare", "photoSeedUrl": "https://picsum.photos/seed/maxhealth/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:20" },
+            { "name": "Yatharth", "category": "Healthcare", "photoSeedUrl": "https://picsum.photos/seed/yatharth/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:21" },
+            { "name": "Sarovar Hotels", "category": "Hospitality", "photoSeedUrl": "https://picsum.photos/seed/sarovar/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:22" },
+            { "name": "Welcom Heritage", "category": "Hospitality", "photoSeedUrl": "https://picsum.photos/seed/welcomheritage/800/1000", "location": "components/Home/HomeSection/BrandsSection.jsx:23" }
+          ]
+        }
+      ],
+      "conditionals": [
+        "Tile label text is upper-cased at render time via `t.name.toUpperCase()` (BrandsSection.jsx:78) — a presentation transform of the `name` field above, not separate content.",
+        "Horizontal scroll offset and 3D tilt of the whole tile track are computed from window scroll position (BrandsSection.jsx:26-47) — animation/design only."
+      ]
+    },
+    {
+      "key": "outlined-band-marquee",
+      "order": 7,
+      "sourceFile": "components/Home/HomeSection/OutlinedBandSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:23",
+      "suggestedStrapiComponent": "sections.marquee-band",
+      "props": [],
+      "fields": [
+        { "name": "marqueePhrase", "type": "string", "value": "ORGANIC - PAID - AI - ", "required": true, "location": "components/Home/HomeSection/OutlinedBandSection.jsx:4", "notes": "Base phrase, `.repeat(15)`'d in code (line 5) to fill the marquee track twice over (rendered in 2 parallel <div className=\"marquee-text\"> tracks for a seamless CSS loop, lines 10-11). A CMS field should store just this base phrase; the repeat count is a layout/animation detail." }
+      ],
+      "repeatables": [],
+      "conditionals": [
+        "Rendered as 2 identical marquee-text tracks (OutlinedBandSection.jsx:10-11) purely to create a seamless infinite-scroll CSS illusion — not 2 pieces of distinct content."
+      ]
+    },
+    {
+      "key": "blog-preview",
+      "order": 8,
+      "sourceFile": "components/Home/HomeSection/BlogSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:24",
+      "suggestedStrapiComponent": "sections.blog-preview",
+      "props": [],
+      "fields": [
+        { "name": "eyebrow", "type": "string", "value": "⟶ Explore Our Latest Articles", "required": true, "location": "components/Home/HomeSection/BlogSection.jsx:39" },
+        { "name": "heading", "type": "string", "value": "Our Blog", "required": true, "location": "components/Home/HomeSection/BlogSection.jsx:43-44" },
+        { "name": "viewAllLabel", "type": "string", "value": " Read the Full Article", "required": true, "location": "components/Home/HomeSection/BlogSection.jsx:47", "notes": "Literal leading space, preserved byte-for-byte." },
+        { "name": "viewAllHref", "type": "string", "value": "/blog", "required": true, "location": "components/Home/HomeSection/BlogSection.jsx:46", "notes": "Internal next/link, real destination." },
+        { "name": "viewAllArrowGlyph", "type": "string", "value": "↗", "required": false, "location": "components/Home/HomeSection/BlogSection.jsx:47" }
+      ],
+      "repeatables": [
+        {
+          "name": "featuredBlogCards",
+          "suggestedStrapiComponent": "shared.blog-card-ref",
+          "minItems": 3,
+          "maxItems": 3,
+          "itemShape": [
+            { "name": "image", "type": "media" },
+            { "name": "alt", "type": "string" },
+            { "name": "date", "type": "string" },
+            { "name": "category", "type": "string" },
+            { "name": "title", "type": "string" },
+            { "name": "href", "type": "string" }
+          ],
+          "items": [
+            {
+              "image": "/images/financial-chart-trending-upwards-with-teal-arrow.jpg", "width": 500, "height": 320,
+              "alt": "Healthcare Marketing",
+              "date": "September 29, 2025",
+              "category": "HEALTHCARE MARKETING",
+              "title": "Healthcare Marketing: Accelerate Growth by Avoiding these Common Pitfalls",
+              "href": "/blog/healthcare-marketing-growth-pitfalls",
+              "location": "components/Blog/data/blogData.js:2-11 (via components/Home/HomeSection/BlogSection.jsx:53-76)"
+            },
+            {
+              "image": "/images/ideal-tech-stack-for-ecommerce-websites-the-perfect-blend-of-performance-and-value.png", "width": 500, "height": 320,
+              "alt": "eCommerce Tech Stack",
+              "date": "September 26, 2025",
+              "category": "PERFORMANCE AND VALUE",
+              "title": "Ideal Tech Stack for eCommerce Websites: The Perfect Blend of Performance and Value",
+              "href": "/blog/ideal-tech-stack-ecommerce-websites",
+              "location": "components/Blog/data/blogData.js:42-50 (via components/Home/HomeSection/BlogSection.jsx:53-76)"
+            },
+            {
+              "image": "/images/ideal-tech-stack-for-ecommerce-websites-the-perfect-blend-of-performance-and-value.jpg", "width": 500, "height": 320,
+              "alt": "Small Business SEO",
+              "date": "July 31, 2024",
+              "category": "BLOG",
+              "title": "7 Reasons Why Small Businesses Fail Without SEO",
+              "href": "/blog/reasons-small-businesses-fail-without-seo",
+              "location": "components/Blog/data/blogData.js:155-163 (via components/Home/HomeSection/BlogSection.jsx:53-76)"
+            }
+          ]
+        }
+      ],
+      "conditionals": [
+        "`blogs = allBlogs.slice(0, 3)` (BlogSection.jsx:9) — Home shows only the FIRST 3 entries of components/Blog/data/blogData.js in array order (which currently is also all 3 existing entries); this is a hardcoded cap, not editorially curated 'featured' flags.",
+        "Card image uses a raw <img> (not next/image) with hardcoded width=500 height=320 attributes (BlogSection.jsx:58-63) regardless of the source file's real aspect ratio."
+      ]
+    },
+    {
+      "key": "testimonials",
+      "order": 9,
+      "sourceFile": "components/Home/HomeSection/TestimonialsSection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:25",
+      "suggestedStrapiComponent": "sections.testimonials-carousel",
+      "props": [],
+      "fields": [
+        { "name": "eyebrow", "type": "string", "value": " ⟶  A Few Things We Believe", "required": true, "location": "components/Home/HomeSection/TestimonialsSection.jsx:75", "notes": "Literal leading space and a double space between '⟶' and 'A', preserved byte-for-byte." }
+      ],
+      "repeatables": [
+        {
+          "name": "testimonials",
+          "suggestedStrapiComponent": "shared.testimonial",
+          "minItems": 3,
+          "maxItems": 3,
+          "itemShape": [
+            { "name": "quote", "type": "text" },
+            { "name": "attribution", "type": "string" },
+            { "name": "dotAriaLabel", "type": "string" }
+          ],
+          "items": [
+            {
+              "quote": "Organic and paid stopped competing. Pipeline went up 38%, CAC dropped 22%, and reporting finally said the same thing twice.",
+              "attribution": " Priya Menon · Head of Growth · D2C Wellness Brand",
+              "dotAriaLabel": "Show testimonial 1",
+              "location": "components/Home/HomeSection/TestimonialsSection.jsx:80-86",
+              "notes": "Quote contains 2 stat literals: '38%' and '22%'. Attribution has a literal leading space, preserved byte-for-byte."
+            },
+            {
+              "quote": "They were already optimising for ChatGPT and Perplexity citations a year before our team raised it. That was the unlock.",
+              "attribution": " Arjun Shah · CMO · B2B SaaS",
+              "dotAriaLabel": "Show testimonial 2",
+              "location": "components/Home/HomeSection/TestimonialsSection.jsx:87-94"
+            },
+            {
+              "quote": "“A real partner, not a deck factory. The work shows up in revenue, not vanity dashboards.”",
+              "attribution": " Rohan Iyer · VP Marketing · Hospitality Group",
+              "dotAriaLabel": "Show testimonial 3",
+              "location": "components/Home/HomeSection/TestimonialsSection.jsx:95-102",
+              "notes": "This quote is the only one of the 3 wrapped in curly quotation marks (“ ”) directly in the source copy; the other two are not — preserved exactly as authored, inconsistency flagged for the schema author."
+            }
+          ]
+        }
+      ],
+      "conditionals": [
+        "Carousel auto-advances every 6000ms via `window.setInterval` UNLESS `prefers-reduced-motion` is set (TestimonialsSection.jsx:16,52-54) — behavior, not content.",
+        "Only the first testimonial has class 'active' in the initial server-rendered markup (TestimonialsSection.jsx:79) — JS then manages which one is visible; all 3 are always present in the DOM."
+      ]
+    },
+    {
+      "key": "talk-discovery-cta",
+      "order": 10,
+      "sourceFile": "components/Home/HomeSection/TalkDiscoverySection.jsx",
+      "renderedIn": "components/Home/HomePage.jsx:26",
+      "suggestedStrapiComponent": "sections.video-cta",
+      "props": [],
+      "fields": [
+        { "name": "backgroundVideo", "type": "media", "value": "/video/animation.mp4", "poster": null, "autoplay": true, "loop": true, "muted": true, "required": true, "location": "components/Home/HomeSection/TalkDiscoverySection.jsx:57-59", "notes": "No poster attribute set; also has `playsInline` (mobile autoplay requirement, design/behavior not content)." },
+        { "name": "title", "type": "string", "value": "LET'S TALK DISCOVERY.", "required": true, "location": "components/Home/HomeSection/TalkDiscoverySection.jsx:11", "notes": "Built and injected via JS (split into per-letter <span> for a reveal animation, lines 18-31) rather than authored directly as JSX text, but is a hardcoded string constant." },
+        { "name": "bodyText", "type": "text", "value": "Where you're showing up. Where you're not. What's leaking. What the next twelve months should look like.", "required": true, "location": "components/Home/HomeSection/TalkDiscoverySection.jsx:70-73", "notes": "Source wraps this across 2 indented lines inside a single <p>; JSX collapses the line break to a single space at render time — value above is the as-rendered single-line text." },
+        { "name": "ctaLabel", "type": "string", "value": "Start a conversation", "required": true, "location": "components/Home/HomeSection/TalkDiscoverySection.jsx:78", "notes": "No trailing space (contrast with the near-identical Header CTA label 'Start a conversation ' which DOES have a trailing space) — recorded as a near-duplicate, not exact duplicateOf, due to the byte difference." },
+        { "name": "ctaHref", "type": "string", "value": "#", "required": true, "location": "components/Home/HomeSection/TalkDiscoverySection.jsx:77", "notes": "Placeholder destination." },
+        { "name": "ctaArrowGlyph", "type": "string", "value": "↗", "required": false, "location": "components/Home/HomeSection/TalkDiscoverySection.jsx:79" }
+      ],
+      "repeatables": [],
+      "conditionals": [
+        "Title letter-reveal and section 'show' class both gate on an IntersectionObserver crossing a 0.25 threshold (TalkDiscoverySection.jsx:33-47) — animation/behavior only, content is always present in the DOM once mounted."
+      ]
+    }
+  ]
+}
