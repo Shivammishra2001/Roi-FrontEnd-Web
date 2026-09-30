@@ -1,0 +1,83 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+export default function TheShift() {
+  const sectionRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const r = el.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      const p = Math.max(0, Math.min(1, -r.top / total));
+      setProgress(p);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const ROWS = [
+    { n: "01", verb: "They Google." },
+    { n: "02", verb: "Then ask ChatGPT." },
+    { n: "03", verb: "Scroll past an ad." },
+    { n: "04", verb: "Read a review." },
+    { n: "05", verb: "Watch a Reel." },
+    { n: "06", verb: "Decide." },
+  ];
+
+  const rowThresholds = ROWS.map((_, i) => 0.05 + (i / ROWS.length) * 0.7);
+
+  return (
+    <section ref={sectionRef} className="pin-section bg-paper">
+      <div className="pin-stage">
+        <div className="srcn-container">
+          <div className="heading">
+            <div className="eyebrow Believe-subtitle">
+              ⟶ The Shift
+            </div>
+
+            <h2 className="common-top-heading">
+              Search isn&apos;t one box anymore.
+            </h2>
+          </div>
+
+          <div className="content">
+            <div className="the-shif-section-rows">
+              {ROWS.map((r, i) => {
+                const shown = progress > rowThresholds[i];
+
+                return (
+                  <div
+                    key={r.n}
+                    className="the-shif-section-row"
+                    style={{
+                      opacity: shown ? 1 : 0.2,
+                      transform: shown ? "translateY(0)" : "translateY(18px)",
+                    }}
+                  >
+                    <span className="the-shif-section-number">{r.n}</span>
+                    <span
+                      className="the-shif-section-text"
+                      style={{
+                        color: shown ? "#1A1A1A" : "#9e9e9e",
+                      }}
+                    >
+                      {r.verb}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
