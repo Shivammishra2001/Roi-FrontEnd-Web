@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
-const BlogIntroSection = ({ currentBlog }) => {
+import { formatDate } from "../../../lib/format";
+
+const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
     const isHtml = currentBlog?.content && currentBlog.content.includes('<');
 
     const formattedContent = isHtml ? currentBlog.content
@@ -18,32 +19,6 @@ const BlogIntroSection = ({ currentBlog }) => {
             }
             return `<h3 class="case-content-title-h3"${p1 ? ' ' + p1.trim() : ''}>`;
         }) : '';
-    const [formData, setFormData] = useState({
-        fullName: "",
-        phone: "",
-        email: "",
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        console.log("Form Data:", formData);
-
-        setFormData({
-            fullName: "",
-            phone: "",
-            email: "",
-        });
-    };
     return (
         <section className="case-intro-section-area">
             <div className="container">
@@ -55,8 +30,8 @@ const BlogIntroSection = ({ currentBlog }) => {
                                 <div className="case-side-nav-row">
                                     
                                     <div className="case-side-contnet-area">
-                                        <span>Date</span>
-                                        <h5>{currentBlog?.date}</h5>
+                                        <span>{dateLabel}</span>
+                                        <h5>{formatDate(currentBlog?.date)}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +39,7 @@ const BlogIntroSection = ({ currentBlog }) => {
                                 <div className="case-side-nav-row">
                                    
                                     <div className="case-side-contnet-area">
-                                        <span>Category</span>
+                                        <span>{categoryLabel}</span>
                                         <h5>{currentBlog?.category}</h5>
                                     </div>
                                 </div>
@@ -73,76 +48,12 @@ const BlogIntroSection = ({ currentBlog }) => {
 
 
                         </div>
-                        {/* <div className="case-intro-wrapper">
-                            <div className="case-intros">
-                                
-                                <div className="case-intro-form-wrapper">
-                                    <h3 className="intro-form-heading">
-                                    Let’s Talk About Your Project
-                                </h3>
-                                    <form
-                                        className="case-intro-form"
-                                        id="projectForm"
-                                        onSubmit={handleSubmit}
-                                    >
-                                        <div className="case-intro-form-group">
-                                            <input
-                                                type="text"
-                                                name="fullName"
-                                                className="case-intro-form-control"
-                                                placeholder="Full Name"
-                                                value={formData.fullName}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
-                                        <div className="case-intro-form-group">
-                                            <input
-                                                type="tel"
-                                                name="phone"
-                                                className="case-intro-form-control"
-                                                placeholder="Phone Number"
-                                                value={formData.phone}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
-                                        <div className="case-intro-form-group">
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                className="case-intro-form-control"
-                                                placeholder="Email"
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
-
-                                        <div className="submit-row">
-                                            <button
-                                                type="submit"
-                                                className="submit-btn work-button"
-                                            >
-                                                <span className="submit-text">
-                                                    Send Message
-                                                </span>
-
-                                                <span className="button-arrow">
-                                                    <i class="fa fa-long-arrow-right"></i>
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div> */}
                     </aside>
                     <div className="case-main-content-area">
                         <div className="case-main-content">
                             <div className="case-content-area-box">
                                 <div className="case-kicker">
-                                    <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {currentBlog?.category || "Article"}
+                                    <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {currentBlog?.category}
                                 </div>
                                 <h2 className="case-content-title">
                                     {currentBlog?.title}

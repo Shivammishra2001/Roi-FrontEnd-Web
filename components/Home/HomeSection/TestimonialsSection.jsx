@@ -1,6 +1,8 @@
+'use client';
+
 import { useEffect } from 'react';
 
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ eyebrow, testimonials = [] }) {
     useEffect(() => {
         if (typeof window === 'undefined') {
             return undefined;
@@ -62,7 +64,7 @@ export default function TestimonialsSection() {
                 dot.removeEventListener('click', handler);
             });
         };
-    }, []);
+    }, [testimonials.length]);
 
     return (
         <>
@@ -72,39 +74,29 @@ export default function TestimonialsSection() {
                         <div className="common-subtitle ">
                             <span className=" Believe-subtitle">
                                 
-                                <span> ⟶  A Few Things We Believe</span>
+                                <span> {eyebrow}</span>
                             </span>
                         </div>
                         <div className="testimonial-wrapper-row">
-                            <div className="testimonial-item active">
-                                <blockquote className="testimonial-item-heading">
-                                    Organic and paid stopped competing. Pipeline went up 38%, CAC dropped 22%, and reporting finally said the same thing twice.
-                                </blockquote>
-                                <div className="testimonial-author">
-                                    <p className="testimonial-title"> Priya Menon · Head of Growth · D2C Wellness Brand</p>
+                            {testimonials.map((testimonial, index) => (
+                                <div className={`testimonial-item${index === 0 ? ' active' : ''}`} key={index}>
+                                    <blockquote className="testimonial-item-heading">
+                                        {testimonial.quote}
+                                    </blockquote>
+                                    <div className="testimonial-author">
+                                        <p className="testimonial-title"> {testimonial.attribution}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="testimonial-item">
-                                <blockquote className="testimonial-item-heading">
-                                    They were already optimising for ChatGPT and Perplexity citations a year before our team raised it. That was the unlock.
-                                </blockquote>
-                                <div className="testimonial-author">
-                                    <p className="testimonial-title "> Arjun Shah · CMO · B2B SaaS</p>
-                                </div>
-                            </div>
-                            <div className="testimonial-item">
-                                <blockquote className="testimonial-item-heading">
-                                    “A real partner, not a deck factory. The work shows up in revenue, not vanity dashboards.”
-                                </blockquote>
-                                <div className="testimonial-author">
-                                    <p className="testimonial-title"> Rohan Iyer · VP Marketing · Hospitality Group</p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                         <div className="testimonial-dots">
-                            <button className="testimonial-dot active" aria-label="Show testimonial 1"></button>
-                            <button className="testimonial-dot" aria-label="Show testimonial 2"></button>
-                            <button className="testimonial-dot" aria-label="Show testimonial 3"></button>
+                            {testimonials.map((testimonial, index) => (
+                                <button
+                                    key={index}
+                                    className={`testimonial-dot${index === 0 ? ' active' : ''}`}
+                                    aria-label={testimonial.dotAriaLabel || undefined}
+                                ></button>
+                            ))}
                         </div>
                     </div>
                 </div>

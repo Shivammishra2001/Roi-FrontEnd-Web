@@ -1,14 +1,17 @@
 import "../../components/Blog/Section/Blog.css";
-import BlogHeroSetion from "../../components/Blog/Section/BlogHeroSetion";
-import BlogCardSection from "../../components/Blog/Section/BlogCardSection";
-import BlogNumberSectio from '../../components/Blog/Section/BlogNumberSectio'
+import { getPageBySlug, constructMetadata } from "../../lib/strapi";
+import SectionRenderer from "../../components/sections/SectionRenderer";
+import { BLOG_SECTIONS } from "../../components/sections/registry/listings";
 
-export default function BlogPage() {
-    return (
-        <>
-            <BlogHeroSetion />
-            <BlogCardSection />
-            <BlogNumberSectio/>
-        </>
-    );
+// Rendered per request: new/edited posts published in Strapi appear immediately.
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+    const data = await getPageBySlug("blog");
+    return constructMetadata(data.seo);
+}
+
+export default async function BlogPage() {
+    const data = await getPageBySlug("blog");
+    return <SectionRenderer sections={data.sections} components={BLOG_SECTIONS} />;
 }

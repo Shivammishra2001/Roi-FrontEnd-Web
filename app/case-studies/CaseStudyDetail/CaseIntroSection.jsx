@@ -1,7 +1,7 @@
 "use client";
 
-const CaseIntroSection = ({ currentCase }) => {
-    const clientName = currentCase?.client || "Artemis Hospitals";
+const CaseIntroSection = ({ currentCase, clientLabel, industryLabel, servicesLabel, durationLabel }) => {
+    const clientName = currentCase?.client;
     const challengeParagraphs = currentCase?.challengeParagraphs || [];
     const challengePoints = currentCase?.challengePoints || [];
     const solutionParagraphs = currentCase?.solutionParagraphs || [];
@@ -16,7 +16,7 @@ const CaseIntroSection = ({ currentCase }) => {
                             <a href="#problem" className="case-side-nav-row">
                                 
                                 <div className="case-side-contnet-area">
-                                    <span>Client</span>
+                                    <span>{clientLabel}</span>
                                     <h5>{clientName}</h5>
                                 </div>
                             </a>
@@ -25,24 +25,24 @@ const CaseIntroSection = ({ currentCase }) => {
                             <a href="#solution" className="case-side-nav-row">
                                 
                                 <div className="case-side-contnet-area">
-                                    <span>Industry</span>
-                                    <h5>Hospitality</h5>
+                                    <span>{industryLabel}</span>
+                                    <h5>{currentCase?.industry}</h5>
                                 </div>
                             </a>
                         </div>
                         <div className="case-side-nav-area">
                             <a href="#objectives" className="case-side-nav-row">
                                 <div className="case-side-contnet-area">
-                                    <span>Services</span>
-                                    <h5>Paid media, SEO, social</h5>
+                                    <span>{servicesLabel}</span>
+                                    <h5>{currentCase?.services}</h5>
                                 </div>
                             </a>
                         </div>
                         <div className="case-side-nav-area">
                             <a href="#impact" className="case-side-nav-row">
                                 <div className="case-side-contnet-area">
-                                    <span>Duration</span>
-                                    <h5>12 months</h5>
+                                    <span>{durationLabel}</span>
+                                    <h5>{currentCase?.duration}</h5>
                                 </div>
                             </a>
                         </div>
@@ -53,10 +53,10 @@ const CaseIntroSection = ({ currentCase }) => {
                             <div id="problem">
                                 <div className="case-content-area-box">
                                     <div className="case-kicker">
-                                        <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {currentCase?.challengeKicker || "The Challenge"}
+                                        <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {currentCase?.challengeKicker}
                                     </div>
                                     <h2 className="case-content-title">
-                                        {currentCase?.challengeTitle || 'No, We Don\'t Call It a "Problem"'}
+                                        {currentCase?.challengeTitle}
                                     </h2>
                                     {challengeParagraphs.map((para, idx) => (
                                         <p className="case-content-text" key={idx}>
@@ -76,7 +76,7 @@ const CaseIntroSection = ({ currentCase }) => {
                             <div className="case-solution" id="solution">
                                 <div className="case-content-area-box">
                                     <h2 className="case-content-title">
-                                        {currentCase?.solutionTitle || "The Solution"}
+                                        {currentCase?.solutionTitle}
                                     </h2>
                                     {solutionParagraphs.map((para, idx) => (
                                         <p className="case-content-text" key={idx}>

@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function OutlinedMarquee() {
-  const phrase = "ORGANIC - PAID - AI - ";
+export default function OutlinedMarquee({ marqueePhrase = "" }) {
+  const phrase = marqueePhrase;
   const repeated = phrase.repeat(15);
 
   return (

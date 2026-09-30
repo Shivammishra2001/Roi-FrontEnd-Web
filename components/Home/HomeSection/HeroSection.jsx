@@ -1,18 +1,38 @@
-import { useEffect } from 'react';
+'use client';
 
-export default function HeroSection() {
-    const gridCells = Array.from({ length: 60 }, (_, index) => index);
+import { Fragment, useEffect } from 'react';
+
+// Title words reveal one after another: 300ms, then +80ms per word
+// (the rotator occupies one slot, the trailing period comes after it).
+const wordDelay = (index) => `${300 + index * 80}ms`;
+
+export default function HeroSection({
+    badgeText,
+    headingLine1 = '',
+    headingLine2 = '',
+    headingRotatorDefaultWord,
+    headingTrailingPeriod,
+    subtitle,
+    infoStrip,
+    scrollCueText,
+    ctaButtons = [],
+    headingRotatorWords = [],
+}) {
+    const line1Words = headingLine1.split(' ').filter(Boolean);
+    const line2Words = headingLine2.split(' ').filter(Boolean);
+    const rotatorWords = headingRotatorWords.length ? headingRotatorWords : [headingRotatorDefaultWord].filter(Boolean);
+    const rotatorKey = rotatorWords.join('|');
 
     useEffect(() => {
         if (typeof window === 'undefined') {
             return undefined;
         }
 
-        const words = ['CHANNELS', 'SEARCHES', 'FEEDS', 'ANSWERS', 'ADS'];
+        const words = rotatorKey ? rotatorKey.split('|') : [];
         const rotatorWord = document.getElementById('rotatorWord');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (!rotatorWord || prefersReducedMotion) {
+        if (!rotatorWord || prefersReducedMotion || words.length < 2) {
             return undefined;
         }
 
@@ -40,60 +60,74 @@ export default function HeroSection() {
                 window.clearTimeout(rotateTimeoutId);
             }
         };
-    }, []);
+    }, [rotatorKey]);
+
+    const renderWords = (words, offset) =>
+        words.map((word, index) => (
+            <Fragment key={`${offset + index}-${word}`}>
+                {index > 0 && ' '}
+                <span className="hero-title-winner" style={{ '--d': wordDelay(offset + index) }}>{word}</span>
+            </Fragment>
+        ));
+
+    const titleWordCount = line1Words.length + line2Words.length;
 
     return (
         <>
             <section id="hero-section-area" className="hero-section-area">
-                
+
                 <div className="srcn-container">
                   <div className="hero-container">
                     <div className="hero-section-area-rapper ">
                         <div className="hero-section-area-label reveal-up" style={{ animationDelay: '900ms' }}>
                             <span className="sub-tilte-heading">
                                 <span className="hero-dot"></span>
-                                Discovery is broken into three. We rebuild it as one.
+                                {badgeText}
                             </span>
                         </div>
                         <h1 className="hero-section-area-heeading">
                             <div className="hero-title-line">
-                                <span className="hero-title-winner" style={{ '--d': '300ms' }}>Your</span>{' '}
-                                <span className="hero-title-winner" style={{ '--d': '380ms' }}>customer</span>
+                                {renderWords(line1Words, 0)}
                             </div>
                             <div className="hero-title-line">
-                                <span className="hero-title-winner" style={{ '--d': '460ms' }}>doesn&apos;t</span>{' '}
-                                <span className="hero-title-winner" style={{ '--d': '540ms' }}>think</span>{' '}
-                                <span className="hero-title-winner" style={{ '--d': '620ms' }}>in</span>
+                                {renderWords(line2Words, line1Words.length)}
                             </div>
                             <div className="hero-title-line flex">
                                 <span className="hero-winner-rotator">
-                                    <span id="rotatorWord" className="hero-rotator-word in">CHANNELS</span>
+                                    <span id="rotatorWord" className="hero-rotator-word in">{headingRotatorDefaultWord || rotatorWords[0]}</span>
                                 </span>
-                                <span className="hero-title-winner" style={{ '--d': '780ms' }}>.</span>
+                                {headingTrailingPeriod && (
+                                    <span className="hero-title-winner" style={{ '--d': wordDelay(titleWordCount + 1) }}>{headingTrailingPeriod}</span>
+                                )}
                             </div>
                         </h1>
                         <div className="hero-subtitle-innre reveal-up" style={{ animationDelay: '1100ms' }}>
-                            <p className="hero-subtitle">So why does most marketing?</p>
+                            <p className="hero-subtitle">{subtitle}</p>
                         </div>
                         <div className="hero-buttons reveal-up" style={{ animationDelay: '1300ms' }}>
-                            <a href="#work" className="hero-buttons-pill common-btn">
-                                <span>The Work</span>
-                                <span className="arr">↗</span>
-                            </a>
-                            <a href="#thinking" className="hero-buttons-pill common-btn">
-                                <span>The Thinking</span>
-                                <span className="arr">↗</span>
-                            </a>
+                            {ctaButtons.map((button, index) => (
+                                <a
+                                    key={index}
+                                    href={button.href}
+                                    className="hero-buttons-pill common-btn"
+                                    {...(button.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                >
+                                    <span>{button.label}</span>
+                                    <span className="arr">{button.arrowGlyph}</span>
+                                </a>
+                            ))}
                         </div>
                         <div className="hero-info reveal-up" style={{ animationDelay: '1500ms' }}>
-                            100+ brands / 100 Cr managed media / Dallas, TX / Delhi NCR
+                            {infoStrip}
                         </div>
-                        <div className="hero-scroll reveal-up" style={{ animationDelay: '1500ms' }}>
-                           <span> ↓ Scroll</span>
-                        </div>
+                        {scrollCueText && (
+                            <div className="hero-scroll reveal-up" style={{ animationDelay: '1500ms' }}>
+                               <span> {scrollCueText}</span>
+                            </div>
+                        )}
                     </div>
                   </div>
-                   
+
                 </div>
             </section>
         </>

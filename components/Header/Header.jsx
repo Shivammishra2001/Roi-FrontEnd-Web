@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import "./Header.css";
 
-function Header() {
+function Header({ navbar }) {
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState("");
@@ -36,6 +36,12 @@ function Header() {
     }
   };
 
+  const navItems = navbar?.primaryNavItems || [];
+  const submenuItems = navbar?.theThinkingSubmenuItems || [];
+  const logo = scrolled ? navbar?.logoScrolled : navbar?.logoDefault;
+  const mobileLogo = navbar?.logoMobile || navbar?.logoScrolled;
+  const externalProps = (isExternal) => (isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {});
+
   return (
     <>
       <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
@@ -44,10 +50,7 @@ function Header() {
             <div className="header__col__lift">
               <div className="header__logo">
                 <Link href="/">
-                  <img
-                    src={scrolled ? "/images/logo-img2.svg" : "/images/logo-img.svg"}
-                    alt="ROI MANTRA"
-                  />
+                  {logo?.url && <img src={logo.url} alt={logo.alt} />}
                 </Link>
               </div>
             </div>
@@ -55,55 +58,48 @@ function Header() {
               <div className={`header__menu ${isMenuOpen ? "active" : ""}`}>
                 <div className="header__logo__mobile">
                   <Link href="/" onClick={closeMenu}>
-                    <img src="/images/logo-img2.svg" alt="ROI MANTRA" />
+                    {mobileLogo?.url && <img src={mobileLogo.url} alt={mobileLogo.alt} />}
                   </Link>
                 </div>
                 <ul className="header__list">
-                  {/* <li className="header__item">
-                    <Link href="/case-studies" className="header__link" onClick={closeMenu}>The Work</Link>
-                  </li> */}
-                  {/* <li className={`header__item has-submenu ${openSubmenu === 'services' ? 'submenu-open' : ''}`}>
-                    <Link href="/the-thinking" className="header__link" onClick={(e) => handleSubmenuClick(e, 'services')}>The Thinking</Link>
-                    <ul className="header__submenu">
-                      <li className="header__submenu-item">
-                        <Link href="/hr-management" className="header__submenu-link" onClick={closeMenu}>HR Management</Link>
-                      </li>
-                      <li className="header__submenu-item">
-                        <Link href="/payroll-management" className="header__submenu-link" onClick={closeMenu}>Payroll Management</Link>
-                      </li>
-                      <li className="header__submenu-item">
-                        <Link href="/attendance-management" className="header__submenu-link" onClick={closeMenu}>Attendance Management</Link>
-                      </li>
-                      <li className="header__submenu-item">
-                        <Link href="/leave-management" className="header__submenu-link" onClick={closeMenu}>Leave Management</Link>
-                      </li>
-                      <li className="header__submenu-item">
-                        <Link href="/employee-management" className="header__submenu-link" onClick={closeMenu}>Employee Management</Link>
-                      </li>
-                    </ul>
-                  </li> */}
+                  {navItems.map((item, index) => {
+                    const menuKey = `menu-${index}`;
 
-                  <li className="header__item">
-                    <Link href="/case-studies" className="header__link" onClick={closeMenu}>Case Studies</Link>
-                  </li>
-                  <li className="header__item">
-                    <Link href="#" className="header__link" onClick={closeMenu}>Careers</Link>
-                  </li>
-                  <li className="header__item">
-                    <Link href="/blog" className="header__link" onClick={closeMenu}>Blog</Link>
-                  </li>
-                  <li className="header__item">
-                    <Link href="/contact" className="header__link" onClick={closeMenu}>Contact</Link>
-                  </li>
+                    if (item.hasSubmenu && submenuItems.length > 0) {
+                      return (
+                        <li
+                          key={menuKey}
+                          className={`header__item has-submenu ${openSubmenu === menuKey ? "submenu-open" : ""}`}
+                        >
+                          <Link href={item.href} className="header__link" onClick={(e) => handleSubmenuClick(e, menuKey)}>{item.label}</Link>
+                          <ul className="header__submenu">
+                            {submenuItems.map((sub, subIndex) => (
+                              <li className="header__submenu-item" key={subIndex}>
+                                <Link href={sub.href} className="header__submenu-link" onClick={closeMenu} {...externalProps(sub.isExternal)}>{sub.label}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      );
+                    }
+
+                    return (
+                      <li className="header__item" key={menuKey}>
+                        <Link href={item.href} className="header__link" onClick={closeMenu} {...externalProps(item.isExternal)}>{item.label}</Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
             <div className="header__col__right">
               <div className="header__btn-group">
-                <Link href="/contact" className="btn btn--primary work-buttons">
-                  <span>Start a conversation </span>
-                  <span className="arr"><i className="fa fa-long-arrow-right"></i></span>
-                </Link>
+                {navbar?.ctaLabel && (
+                  <Link href={navbar.ctaHref} className="btn btn--primary work-buttons">
+                    <span>{navbar.ctaLabel}</span>
+                    <span className="arr"><i className="fa fa-long-arrow-right"></i></span>
+                  </Link>
+                )}
               </div>
               <div className="header__toggle_btn">
                 <button className="toggle-btn" id="toggle-btn" onClick={toggleMenu} aria-expanded={isMenuOpen}>

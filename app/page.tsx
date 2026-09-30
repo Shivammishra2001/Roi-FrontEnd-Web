@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getPageBySlug, constructMetadata } from '../lib/strapi';
 import SectionRenderer from '../components/sections/SectionRenderer';
+import { HOME_SECTIONS } from '../components/sections/registry/home';
 import '../components/Home/HomeCss.css';
 
 // Strapi is fetched with cache: 'no-store' — force this route to render
@@ -15,5 +16,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const data = await getPageBySlug('home');
-  return <SectionRenderer sections={data.sections} />;
+  return <SectionRenderer sections={data.sections} components={HOME_SECTIONS} />;
 }

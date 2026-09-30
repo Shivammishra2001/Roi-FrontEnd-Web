@@ -2,14 +2,24 @@ import Script from 'next/script';
 import App from './App.js';
 import Header from '../components/Header/Header.jsx';
 import Footer from '../components/Footer/Footer.jsx';
+import { getGlobal } from '../lib/strapi';
 import '../public/styles/style.css';
 import '../public/styles/responsive.css';
-export const metadata = {
-    title: 'ROI Mantra',
-    description: 'ROI Mantra website',
-};
 
-export default function RootLayout({ children }) {
+// Navbar/footer/loader come from Strapi's Global entry on every request.
+export const dynamic = 'force-dynamic';
+
+export async function generateMetadata() {
+    const { defaultSeo } = await getGlobal();
+    return {
+        title: defaultSeo?.metaTitle,
+        description: defaultSeo?.metaDescription,
+    };
+}
+
+export default async function RootLayout({ children }) {
+    const { navbar, footer, loader } = await getGlobal();
+
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
@@ -23,10 +33,10 @@ export default function RootLayout({ children }) {
                 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
             </head>
             <body suppressHydrationWarning>
-                <App>
-                    <Header />
+                <App loader={loader}>
+                    <Header navbar={navbar} />
                     {children}
-                    <Footer />
+                    <Footer footer={footer} />
                 </App>
                 <Script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" strategy="beforeInteractive" />
             </body>

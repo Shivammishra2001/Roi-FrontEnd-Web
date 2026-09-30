@@ -1,6 +1,6 @@
 "use client";
 
-const CaseStudyDetailHeroSection = ({ currentCase }) => {
+const CaseStudyDetailHeroSection = ({ currentCase, backgroundVideo }) => {
     return (
         <section className="case-hero-section contact-hero-section">
              <video 
@@ -19,26 +19,28 @@ const CaseStudyDetailHeroSection = ({ currentCase }) => {
                     pointerEvents: "none"
                 }}
             >
-                <source src="/images/abstract_background-banner.mp4" type="video/mp4" />
+                {backgroundVideo?.url && <source src={backgroundVideo.url} type={backgroundVideo.mime || "video/mp4"} />}
             </video>
             <div className="container">
                 <div className="case-contnet-area blog-hero-contnet-area">
                     <div className="case-label hero-small-subtitle contact-hero-badge">
-                        {currentCase?.subtitle || "HEALTHCARE SEO CASE STUDY"}
+                        {currentCase?.subtitle}
                     </div>
                     <h1 className="case-hero-title contact-hero-title">
-                        {currentCase?.title || "Turning Healthcare Expertise into Search Authority"}
+                        {currentCase?.title}
                     </h1>
                     <p className="case-hero-description blog-hero-description">
-                        {currentCase?.summary || "Building a scalable digital search presence that turns healthcare expertise into measurable visibility, qualified traffic, and long-term organic growth."}
+                        {currentCase?.summary}
                     </p>
                 </div>
                 <div className="case-hero-image-wrap">
-                    <img
-                        className="case-hero-image"
-                        src={currentCase?.heroImage || currentCase?.image || "/images/blog1.png"}
-                        alt={currentCase?.alt || currentCase?.title || "Healthcare medical team"}
-                    />
+                    {(currentCase?.heroImage?.url || currentCase?.image?.url) && (
+                        <img
+                            className="case-hero-image"
+                            src={currentCase.heroImage?.url || currentCase.image?.url}
+                            alt={currentCase.heroImage?.alt || currentCase.title}
+                        />
+                    )}
                 </div>
             </div>
         </section>

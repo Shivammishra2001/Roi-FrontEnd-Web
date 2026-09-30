@@ -2,38 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { blogs } from "../data/blogData";
 
-const filters = [
-  {
-    label: "ALL",
-    value: "all",
-  },
-  {
-    label: "HEALTHCARE",
-    value: "healthcare",
-  },
-  {
-    label: "ECOMMERCE",
-    value: "ecommerce",
-  },
-  {
-    label: "HOSPITALITY",
-    value: "hospitality",
-  },
-  {
-    label: "REAL ESTATE",
-    value: "real-estate",
-  },
-  {
-    label: "B2B & SEO",
-    value: "other",
-  },
-];
 
-const ITEMS_PER_PAGE = 6;
-
-export default function BlogCardSection() {
+export default function BlogCardSection({
+  filters = [],
+  itemsPerPage,
+  cardButtonLabel,
+  emptyTitle,
+  emptyText,
+  posts = [],
+}) {
+  const blogs = posts;
+  const ITEMS_PER_PAGE = itemsPerPage || 6;
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -84,7 +64,7 @@ export default function BlogCardSection() {
                   >
                     <div className="blog-card-area">
                       <Link href={`/blog/${blog.slug}`} className="work-image" style={{ display: 'block' }}>
-                        <img src={blog.image} alt={blog.alt || blog.title} />
+                        <img src={blog.image?.url} alt={blog.image?.alt || blog.title} />
                       </Link>
                       <div className="work-content">
                         <div className="work-meta">
@@ -101,7 +81,7 @@ export default function BlogCardSection() {
                         </div>
                         <div className="blog-contnet-btn-area">
                           <Link href={`/blog/${blog.slug}`} className="work-button">
-                            <span>Read Blog</span>
+                            <span>{cardButtonLabel}</span>
                             <span className="button-arrow"><i className="fa fa-long-arrow-right"></i></span>
                           </Link>
                         </div>
@@ -113,8 +93,8 @@ export default function BlogCardSection() {
             ) : (
               <div className="no-blog-message show" id="noBlogMessage">
                 <div className="no-blog-icon"><i className="fa fa-long-arrow-right"></i></div>
-                <h3>No blogs found</h3>
-                <p>There are no blogs available in this category.</p>
+                <h3>{emptyTitle}</h3>
+                <p>{emptyText}</p>
               </div>
             )}
             {totalPages > 1 && (

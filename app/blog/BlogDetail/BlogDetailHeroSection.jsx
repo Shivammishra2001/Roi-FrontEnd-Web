@@ -1,7 +1,7 @@
 "use client";
 
-const BlogDetailHeroSection = ({ currentBlog, currentCase }) => {
-    const blog = currentBlog || currentCase;
+const BlogDetailHeroSection = ({ currentBlog, backgroundVideo }) => {
+    const blog = currentBlog;
 
     return (
         <section className="case-hero-section contact-hero-section">
@@ -21,26 +21,28 @@ const BlogDetailHeroSection = ({ currentBlog, currentCase }) => {
                     pointerEvents: "none"
                 }}
             >
-                <source src="/images/abstract_background-banner.mp4" type="video/mp4" />
+                {backgroundVideo?.url && <source src={backgroundVideo.url} type={backgroundVideo.mime || "video/mp4"} />}
             </video>
             <div className="container">
                 <div className="case-contnet-area blog-hero-contnet-area">
                     <div className="case-label hero-small-subtitle contact-hero-badge">
-                        {blog?.category || blog?.subtitle || "ARTICLE"}
+                        {blog?.category}
                     </div>
                     <h1 className="case-hero-title contact-hero-title">
-                        {blog?.title || "Turning Expertise into Digital Authority"}
+                        {blog?.title}
                     </h1>
                     <p className="case-hero-description blog-hero-description">
-                        {blog?.excerpt || blog?.summary || ""}
+                        {blog?.excerpt || ""}
                     </p>
                 </div>
                 <div className="case-hero-image-wrap">
-                    <img
-                        className="case-hero-image"
-                        src={blog?.image || blog?.heroImage || "/images/blog1.png"}
-                        alt={blog?.alt || blog?.title || "Blog article"}
-                    />
+                    {blog?.coverImage?.url && (
+                        <img
+                            className="case-hero-image"
+                            src={blog.coverImage.url}
+                            alt={blog.coverImage.alt || blog.title}
+                        />
+                    )}
                 </div>
             </div>
         </section>

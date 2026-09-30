@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { rawLandDeg } from './globeLandData';
@@ -14,62 +14,35 @@ const gridPoints = rawLandDeg.map(([lon, lat]) => [
     (lat * Math.PI) / 180,
 ]);
 
-const CITIES = [
-    {
-        id: 'india',
-        name: 'India',
-        lon: 77.02,
-        lat: 28.46,
-        countryCode: 'in',
-        label: 'Asia - Gurgaon, Jaipur, Mumbai',
-        flag: '/images/flags/in.png',
-        isPrimary: true,
-    },
-    {
-        id: 'canada',
-        name: 'Canada',
-        lon: -106.3468,
-        lat: 56.1304,
-        label: 'North America - Canada',
-        flag: '/images/flags/ca.svg',
-    },
+const toRadians = (degrees) => (Number(degrees) * Math.PI) / 180;
 
-    {
-        id: 'dallas',
-        name: 'Dallas',
-        lon: -96.7970,
-        lat: 32.7767,
-        label: 'North America - Dallas, USA',
-        flag: '/images/flags/us.png',
-    },
-    {
-        id: 'dubai',
-        name: 'Dubai',
-        lon: 55.2708,
-        lat: 25.2048,
-        label: 'Middle East - Dubai',
-        flag: '/images/flags/ae.png',
-    },
-].map((city) => ({
-    ...city,
-    lonRad: (city.lon * Math.PI) / 180,
-    latRad: (city.lat * Math.PI) / 180,
-}));
+// Labelled cities get a tooltip + hub marker; extra markers are hub dots only.
+function buildGlobePoints(cities, extraMarkers) {
+    const CITIES = cities.map((city) => ({
+        id: city.key,
+        name: city.name,
+        label: city.label,
+        flagUrl: city.flag?.url || null,
+        isPrimary: !!city.isPrimary,
+        lonRad: toRadians(city.longitude),
+        latRad: toRadians(city.latitude),
+    }));
 
-const LOCATION_HUBS = CITIES.map((city) => ({
-    ...city,
-    lonRad: city.lonRad,
-    latRad: city.latRad,
-})).concat({
-    id: 'noida-hub',
-    name: 'Noida',
-    lon: 77.391,
-    lat: 28.5355,
-    lonRad: (77.391 * Math.PI) / 180,
-    latRad: (28.5355 * Math.PI) / 180,
-});
+    const LOCATION_HUBS = CITIES.concat(
+        extraMarkers.map((marker) => ({
+            id: marker.key,
+            name: marker.name,
+            lonRad: toRadians(marker.longitude),
+            latRad: toRadians(marker.latitude),
+        }))
+    );
 
-export default function ContactMapSection() {
+    return { CITIES, LOCATION_HUBS };
+}
+
+export default function ContactMapSection({ titlePrefix, titleAccent, cities = [], extraMarkers = [], regions = [] }) {
+    const pointsKey = JSON.stringify([cities, extraMarkers]);
+    const { CITIES, LOCATION_HUBS } = useMemo(() => buildGlobePoints(cities, extraMarkers), [pointsKey]); // eslint-disable-line react-hooks/exhaustive-deps
     const sectionRef = useRef(null);
     const cardRef = useRef(null);
     const canvasRef = useRef(null);
@@ -296,7 +269,7 @@ export default function ContactMapSection() {
             window.removeEventListener('resize', resize);
             if (animationRef.current) cancelAnimationFrame(animationRef.current);
         };
-    }, []);
+    }, [CITIES, LOCATION_HUBS]);
 
     const handleCardMove = (event) => {
         const card = cardRef.current;
@@ -316,7 +289,7 @@ export default function ContactMapSection() {
             <div className="globe-ambient-glow" aria-hidden="true" />
             <div className="srcn-container">
                 <div className="globe-header">
-                    <h2 className="globe-title">Our Global <span className="accent-yellow">Locations</span></h2>
+                    <h2 className="globe-title">{titlePrefix} <span className="accent-yellow">{titleAccent}</span></h2>
                 </div>
 
                 <div className="globe-main-layout">
@@ -332,11 +305,7 @@ export default function ContactMapSection() {
                                     className="globe-tooltip owl-item animated owl-animated-in"
                                 >
                                     <span className="flag-badge">
-                                        {city.flag.startsWith('/') ? (
-                                            <img src={city.flag} alt={city.name} />
-                                        ) : (
-                                            <span className="flag-emoji" aria-hidden="true">{city.flag}</span>
-                                        )}
+                                        {city.flagUrl && <img src={city.flagUrl} alt={city.name} />}
                                     </span>
                                     <span className="globe-tooltip-text">{city.label}</span>
                                 </div>
@@ -346,132 +315,54 @@ export default function ContactMapSection() {
 
                     <div className="globe-location-sidebar">
                         <div className="office-locations-section">
-                            <div className="office-region">
-                                <h3 className="office-region-title"><span><span className="arr"><i className="fa fa-long-arrow-right"></i></span> Asia</span></h3>
-                                <div className="office-region-card">
-                                    <div className="office-item">
-                                        <h4 className="office-city selected">
-
-                                            Noida
-                                        </h4>
-                                        <div className="office-detail">
-                                            <span className="mail-icon">
-                                                <img
-                                                    src="/images/location-icon.png"
-                                                    alt=""
-                                                />
-                                            </span>
-                                            <span>
-                                                JMD Megapolis Sohna Road Sector 48 Noida 122001,
-                                                Haryana, India
-                                            </span>
-                                        </div>
-                                        <div className="office-detail">
-                                            <span className="mail-icon">
-                                                <img
-                                                    src="/images/sms-icon.png"
-                                                    alt=""
-                                                />
-                                            </span>
-                                            <a href="info@adglobal360.com">
-                                              info@adglobal360.com
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div className="office-item">
-                                        <h4 className="office-city">Mumbai</h4>
-                                        <div className="office-detail">
-                                            <span className="office-icon">
-                                                <img src="/images/location.svg" alt="" />
-                                            </span>
-                                            <span>
-                                                Lodha Supremus Rd Number 22, Wagle Estate
-                                                Thane, Mumbai 400604, Maharashtra, India
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="office-item">
-                                        <h4 className="office-city">Bengaluru</h4>
-                                        <div className="office-detail">
-                                            <span className="mail-icon">
-                                                <img
-                                                    src="/images/location-icon.png"
-                                                    alt=""
-                                                />
-                                            </span>
-                                            <span>
-                                                The Pavilion – 62/63, Church Street,
-                                                Haridevpur, Shanthala Nagar, Ashok Nagar,
-                                                Bengaluru 560001, Karnataka, India
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="office-region">
-                                <h3 className="office-region-title">
-                                    <span><span className="arr"><i className="fa fa-long-arrow-right"></i></span> North America</span>
-                                </h3>
-                                <div className="office-region-card">
-                                    <div className="office-item">
-                                        <h4 className="office-city">Boston</h4>
-
-                                        <div className="office-detail">
-                                            <span className="mail-icon">
-                                                <img
-                                                    src="/images/location-icon.png"
-                                                    alt=""
-                                                />
-                                            </span>
-
-                                            <span>
-                                                1600 Boston-Providence Highway
-                                                Walpole, MA 02081
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="office-item">
-                                        <h4 className="office-city">Canada</h4>
-
-                                        <div className="office-detail">
-                                            <span className="mail-icon">
-                                                <img
-                                                    src="/images/location-icon.png"
-                                                    alt=""
-                                                />
-                                            </span>
-                                            <span>
-                                                Canada
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="office-region">
-                                <h3 className="office-region-title">
-                                    <span><span className="arr"><i className="fa fa-long-arrow-right"></i></span>Middle East</span>
-                                </h3>
-                                <div className="office-region-card">
-                                    <div className="office-item">
-                                        <h4 className="office-city">Dubai</h4>
-                                        <div className="office-detail">
-                                            <span className="mail-icon">
-                                                <img
-                                                    src="/images/location-icon.png"
-                                                    alt=""
-                                                />
-                                            </span>
-                                            <span>
-                                                Level 23, Boulevard Plaza Tower 2 Sheikh Mohammed bin Rashid Boulevard, Dubai, UAE
-                                            </span>
-                                        </div>
-
+                            {regions.map((region, regionIndex) => (
+                                <div className="office-region" key={regionIndex}>
+                                    <h3 className="office-region-title">
+                                        <span><span className="arr"><i className="fa fa-long-arrow-right"></i></span> {region.title}</span>
+                                    </h3>
+                                    <div className="office-region-card">
+                                        {(region.offices || []).map((office, officeIndex) => (
+                                            <div className="office-item" key={officeIndex}>
+                                                <h4 className={`office-city${office.highlighted ? ' selected' : ''}`}>
+                                                    {office.city}
+                                                </h4>
+                                                {office.address && (
+                                                    <div className="office-detail">
+                                                        {office.iconVariant === 'location-svg' ? (
+                                                            <span className="office-icon">
+                                                                <img src="/images/location.svg" alt="" />
+                                                            </span>
+                                                        ) : (
+                                                            <span className="mail-icon">
+                                                                <img
+                                                                    src="/images/location-icon.png"
+                                                                    alt=""
+                                                                />
+                                                            </span>
+                                                        )}
+                                                        <span>
+                                                            {office.address}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                {office.email && (
+                                                    <div className="office-detail">
+                                                        <span className="mail-icon">
+                                                            <img
+                                                                src="/images/sms-icon.png"
+                                                                alt=""
+                                                            />
+                                                        </span>
+                                                        <a href={`mailto:${office.email}`}>
+                                                          {office.email}
+                                                        </a>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>

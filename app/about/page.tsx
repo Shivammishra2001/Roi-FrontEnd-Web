@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
 import { getPageBySlug, constructMetadata } from '../../lib/strapi';
-import About from '../../components/About/About.jsx';
+import SectionRenderer from '../../components/sections/SectionRenderer';
+import { ABOUT_SECTIONS } from '../../components/sections/registry/about';
 
-// No CMS content exists for About yet (empty `sections`, per the unified
-// Pages seed) — only SEO is wired here. The page body stays exactly the
-// static <About /> it already was, untouched.
+// Rendered per request so edits published in Strapi show up immediately.
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPageBySlug('about-us');
   return constructMetadata(data.seo);
 }
 
-export default function AboutPage() {
-  return <About />;
+export default async function AboutPage() {
+  const data = await getPageBySlug('about-us');
+  return <SectionRenderer sections={data.sections} components={ABOUT_SECTIONS} />;
 }

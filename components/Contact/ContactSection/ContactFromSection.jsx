@@ -2,7 +2,33 @@
 "use client";
 import { useState } from "react";
 
-export default function ContactSection() {
+export default function ContactSection({
+  label,
+  title,
+  subtitle,
+  emailLabel,
+  email,
+  phoneLabel,
+  phone,
+  phoneHref,
+  scheduleTitle,
+  profileImage,
+  profileName,
+  profileRole,
+  scheduleButtonLabel,
+  scheduleButtonHref,
+  fullNamePlaceholder,
+  emailPlaceholder,
+  budgetPlaceholder,
+  budgetOptions = [],
+  helpPlaceholder,
+  helpOptions = [],
+  messagePlaceholder,
+  submitLabel,
+  submittingLabel,
+  successMessage,
+  errorMessage,
+}) {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -12,6 +38,8 @@ export default function ContactSection() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,10 +50,37 @@ export default function ContactSection() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
 
-    console.log("Form Data:", formData);
+    setSubmitting(true);
+    setSubmitError(false);
+
+    try {
+      // Field names match Strapi's contact-submission schema; "help" is
+      // stored in its `service` field.
+      const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL || ""}/api/contact-submissions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: {
+            fullName: formData.fullName,
+            email: formData.email,
+            budget: formData.budget,
+            service: formData.help,
+            message: formData.message,
+          },
+        }),
+      });
+
+      if (!res.ok) throw new Error(`Submission failed with status ${res.status}`);
+    } catch (err) {
+      setSubmitError(true);
+      return;
+    } finally {
+      setSubmitting(false);
+    }
 
     setSubmitted(true);
 
@@ -43,7 +98,7 @@ export default function ContactSection() {
   };
 
   const handleScheduleCall = () => {
-    window.location.href = "tel:+911246656000";
+    if (scheduleButtonHref) window.location.href = scheduleButtonHref;
   };
 
   return (
@@ -57,15 +112,15 @@ export default function ContactSection() {
                   <span className="arr">
                     <i className="fa fa-long-arrow-right"></i>
                   </span>
-                  Get In Touch
+                  {label}
                 </span>
               </div>
               <h1 className="contact-title">
-                Have a Project?
+                {title}
               </h1>
 
               <p className="contact-subtitle">
-                Let's turn your research needs into actionable insights.
+                {subtitle}
               </p>
               <div className="contact-info">
                 <div className="contact-info-card">
@@ -77,11 +132,11 @@ export default function ContactSection() {
                   </div>
                   <div className="info-content">
                     <span className="info-label">
-                      Email
+                      {emailLabel}
                     </span>
                     <span className="info-value">
-                      <a href="mailto:sales@roimantra.com">
-                        sales@roimantra.com
+                      <a href={`mailto:${email}`}>
+                        {email}
                       </a>
                     </span>
                   </div>
@@ -96,11 +151,11 @@ export default function ContactSection() {
                   </div>
                   <div className="info-content">
                     <span className="info-label">
-                      Call Us
+                      {phoneLabel}
                     </span>
                     <span className="info-value">
-                      <a href="tel:+911246656000">
-                        +91 124 665 6000
+                      <a href={phoneHref}>
+                        {phone}
                       </a>
                     </span>
                   </div>
@@ -111,26 +166,28 @@ export default function ContactSection() {
                   <span className="arr">
                     <i className="fa fa-long-arrow-right"></i>
                   </span>
-                  Schedule A Call
+                  {scheduleTitle}
                 </span>
               </div>
 
               <div className="schedule-card">
                 <div className="profile-row">
 
-                  <img
-                    className="profile-image"
-                    src="/images/saksham-gupta-img.png"
-                    alt="Saksham Gupta"
-                  />
+                  {profileImage?.url && (
+                    <img
+                      className="profile-image"
+                      src={profileImage.url}
+                      alt={profileImage.alt}
+                    />
+                  )}
 
                   <div className="profile-info">
                     <h4>
-                      Saksham Gupta
+                      {profileName}
                     </h4>
 
                     <span>
-                      CEO
+                      {profileRole}
                     </span>
                   </div>
 
@@ -141,7 +198,7 @@ export default function ContactSection() {
                   type="button"
                   onClick={handleScheduleCall}
                 >
-                  Schedule a Quick Call
+                  {scheduleButtonLabel}
 
                   <span className="button-arrow">
                      <i className="fa fa-long-arrow-right"></i>
@@ -168,7 +225,7 @@ export default function ContactSection() {
                     type="text"
                     name="fullName"
                     className="form-control"
-                    placeholder="Full Name"
+                    placeholder={fullNamePlaceholder}
                     value={formData.fullName}
                     onChange={handleChange}
                     required
@@ -183,7 +240,7 @@ export default function ContactSection() {
                     type="email"
                     name="email"
                     className="form-control"
-                    placeholder="Email"
+                    placeholder={emailPlaceholder}
                     value={formData.email}
                     onChange={handleChange}
                     required
@@ -203,24 +260,14 @@ export default function ContactSection() {
                   >
 
                     <option value="" disabled>
-                      Project budget
+                      {budgetPlaceholder}
                     </option>
 
-                    <option value="below-5">
-                      Below ₹5 Lakhs
-                    </option>
-
-                    <option value="5-10">
-                      ₹5 Lakhs - ₹10 Lakhs
-                    </option>
-
-                    <option value="10-25">
-                      ₹10 Lakhs - ₹25 Lakhs
-                    </option>
-
-                    <option value="25-plus">
-                      ₹25 Lakhs+
-                    </option>
+                    {budgetOptions.map((option) => (
+                      <option value={option.value} key={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
 
                   </select>
 
@@ -244,24 +291,14 @@ export default function ContactSection() {
                   >
 
                     <option value="" disabled>
-                      How can we help you?
+                      {helpPlaceholder}
                     </option>
 
-                    <option value="research">
-                      Research & Consulting
-                    </option>
-
-                    <option value="technology">
-                      Technology Solutions
-                    </option>
-
-                    <option value="strategy">
-                      Strategy & Advisory
-                    </option>
-
-                    <option value="other">
-                      Other
-                    </option>
+                    {helpOptions.map((option) => (
+                      <option value={option.value} key={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
 
                   </select>
 
@@ -279,7 +316,7 @@ export default function ContactSection() {
                   <textarea
                     name="message"
                     className="form-textarea"
-                    placeholder="Tell us about your product and goals."
+                    placeholder={messagePlaceholder}
                     value={formData.message}
                     onChange={handleChange}
                     required
@@ -293,10 +330,11 @@ export default function ContactSection() {
                   <button
                     type="submit"
                     className="submit-btn"
+                    disabled={submitting}
                   >
 
                     <span className="submit-text">
-                      Send Message
+                      {submitting ? submittingLabel : submitLabel}
                     </span>
 
                     <span className="button-arrow">
@@ -310,7 +348,13 @@ export default function ContactSection() {
                 {/* SUCCESS MESSAGE */}
                 {submitted && (
                   <div className="form-success">
-                    Thank you! Your message has been submitted successfully.
+                    {successMessage}
+                  </div>
+                )}
+
+                {submitError && (
+                  <div className="form-success" role="alert">
+                    {errorMessage}
                   </div>
                 )}
 

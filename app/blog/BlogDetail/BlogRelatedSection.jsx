@@ -7,7 +7,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const BlogRelatedSection = ({ relatedBlogs = [] }) => {
+const BlogRelatedSection = ({ relatedBlogs = [], kicker, title, buttonLabel }) => {
     const swiperRef = useRef(null);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
@@ -80,10 +80,10 @@ const BlogRelatedSection = ({ relatedBlogs = [] }) => {
                         }}
                     >
                         <div className="case-kicker" style={{ marginBottom: "8px" }}>
-                            <span className="arr"><i className="fa fa-long-arrow-right"></i></span> RELATED
+                            <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {kicker}
                         </div>
                         <h2 className="case-content-title">
-                            Related Articles
+                            {title}
                         </h2>
                     </div>
                 </div>
@@ -100,8 +100,8 @@ const BlogRelatedSection = ({ relatedBlogs = [] }) => {
                                         >
                                             <div className="case-image">
                                                 <img
-                                                    src={item.image}
-                                                    alt={item.alt || item.title}
+                                                    src={item.image?.url}
+                                                    alt={item.image?.alt || item.title}
                                                 />
                                                 <div className="image-overlay"></div>
                                             </div>
@@ -120,7 +120,7 @@ const BlogRelatedSection = ({ relatedBlogs = [] }) => {
                                                     href={`/blog/${item.slug}`}
                                                     className="case-link work-button"
                                                 >
-                                                    <span>Read Article</span>
+                                                    <span>{buttonLabel}</span>
                                                     <span className="arr">
                                                         <i className="fa fa-long-arrow-right"></i>
                                                     </span>

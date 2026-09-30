@@ -2,34 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { caseStudies } from "../data/caseStudiesData";
 
-const filters = [
-  {
-    label: "ALL",
-    value: "all",
-  },
-  {
-    label: "HOSPITALITY",
-    value: "hospitality",
-  },
-  {
-    label: "HEALTHCARE",
-    value: "healthcare",
-  },
-  {
-    label: "REAL ESTATE",
-    value: "real-estate",
-  },
-  {
-    label: "B2B",
-    value: "other",
-  },
-];
 
-const ITEMS_PER_PAGE = 6;
-
-export default function CaseStudieCardSection() {
+export default function CaseStudieCardSection({
+  filters = [],
+  itemsPerPage,
+  cardButtonLabel,
+  emptyTitle,
+  emptyText,
+  items = [],
+}) {
+  const caseStudies = items;
+  const ITEMS_PER_PAGE = itemsPerPage || 6;
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -80,7 +64,7 @@ export default function CaseStudieCardSection() {
                   >
                     <div className="blog-card-area">
                       <Link href={`/case-studies/${blog.slug}`} className="work-image" style={{ display: 'block' }}>
-                        <img src={blog.image} alt={blog.alt} />
+                        <img src={blog.image?.url} alt={blog.image?.alt} />
                       </Link>
                       <div className="work-content">
                         <div className="work-meta">
@@ -97,7 +81,7 @@ export default function CaseStudieCardSection() {
                         </div>
                         <div className="blog-contnet-btn-area">
                           <Link href={`/case-studies/${blog.slug}`} className="work-button">
-                            <span>View Case Study</span>
+                            <span>{cardButtonLabel}</span>
                             <span className="button-arrow"><i className="fa fa-long-arrow-right"></i></span>
                           </Link>
                         </div>
@@ -109,8 +93,8 @@ export default function CaseStudieCardSection() {
             ) : (
               <div className="no-blog-message show" id="noBlogMessage">
                 <div className="no-blog-icon"><i className="fa fa-long-arrow-right"></i></div>
-                <h3>No case studies found</h3>
-                <p>There are no case studies available in this category.</p>
+                <h3>{emptyTitle}</h3>
+                <p>{emptyText}</p>
               </div>
             )}
             {totalPages > 1 && (

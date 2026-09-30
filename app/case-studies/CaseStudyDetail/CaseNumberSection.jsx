@@ -1,6 +1,6 @@
 "use client";
 
-const CaseNumberSection = () => {
+const CaseNumberSection = ({ label, title, description, buttonLabel, buttonHref }) => {
   return (
     <section className="blog-number-section">
       <div className="container">
@@ -9,25 +9,24 @@ const CaseNumberSection = () => {
           <div className="blog-number-content">
             <div className="blog-number-label">
               <span className="arr"><i className="fa fa-long-arrow-right"></i> </span>
-                 Digital Discovery
+                 {label}
             </div>
 
             <h2 className="blog-number-title">
-              From Being Searched to Being Chosen
+              {title}
             </h2>
 
             <p className="blog-number-description">
-              Turning digital visibility into meaningful engagement, trust,
-              and action.
+              {description}
             </p>
           </div>
 
           <div className="blog-number-btm-area">
             <a
-              href="#contact"
+              href={buttonHref}
               className="blog-number-button work-button "
             >
-              <span>Start a conversation</span>
+              <span>{buttonLabel}</span>
 
               <span className="arr"><i className="fa fa-long-arrow-right"></i></span>
             </a>

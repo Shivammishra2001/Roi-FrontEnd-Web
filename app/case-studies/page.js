@@ -1,16 +1,17 @@
 import "../../components/Blog/Section/Blog.css";
-import CaseStudieCardSection from "../../components/CaseStudies/Section/CaseStudieCardSection";
-import CaseStudieHero from "../../components/CaseStudies/Section/CaseStudieHero";
-import CaseStudieNumberSection from '../../components/CaseStudies/Section/CaseStudieNumberSection'
+import { getPageBySlug, constructMetadata } from "../../lib/strapi";
+import SectionRenderer from "../../components/sections/SectionRenderer";
+import { CASE_STUDY_SECTIONS } from "../../components/sections/registry/listings";
 
+// Rendered per request: new/edited case studies published in Strapi appear immediately.
+export const dynamic = "force-dynamic";
 
-export default function CasestudiesPage() {
-    return (
-        <>
-            <CaseStudieHero />
-            <CaseStudieCardSection />
-            <CaseStudieNumberSection />
-            
-        </>
-    );
+export async function generateMetadata() {
+    const data = await getPageBySlug("case-studies");
+    return constructMetadata(data.seo);
+}
+
+export default async function CasestudiesPage() {
+    const data = await getPageBySlug("case-studies");
+    return <SectionRenderer sections={data.sections} components={CASE_STUDY_SECTIONS} />;
 }

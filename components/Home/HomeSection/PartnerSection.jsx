@@ -1,31 +1,24 @@
 import Image from 'next/image';
 
-const partnerLogos = [
-    { src: '/images/max-logo.png', alt: 'Max' },
-    { src: '/images/easemytrip-logo.png', alt: 'EaseMyTrip' },
-    { src: '/images/pvr-logo.png', alt: 'PVR' },
-    { src: '/images/jkcement-logo.png', alt: 'JK Cement' },
-    { src: '/images/emaar-logo.png', alt: 'Emaar' },
-    { src: '/images/nikon-logo.png', alt: 'Nikon' },
-];
+export default function PartnerSection({ sectionAriaLabel, partnerLogos = [] }) {
+    const logos = partnerLogos.filter((logo) => logo?.url);
 
-export default function PartnerSection() {
     return (
-        <section className="partner-section-area" aria-label="Trusted partner brands">
+        <section className="partner-section-area" aria-label={sectionAriaLabel || undefined}>
             <div className="partner-logo-area">
                 <div className="partner-logo-grid">
                     <div className="partner-logo-track">
                         {[0, 1].map((groupIndex) => (
                             <div className="partner-logo-set" key={groupIndex} aria-hidden={groupIndex === 1}>
-                                {partnerLogos.map((logo) => (
-                                    <div className="partner-col" key={`${logo.alt}-${groupIndex}`}>
+                                {logos.map((logo, index) => (
+                                    <div className="partner-col" key={`${index}-${groupIndex}`}>
                                         <div className="partner-logo-img">
                                             <span className="partner-logo">
                                                 <Image
-                                                    src={logo.src}
+                                                    src={logo.url}
                                                     alt={groupIndex === 0 ? logo.alt : ''}
-                                                    width={160}
-                                                    height={64}
+                                                    width={logo.width || 160}
+                                                    height={logo.height || 64}
                                                     sizes="160px"
                                                     priority={groupIndex === 0}
                                                 />

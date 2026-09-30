@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react'
 import CustomCursor from '../CustomCursor.jsx'
 
-export default function App({ children }) {
+export default function App({ loader, children }) {
     const [progress, setProgress] = useState(0)
     const [loaderGone, setLoaderGone] = useState(false)
     const [showLoader, setShowLoader] = useState(true)
 
-    const logoText = "ROI MANTRA"
+    const logoText = loader?.brandText || ''
+    const counterSuffix = loader?.progressCounterSuffix ?? '%'
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -62,7 +63,7 @@ export default function App({ children }) {
                                     style={{ width: `${Math.min(100, progress)}%` }}
                                 />
                             </div>
-                            <span className="site-loader-counter">{Math.min(100, progress)}%</span>
+                            <span className="site-loader-counter">{Math.min(100, progress)}{counterSuffix}</span>
                         </div>
                     </div>
                 </div>

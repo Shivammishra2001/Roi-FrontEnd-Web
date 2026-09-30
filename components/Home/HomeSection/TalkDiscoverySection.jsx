@@ -4,13 +4,11 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 
-export default function TalkDiscoverySection() {
+export default function TalkDiscoverySection({ backgroundVideo, title = "", bodyText, ctaLabel, ctaHref, ctaArrowGlyph }) {
   const titleRef = useRef(null);
   const sectionRef = useRef(null);
 
   useEffect(() => {
-    const title = "LET'S TALK DISCOVERY.";
-
     const titleBox = titleRef.current;
     const section = sectionRef.current;
 
@@ -46,7 +44,7 @@ export default function TalkDiscoverySection() {
     observer.observe(section);
 
     return () => observer.disconnect();
-  }, []);
+  }, [title]);
 
   return (
     <section
@@ -55,9 +53,17 @@ export default function TalkDiscoverySection() {
       className="talk-discovery-section"
     >
       <div className="talk-discovery-bg-video" aria-hidden="true">
-        <video autoPlay muted loop playsInline>
-          <source src="/video/animation.mp4" type="video/mp4" />
-        </video>
+        {backgroundVideo?.url && (
+          <video
+            autoPlay={backgroundVideo.autoplay !== false}
+            muted={backgroundVideo.muted !== false}
+            loop={backgroundVideo.loop !== false}
+            playsInline
+            poster={backgroundVideo.poster || undefined}
+          >
+            <source src={backgroundVideo.url} type="video/mp4" />
+          </video>
+        )}
       </div>
 
       <div className="srcn-container">
@@ -69,15 +75,14 @@ export default function TalkDiscoverySection() {
 
           <div className="talk-discovery-text">
             <p>
-              Where you're showing up. Where you're not. What's leaking.
-              What the next twelve months should look like.
+              {bodyText}
             </p>
           </div>
 
           <div className="talk-discovery-btn-wrap">
-            <Link href="/contact" className="talk-discovery-btn">
-              <span>Start a conversation</span>
-             <span className="arr">↗</span>
+            <Link href={ctaHref} className="talk-discovery-btn">
+              <span>{ctaLabel}</span>
+             <span className="arr">{ctaArrowGlyph}</span>
             </Link>
           </div>
         </div>

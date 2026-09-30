@@ -2,44 +2,16 @@
 
 import React, { useRef, useEffect, useState } from "react";
 
-export default function BrandsSection() {
+export default function BrandsSection({ headingPrefix, headingEmphasis, brandTiles = [] }) {
     const sectionRef = useRef(null);
     const trackRef = useRef(null);
 
     const [trackOffset, setTrackOffset] = useState(0);
     const [tilt, setTilt] = useState(1);
 
-    const TILES = [
-        {
-            image: "/images/Ease-mt-trip.jpg",
-        },
-        {
-            image: "/images/PVR-05.jpg",
-        },
-        {
-            image: "/images/MAX01.jpg",
-        },
-        {
-            image: "/images/whirlpoo02.jpg",
-        },
-        {
-            image: "/images/greenlam2.jpg",
-        },
-
-         {
-            image: "/images/whirlpooL01.jpg",
-        },
-        {
-            image: "/images/emmar.jpg",
-        },
-
-        {
-            image: "/images/County.jpg",
-        },
-        {
-            image: "/images/ZIVAME.jpg",
-        },
-    ];
+    const TILES = brandTiles
+        .filter((tile) => tile.photo?.url)
+        .map((tile) => ({ image: tile.photo.url }));
 
     useEffect(() => {
         const sec = sectionRef.current;
@@ -118,8 +90,8 @@ export default function BrandsSection() {
 
                     <div className="work-header">
                         <h2 className="common-top-heading page-title">
-                            Fourteen Brands One{" "}
-                            <span>Playbook.</span>
+                            {headingPrefix}{" "}
+                            <span>{headingEmphasis}</span>
                         </h2>
                     </div>
 

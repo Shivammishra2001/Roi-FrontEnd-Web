@@ -1,4 +1,4 @@
-export default function CreativeFutureSection() {
+export default function CreativeFutureSection({ eyebrow, heading, statCards = [] }) {
     return (
         <>
             <section className="creative-future-section-area">
@@ -7,68 +7,31 @@ export default function CreativeFutureSection() {
                         <div className="common-row-aea">
                             <div className="common-top-header">
                                 <div className="Believe-subtitle">
-                                    <span>⟶ In their words</span>
+                                    <span>{eyebrow}</span>
                                 </div>
                                 <h2 className="common-top-heading">
-                                    Future-Ready Creativity
+                                    {heading}
                                 </h2>
                             </div>
                         </div>
                     </div>
                     <div className="creative-future-wrapper-top-box">
                         <div className="creative-future-grid">
-                            <div className="creative-future-col">
-                                <div className="creative-future-card">
-                                    <div className="creative-future-card-inner">
-                                        <div className="creative-future-content">
-                                            <div className="creative-future-number">98%</div>
-                                            <h3 className="creative-future-title">Success Through Our Clients</h3>
-                                            <p className="creative-future-text">
-                                                Partnering with visionary brands to deliver measurable impact.
-                                            </p>
+                            {statCards.map((card, index) => (
+                                <div className="creative-future-col" key={index}>
+                                    <div className="creative-future-card">
+                                        <div className="creative-future-card-inner">
+                                            <div className="creative-future-content">
+                                                <div className="creative-future-number">{card.number}</div>
+                                                <h3 className="creative-future-title">{card.title}</h3>
+                                                <p className="creative-future-text">
+                                                    {card.body}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="creative-future-col">
-                                <div className="creative-future-card">
-                                    <div className="creative-future-card-inner">
-                                        <div className="creative-future-content">
-                                            <div className="creative-future-number">15M</div>
-                                            <h3 className="creative-future-title">Unmatched Success Record</h3>
-                                            <p className="creative-future-text">
-                                                Partnering with visionary brands to deliver measurable impact.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="creative-future-col">
-                                <div className="creative-future-card">
-                                    <div className="creative-future-card-inner">
-                                        <div className="creative-future-content">
-                                            <div className="creative-future-number">$423K</div>
-                                            <h3 className="creative-future-title">High-Value Projects Delivered</h3>
-                                            <p className="creative-future-text">
-                                                Partnering with visionary brands to deliver measurable impact.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="creative-future-col">
-                                <div className="creative-future-card">
-                                    <div className="creative-future-card-inner">
-                                        <div className="creative-future-content">
-                                            <div className="creative-future-number">83+</div>
-                                            <h3 className="creative-future-title">Our Expert Members</h3>
-                                            <p className="creative-future-text">
-                                                Partnering with visionary brands to deliver measurable impact.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>

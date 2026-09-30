@@ -58,6 +58,8 @@ export interface SocialLink {
 
 export interface Footer {
   footerLogoText: string;
+  copyrightText: string | null;
+  legalLinks: Link[];
   reachUsEmailLabel: string;
   reachUsEmailHref: string;
   reachUsLocation1: string;
@@ -75,6 +77,7 @@ export interface Global {
   navbar: Navbar | null;
   footer: Footer | null;
   loader: Loader | null;
+  defaultSeo: Seo | null;
 }
 
 export interface HeroSectionData {
@@ -158,8 +161,12 @@ export interface BlogPost {
   id: string;
   title: string;
   slug: string;
+  /** ISO date (YYYY-MM-DD); format with lib/format.js. */
   date: string;
   category: string;
+  categoryKey: string | null;
+  sector: string | null;
+  excerpt: string | null;
   href: string;
   image: Media;
 }
@@ -204,7 +211,18 @@ export interface VideoCtaSectionData {
   ctaArrowGlyph: string;
 }
 
+/**
+ * Sections added for the fully CMS-driven site (About, Contact, listings).
+ * Their fields are flattened straight from the Strapi schema, so they're
+ * typed loosely here and consumed by the (JS) section components.
+ */
+export interface GenericSectionData {
+  __component: string;
+  [field: string]: unknown;
+}
+
 export type Section =
+  | GenericSectionData
   | HeroSectionData
   | LogoMarqueeSectionData
   | TimelineShiftSectionData
@@ -272,4 +290,99 @@ export interface PageData {
   stats: ContactStat[];
   nextStepsHeading: string | null;
   nextSteps: ContactNextStep[];
+}
+
+/** Plain media file (bare Strapi `media` attributes, e.g. videos). */
+export interface MediaFile {
+  url: string;
+  alt: string;
+  width: number | null;
+  height: number | null;
+  mime: string | null;
+}
+
+export interface CtaBanner {
+  label: string | null;
+  title: string;
+  description: string | null;
+  buttonLabel: string;
+  buttonHref: string;
+}
+
+/** GET /api/blog-posts/slug/:slug */
+export interface BlogPostDetail {
+  post: {
+    id: string;
+    title: string;
+    slug: string;
+    date: string;
+    category: string;
+    categoryKey: string | null;
+    sector: string | null;
+    excerpt: string | null;
+    content: string | null;
+    coverImage: Media | null;
+    seo: Seo | null;
+  };
+  related: BlogPost[];
+}
+
+export interface CaseStudyCard {
+  id: string;
+  title: string;
+  slug: string;
+  category: string | null;
+  sector: string | null;
+  href: string;
+  image: Media | null;
+}
+
+/** GET /api/case-studies/slug/:slug */
+export interface CaseStudyDetail {
+  caseStudy: {
+    id: string;
+    title: string;
+    slug: string;
+    subtitle: string | null;
+    summary: string | null;
+    seo: Seo | null;
+    [field: string]: unknown;
+  };
+  related: CaseStudyCard[];
+}
+
+/** GET /api/blog-detail-page */
+export interface BlogDetailSettings {
+  backgroundVideo: MediaFile | null;
+  dateLabel: string | null;
+  categoryLabel: string | null;
+  relatedKicker: string | null;
+  relatedTitle: string | null;
+  relatedButtonLabel: string | null;
+  cta: CtaBanner | null;
+  metaTitleSuffix: string | null;
+  notFoundTitle: string | null;
+}
+
+/** GET /api/case-study-detail-page */
+export interface CaseStudyDetailSettings {
+  backgroundVideo: MediaFile | null;
+  clientLabel: string | null;
+  industryLabel: string | null;
+  servicesLabel: string | null;
+  durationLabel: string | null;
+  objectivesLabel: string | null;
+  objectivesTitle: string | null;
+  challengesLabel: string | null;
+  challengesTitle: string | null;
+  servicesDeployedLabel: string | null;
+  servicesDeployedTitle: string | null;
+  resultsKicker: string | null;
+  resultsTitle: string | null;
+  relatedKicker: string | null;
+  relatedTitle: string | null;
+  relatedButtonLabel: string | null;
+  cta: CtaBanner | null;
+  metaTitleSuffix: string | null;
+  notFoundTitle: string | null;
 }

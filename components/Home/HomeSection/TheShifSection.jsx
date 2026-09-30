@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function TheShift() {
+export default function TheShift({ eyebrow, heading, shiftRows = [] }) {
   const sectionRef = useRef(null);
   const [progress, setProgress] = useState(0);
 
@@ -23,14 +23,7 @@ export default function TheShift() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const ROWS = [
-    { n: "01", verb: "They Google." },
-    { n: "02", verb: "Then ask ChatGPT." },
-    { n: "03", verb: "Scroll past an ad." },
-    { n: "04", verb: "Read a review." },
-    { n: "05", verb: "Watch a Reel." },
-    { n: "06", verb: "Decide." },
-  ];
+  const ROWS = shiftRows.map((row) => ({ n: row.number, verb: row.verb }));
 
   const rowThresholds = ROWS.map((_, i) => 0.05 + (i / ROWS.length) * 0.7);
 
@@ -40,11 +33,11 @@ export default function TheShift() {
         <div className="srcn-container">
           <div className="heading">
             <div className="eyebrow Believe-subtitle">
-              ⟶ The Shift
+              {eyebrow}
             </div>
 
             <h2 className="common-top-heading">
-              Search isn&apos;t one box anymore.
+              {heading}
             </h2>
           </div>
 
@@ -55,7 +48,7 @@ export default function TheShift() {
 
                 return (
                   <div
-                    key={r.n}
+                    key={`${r.n}-${i}`}
                     className="the-shif-section-row"
                     style={{
                       opacity: shown ? 1 : 0.2,

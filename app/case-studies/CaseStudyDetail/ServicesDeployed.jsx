@@ -3,51 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 
 
-const defaultServices = [
-  {
-    type: "Channel",
-    title: "Paid media",
-    description: "What was set up, and how it was structured.",
-  },
-  {
-    type: "Channel",
-    title: "SEO",
-    description: "What was audited, fixed, and built.",
-  },
-  {
-    type: "Craft",
-    title: "Content & social",
-    description: "Formats, cadence, and the editorial line.",
-  },
-  {
-    type: "Systems",
-    title: "Measurement",
-    description: "Tracking, attribution, and reporting cadence.",
-  },
-];
 
-export default function ServicesDeployed({ currentCase }) {
+export default function ServicesDeployed({ currentCase, label, title }) {
   const sliderRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const services = currentCase?.services || defaultServices;
-  const slides = currentCase?.slides || [
-    {
-      image: currentCase?.heroImage || currentCase?.image || "/images/services-banner.png",
-      alt: currentCase?.title ? `${currentCase.title} creative` : "Campaign creative",
-
-    },
-    {
-      image: "/images/SEO.jpg",
-      alt: "Search strategy",
-
-    },
-    {
-      image: "/images/financial-chart-trending-upwards-with-teal-arrow.jpg",
-      alt: "Dashboard result",
-    
-    },
-  ];
+  const services = currentCase?.servicesDeployed || [];
+  const slides = currentCase?.gallery || [];
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -146,16 +108,16 @@ export default function ServicesDeployed({ currentCase }) {
        
       <div className="services-container">
         <div className="section-label case-kicker">
-          <span>SERVICES DEPLOYED</span>
+          <span>{label}</span>
         </div>
         <h2 className="services-title">
-          What We did
+          {title}
         </h2>
         <div className="service-list">
           {services.map((service, index) => (
             <div
               className={`service-card service-card-${index + 1}`}
-              key={service.title}
+              key={index}
             >
               <div className="service-line"></div>
 
@@ -179,7 +141,7 @@ export default function ServicesDeployed({ currentCase }) {
         >
           <div className="media-box media-large">
             <img
-              src={slides[0]?.image}
+              src={slides[0]?.url}
               alt={slides[0]?.alt || "Campaign creative"}
             />
 
@@ -189,7 +151,7 @@ export default function ServicesDeployed({ currentCase }) {
 
             <div className="media-box media-small">
               <img
-                src={slides[1]?.image}
+                src={slides[1]?.url}
                 alt={slides[1]?.alt || "Service creative"}
               />
 
@@ -198,7 +160,7 @@ export default function ServicesDeployed({ currentCase }) {
 
             <div className="media-box media-small">
               <img
-                src={slides[2]?.image}
+                src={slides[2]?.url}
                 alt={slides[2]?.alt || "Dashboard result"}
               />
 

@@ -10,35 +10,6 @@ if (typeof window !== 'undefined') {
 }
 
 
-const DEFAULT_STAT_ICONS = [
-  '/images/stats_years.svg',
-  '/images/stats_deployed.svg',
-  '/images/stats_clients.svg',
-  '/images/stats_globe.svg',
-];
-
-const DEFAULT_STATS = [
-  {
-    number: '25+',
-    label: 'Years of Engineering Experience',
-    image: '/images/stats_years.svg',
-  },
-  {
-    number: '2,000+',
-    label: 'Projects Deployed to Production',
-    image: '/images/stats_deployed.svg',
-  },
-  {
-    number: '200+',
-    label: 'Global Clients Across 21 Countries',
-    image: '/images/stats_clients.svg',
-  },
-  {
-    number: '8',
-    label: 'Offices Across the Globe',
-    image: '/images/stats_globe.svg',
-  },
-];
 
 function parseNumberParts(rawStr) {
   const str = String(rawStr || '').trim();
@@ -75,9 +46,9 @@ function formatValue(val, hasComma, decimals) {
   return formatted;
 }
 
-export default function ContactStatsSection({ stats = DEFAULT_STATS }) {
+export default function ContactStatsSection({ stats = [] }) {
   const sectionRef = useRef(null);
-  const activeStats = stats && stats.length > 0 ? stats : DEFAULT_STATS;
+  const activeStats = stats || [];
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -145,7 +116,7 @@ export default function ContactStatsSection({ stats = DEFAULT_STATS }) {
       <div className="srcn-container">
         <div className="contact-stats-grid">
           {activeStats.map((stat, index) => {
-            const iconSrc = stat.image || DEFAULT_STAT_ICONS[index % DEFAULT_STAT_ICONS.length];
+            const iconSrc = stat.icon?.url;
             return (
               <div className="stat-card" key={index}>
                 <div className="stat-card-top">
@@ -153,14 +124,16 @@ export default function ContactStatsSection({ stats = DEFAULT_STATS }) {
                     {stat.number}
                   </span>
                   <div className="stat-icon-wrap">
-                    <img
-                      src={iconSrc}
-                      alt=""
-                      aria-hidden="true"
-                      className="stat-icon"
-                      width={40}
-                      height={40}
-                    />
+                    {iconSrc && (
+                      <img
+                        src={iconSrc}
+                        alt=""
+                        aria-hidden="true"
+                        className="stat-icon"
+                        width={40}
+                        height={40}
+                      />
+                    )}
                   </div>
                 </div>
                 <p className="stat-label">{stat.label}</p>

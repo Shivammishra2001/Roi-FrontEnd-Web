@@ -7,18 +7,8 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const logos = [
-  { src: "/images/max-logo.png", alt: "Max Healthcare" },
-  { src: "/images/pvr-logo.png", alt: "PVR" },
-  { src: "/images/easemytrip-logo.png", alt: "EaseMyTrip" },
-  { src: "/images/jkcement-logo.png", alt: "JK Cement" },
-  { src: "/images/whirlpool-logo.png", alt: "Whirlpool" },
-  { src: "/images/nikon-logo.png", alt: "Nikon" },
-  { src: "/images/emaar-logo.png", alt: "Emaar" },
-  { src: "/images/max-logo.png", alt: "Max Life" },
-];
-
-export default function LogoSlider() {
+export default function LogoSlider({ logos: cmsLogos = [] }) {
+  const logos = cmsLogos.filter((logo) => logo?.url);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
@@ -72,7 +62,7 @@ export default function LogoSlider() {
             <SwiperSlide key={index}>
               <div className="logo-card">
                 <img
-                  src={logo.src}
+                  src={logo.url}
                   alt={logo.alt}
                 />
               </div>

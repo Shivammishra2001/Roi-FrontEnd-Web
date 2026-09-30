@@ -1,57 +1,72 @@
 import type { Metadata } from 'next';
-import type { ContactPageData, HomePageFull, PageData, Seo } from '../types/strapi';
+import type {
+  BlogDetailSettings,
+  BlogPostDetail,
+  CaseStudyDetail,
+  CaseStudyDetailSettings,
+  Global,
+  PageData,
+  Seo,
+} from '../types/strapi';
 
 const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1338';
 
 /**
- * Fetches the flattened Home page payload from Strapi (`GET /api/home-page/full`).
- * Throws a descriptive Error on any non-200 response instead of silently
- * falling back to hardcoded content — a silent fallback would hide a
- * broken, unseeded, or unreachable CMS instead of surfacing it.
+ * All site content comes from Strapi, fetched fresh on every request
+ * (`no-store`) so an edit published in the admin shows up on the next page
+ * load — no rebuild, no redeploy. Any non-200 throws a descriptive Error
+ * instead of silently falling back to hardcoded content, which would hide a
+ * broken, unseeded, or unreachable CMS.
  */
-export async function getHomePageData(): Promise<HomePageFull> {
-  const endpoint = `${STRAPI_URL}/api/home-page/full`;
+async function strapiGet<T>(path: string, { allow404 = false } = {}): Promise<T | null> {
+  const endpoint = `${STRAPI_URL}${path}`;
+  const res = await fetch(endpoint, { cache: 'no-store' });
 
-  const res = await fetch(endpoint, {
-    cache: 'no-store',
-  });
+  if (allow404 && res.status === 404) return null;
 
   if (!res.ok) {
     throw new Error(
-      `getHomePageData(): Strapi returned ${res.status} ${res.statusText} for ${endpoint}. ` +
-        'Check that the Strapi server is running, STRAPI_URL is set correctly, and the ' +
-        'home-page entry is published.'
+      `Strapi returned ${res.status} ${res.statusText} for ${endpoint}. ` +
+        'Check that the Strapi server is running, STRAPI_URL is set correctly, and the entry is published.'
     );
   }
 
-  const json = (await res.json()) as { data: HomePageFull };
+  const json = (await res.json()) as { data: T };
   return json.data;
 }
 
+/** Navbar, footer, intro loader and site-wide default SEO (`GET /api/global/full`). */
+export async function getGlobal(): Promise<Global> {
+  return (await strapiGet<Global>('/api/global/full'))!;
+}
+
 /**
- * Fetches the Contact page payload from Strapi (`GET /api/contact-page`).
- * Returned as-is (Strapi's raw shape) — this content type has no media or
- * relations that need flattening, unlike home-page's `/full` endpoint.
- * Throws on any non-200 response for the same reason as getHomePageData:
- * a silent fallback would hide a broken/unseeded/unreachable CMS.
+ * One entry from the Pages collection by slug (`GET /api/pages/slug/:slug`):
+ * home, about-us, contact, blog, case-studies. `sections` is the page's
+ * dynamic zone, rendered in order by SectionRenderer.
  */
-export async function getContactPageData(): Promise<ContactPageData> {
-  const endpoint = `${STRAPI_URL}/api/contact-page`;
+export async function getPageBySlug(slug: string): Promise<PageData> {
+  return (await strapiGet<PageData>(`/api/pages/slug/${encodeURIComponent(slug)}`))!;
+}
 
-  const res = await fetch(endpoint, {
-    cache: 'no-store',
-  });
+/** A published blog post + related posts, or null when the slug doesn't exist. */
+export async function getBlogPost(slug: string): Promise<BlogPostDetail | null> {
+  return strapiGet<BlogPostDetail>(`/api/blog-posts/slug/${encodeURIComponent(slug)}`, { allow404: true });
+}
 
-  if (!res.ok) {
-    throw new Error(
-      `getContactPageData(): Strapi returned ${res.status} ${res.statusText} for ${endpoint}. ` +
-        'Check that the Strapi server is running, STRAPI_URL is set correctly, and the ' +
-        'contact-page entry is published.'
-    );
-  }
+/** A published case study + related case studies, or null when the slug doesn't exist. */
+export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null> {
+  return strapiGet<CaseStudyDetail>(`/api/case-studies/slug/${encodeURIComponent(slug)}`, { allow404: true });
+}
 
-  const json = (await res.json()) as { data: ContactPageData };
-  return json.data;
+/** Labels, background video and CTA shared by every /blog/[slug] page. */
+export async function getBlogDetailSettings(): Promise<BlogDetailSettings> {
+  return (await strapiGet<BlogDetailSettings>('/api/blog-detail-page'))!;
+}
+
+/** Labels, background video and CTA shared by every /case-studies/[slug] page. */
+export async function getCaseStudyDetailSettings(): Promise<CaseStudyDetailSettings> {
+  return (await strapiGet<CaseStudyDetailSettings>('/api/case-study-detail-page'))!;
 }
 
 /** Builds a Next.js Metadata object from a Strapi `shared.seo` component. */
@@ -65,30 +80,4 @@ export function constructMetadata(seo: Seo | null): Metadata {
       ? { openGraph: { images: [{ url: seo.ogImage.url, alt: seo.ogImage.alt }] } }
       : {}),
   };
-}
-
-/**
- * Fetches one entry from Strapi's unified Pages collection by slug
- * (`GET /api/pages/slug/:slug`) — Home, About Us, and Contact all live here
- * now instead of one Single Type each. Same flattening as getHomePageData
- * (sections/media/links), plus Contact's fields passed through as-is.
- * Throws on any non-200 response for the same reason as the others above.
- */
-export async function getPageBySlug(slug: string): Promise<PageData> {
-  const endpoint = `${STRAPI_URL}/api/pages/slug/${slug}`;
-
-  const res = await fetch(endpoint, {
-    cache: 'no-store',
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `getPageBySlug("${slug}"): Strapi returned ${res.status} ${res.statusText} for ${endpoint}. ` +
-        'Check that the Strapi server is running, STRAPI_URL is set correctly, and a page with ' +
-        `slug "${slug}" is published.`
-    );
-  }
-
-  const json = (await res.json()) as { data: PageData };
-  return json.data;
 }

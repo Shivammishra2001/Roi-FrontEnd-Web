@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { blogs } from "../../../components/Blog/data/blogData";
+import { getBlogPost, getBlogDetailSettings } from "../../../lib/strapi";
 import "../../../components/Blog/Section/Blog.css";
 
 import BlogDetailHeroSection from "../BlogDetail/BlogDetailHeroSection";
@@ -7,35 +7,40 @@ import BlogIntroSection from "../BlogDetail/BlogIntroSection";
 import BlogRelatedSection from "../BlogDetail/BlogRelatedSection";
 import BlogNumberSection from "../BlogDetail/BlogNumberSection";
 
-export function generateStaticParams() {
-  return blogs.map((blog) => ({ slug: blog.slug }));
-}
+// Any published post resolves on request — no rebuild needed for new slugs.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const blog = blogs.find((b) => b.slug === resolvedParams?.slug);
-  if (!blog) return { title: 'Article not found | ROI Mantra' };
+  const { slug } = await params;
+  const [detail, settings] = await Promise.all([getBlogPost(slug), getBlogDetailSettings()]);
+  if (!detail) return { title: settings.notFoundTitle };
+
+  const { post } = detail;
   return {
-    title: `${blog.title} | ROI Mantra`,
-    description: blog.excerpt || blog.content?.replace(/<[^>]*>?/gm, '').slice(0, 160),
+    title: post.seo?.metaTitle || `${post.title}${settings.metaTitleSuffix || ''}`,
+    description: post.seo?.metaDescription || post.excerpt || post.content?.replace(/<[^>]*>?/gm, '').slice(0, 160),
   };
 }
 
 export default async function BlogDetailPage({ params }) {
-  const resolvedParams = await params;
-  const currentBlog = blogs.find((b) => b.slug === resolvedParams?.slug);
+  const { slug } = await params;
+  const [detail, settings] = await Promise.all([getBlogPost(slug), getBlogDetailSettings()]);
 
-  if (!currentBlog) return notFound();
+  if (!detail) return notFound();
 
-  // Related blogs (excluding current blog)
-  const relatedBlogs = blogs.filter((b) => b.id !== currentBlog.id);
+  const { post: currentBlog, related: relatedBlogs } = detail;
 
   return (
     <main className="case-study-detail-page-wrapper">
-      <BlogDetailHeroSection currentBlog={currentBlog} />
-      <BlogIntroSection currentBlog={currentBlog} />
-      <BlogRelatedSection relatedBlogs={relatedBlogs} />
-      <BlogNumberSection />
+      <BlogDetailHeroSection currentBlog={currentBlog} backgroundVideo={settings.backgroundVideo} />
+      <BlogIntroSection currentBlog={currentBlog} dateLabel={settings.dateLabel} categoryLabel={settings.categoryLabel} />
+      <BlogRelatedSection
+        relatedBlogs={relatedBlogs}
+        kicker={settings.relatedKicker}
+        title={settings.relatedTitle}
+        buttonLabel={settings.relatedButtonLabel}
+      />
+      {settings.cta && <BlogNumberSection {...settings.cta} />}
     </main>
   );
 }
