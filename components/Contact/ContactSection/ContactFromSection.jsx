@@ -1,6 +1,7 @@
 
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ContactSection({
   label,
@@ -19,6 +20,7 @@ export default function ContactSection({
   scheduleButtonHref,
   fullNamePlaceholder,
   emailPlaceholder,
+  phonePlaceholder = "Phone",
   budgetPlaceholder,
   budgetOptions = [],
   helpPlaceholder,
@@ -29,9 +31,10 @@ export default function ContactSection({
   successMessage,
   errorMessage,
 }) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
-    email: "",
+    phone: "",
     budget: "",
     help: "",
     message: "",
@@ -66,7 +69,7 @@ export default function ContactSection({
         body: JSON.stringify({
           data: {
             fullName: formData.fullName,
-            email: formData.email,
+            phone: formData.phone,
             budget: formData.budget,
             service: formData.help,
             message: formData.message,
@@ -86,15 +89,13 @@ export default function ContactSection({
 
     setFormData({
       fullName: "",
-      email: "",
+      phone: "",
       budget: "",
       help: "",
       message: "",
     });
 
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 5000);
+    router.push("/thank-you");
   };
 
   const handleScheduleCall = () => {
@@ -161,6 +162,7 @@ export default function ContactSection({
                   </div>
                 </div>
               </div>
+              {/* Schedule-a-call card hidden, as on the localhost design.
               <div className="schedule-title">
                 <span>
                   <span className="arr">
@@ -205,7 +207,7 @@ export default function ContactSection({
                   </span>
                 </button>
 
-              </div>
+              </div> */}
 
             </div>
 
@@ -233,15 +235,15 @@ export default function ContactSection({
 
                 </div>
 
-                {/* EMAIL */}
+                {/* PHONE */}
                 <div className="form-group">
 
                   <input
-                    type="email"
-                    name="email"
+                    type="tel"
+                    name="phone"
                     className="form-control"
-                    placeholder={emailPlaceholder}
-                    value={formData.email}
+                    placeholder={phonePlaceholder}
+                    value={formData.phone}
                     onChange={handleChange}
                     required
                   />

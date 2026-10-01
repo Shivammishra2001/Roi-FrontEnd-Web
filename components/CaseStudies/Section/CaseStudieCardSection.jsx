@@ -2,18 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { caseStudies } from "../data/caseStudiesData";
 
+const filters = [
+  {
+    label: "ALL",
+    value: "all",
+  },
+  {
+    label: "HOSPITALITY",
+    value: "hospitality",
+  },
+  {
+    label: "HEALTHCARE",
+    value: "healthcare",
+  },
+  {
+    label: "REAL ESTATE",
+    value: "real-estate",
+  },
+  {
+    label: "B2B",
+    value: "other",
+  },
+];
 
-export default function CaseStudieCardSection({
-  filters = [],
-  itemsPerPage,
-  cardButtonLabel,
-  emptyTitle,
-  emptyText,
-  items = [],
-}) {
-  const caseStudies = items;
-  const ITEMS_PER_PAGE = itemsPerPage || 6;
+const ITEMS_PER_PAGE = 8;
+
+export default function CaseStudieCardSection() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -56,45 +72,95 @@ export default function CaseStudieCardSection({
             </div>
             {currentBlogs.length > 0 ? (
               <div className="blog-card-grid">
-                {currentBlogs.map((blog) => (
-                  <article
-                    className="blog-card-col show"
-                    data-category={blog.category}
-                    key={blog.id}
-                  >
-                    <div className="blog-card-area">
-                      <Link href={`/case-studies/${blog.slug}`} className="work-image" style={{ display: 'block' }}>
-                        <img src={blog.image?.url} alt={blog.image?.alt} />
-                      </Link>
-                      <div className="work-content">
-                        <div className="work-meta">
-                          <div className="card-sector-subitel">
-                            {blog.sector}
+                {currentBlogs.map((blog) => {
+                  const metric1 = blog.cardMetrics?.[0] || {
+                    value: blog.impactMetrics?.[0]?.value || "+00%",
+                    label: blog.impactMetrics?.[0]?.label || "Metric One",
+                  };
+                  const metric2 = blog.cardMetrics?.[1] || {
+                    value: blog.impactMetrics?.[1]?.value || "+00%",
+                    label: blog.impactMetrics?.[1]?.label || "Metric Two",
+                  };
+                  const category =
+                    blog.cardCategory || blog.servicesSummary || blog.sector || "SEO STRATEGY";
+                  const client = blog.cardTitle || blog.client || blog.title;
+                  const heading = blog.title;
+
+                  return (
+                    <article
+                      className="blog-card-col show"
+                      data-category={blog.category}
+                      key={blog.id}
+                    >
+                      <div className="blog-card-area case-study-card-with-header">
+                        {/* Card Header: Image with Gradient Overlay & Metrics */}
+                        <Link
+                          href={`/case-studies/${blog.slug}`}
+                          className="case-card-header"
+                        >
+                          <div className="case-card-image">
+                            <img src={blog.image} alt={blog.alt || client} />
+                            <div className="case-card-gradient-overlay" />
+                          </div>
+
+                          <div className="case-card-overlay-content">
+                            <div className="case-card-top-meta">
+                              <span className="case-card-kicker">{category}</span>
+                              <div className="case-card-client-title">{client}</div>
+                            </div>
+
+                            <div className="case-card-metrics-row">
+                              <div className="case-card-metric-col">
+                                <span className="case-card-metric-val">
+                                  {metric1.value}
+                                </span>
+                                <span className="case-card-metric-lbl">
+                                  {metric1.label}
+                                </span>
+                              </div>
+                              <div className="case-card-metric-col">
+                                <span className="case-card-metric-val">
+                                  {metric2.value}
+                                </span>
+                                <span className="case-card-metric-lbl">
+                                  {metric2.label}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+
+                        {/* Card Body: Heading & View Button */}
+                        <div className="work-content">
+                          <div className="blog-contnet-area">
+                            <h2 className="work-title">
+                              <Link href={`/case-studies/${blog.slug}`}>
+                                {heading}
+                              </Link>
+                            </h2>
+                          </div>
+                          <div className="blog-contnet-btn-area">
+                            <Link
+                              href={`/case-studies/${blog.slug}`}
+                              className="work-button"
+                            >
+                              <span>View Case Study</span>
+                              <span className="button-arrow">
+                                <i className="fa fa-long-arrow-right"></i>
+                              </span>
+                            </Link>
                           </div>
                         </div>
-                        <div className="blog-contnet-area">
-                          <h2 className="work-title">
-                            <Link href={`/case-studies/${blog.slug}`}>
-                              {blog.title}
-                            </Link>
-                          </h2>
-                        </div>
-                        <div className="blog-contnet-btn-area">
-                          <Link href={`/case-studies/${blog.slug}`} className="work-button">
-                            <span>{cardButtonLabel}</span>
-                            <span className="button-arrow"><i className="fa fa-long-arrow-right"></i></span>
-                          </Link>
-                        </div>
                       </div>
-                    </div>
-                  </article>
-                ))}
+                    </article>
+                  );
+                })}
               </div>
             ) : (
               <div className="no-blog-message show" id="noBlogMessage">
                 <div className="no-blog-icon"><i className="fa fa-long-arrow-right"></i></div>
-                <h3>{emptyTitle}</h3>
-                <p>{emptyText}</p>
+                <h3>No case studies found</h3>
+                <p>There are no case studies available in this category.</p>
               </div>
             )}
             {totalPages > 1 && (

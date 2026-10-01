@@ -3,9 +3,32 @@
 import { useEffect, useRef } from "react";
 
 
+const defaultMetrics = [
+  {
+    target: 125,
+    decimal: 0,
+    prefix: "+",
+    suffix: "%",
+    label: "Headline Metric",
+  },
+  {
+    target: 4.5,
+    decimal: 1,
+    prefix: "",
+    suffix: "X",
+    label: "Second Metric",
+  },
+  {
+    target: 12,
+    decimal: 0,
+    prefix: "",
+    suffix: " MO",
+    label: "Engagement Length",
+  },
+];
 
 export default function MetricsSection({ currentCase }) {
-  const metrics = currentCase?.metrics || [];
+  const metrics = currentCase?.metrics || defaultMetrics;
   const sectionRef = useRef(null);
   const counterRefs = useRef([]);
 
@@ -16,7 +39,7 @@ export default function MetricsSection({ currentCase }) {
 
     const animateCounter = (element, metric) => {
       const target = metric.target;
-      const decimal = metric.decimals || 0;
+      const decimal = metric.decimal || 0;
       const prefix = metric.prefix || "";
       const suffix = metric.suffix || "";
 
@@ -100,7 +123,7 @@ export default function MetricsSection({ currentCase }) {
               }}
             >
               {metric.prefix}
-              {Number(0).toFixed(metric.decimals || 0)}
+              {Number(0).toFixed(metric.decimal || 0)}
               {metric.suffix}
             </div>
 

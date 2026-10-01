@@ -31,9 +31,6 @@ const BlogDetailHeroSection = ({ currentBlog, backgroundVideo }) => {
                     <h1 className="case-hero-title contact-hero-title">
                         {blog?.title}
                     </h1>
-                    <p className="case-hero-description blog-hero-description">
-                        {blog?.excerpt || ""}
-                    </p>
                 </div>
                 <div className="case-hero-image-wrap">
                     {blog?.coverImage?.url && (

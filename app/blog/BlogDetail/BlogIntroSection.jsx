@@ -52,12 +52,6 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                     <div className="case-main-content-area">
                         <div className="case-main-content">
                             <div className="case-content-area-box">
-                                <div className="case-kicker">
-                                    <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {currentBlog?.category}
-                                </div>
-                                <h2 className="case-content-title">
-                                    {currentBlog?.title}
-                                </h2>
 
                                 {isHtml ? (
                                     <div

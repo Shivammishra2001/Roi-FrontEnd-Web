@@ -7,7 +7,7 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const CaseRelatedSection = ({ relatedCases = [], kicker, title, buttonLabel }) => {
+const CaseRelatedSection = ({ relatedCases = [] }) => {
     const swiperRef = useRef(null);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
@@ -94,13 +94,13 @@ const CaseRelatedSection = ({ relatedCases = [], kicker, title, buttonLabel }) =
                             className="case-kicker"
                             style={{ marginBottom: "8px" }}
                         >
-                            <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {kicker}
+                            <span className="arr"><i className="fa fa-long-arrow-right"></i></span> RELATED
                         </div>
                         <h2
                             className="case-content-title"
 
                         >
-                            {title}
+                            Case Studies
                         </h2>
 
                     </div>
@@ -120,9 +120,9 @@ const CaseRelatedSection = ({ relatedCases = [], kicker, title, buttonLabel }) =
                                         >
                                             <div className="case-image">
                                                 <img
-                                                    src={item.image?.url}
+                                                    src={item.image}
                                                     alt={
-                                                        item.image?.alt ||
+                                                        item.alt ||
                                                         item.title
                                                     }
                                                 />
@@ -146,7 +146,7 @@ const CaseRelatedSection = ({ relatedCases = [], kicker, title, buttonLabel }) =
                                                     className="case-link work-button"
                                                 >
                                                     <span>
-                                                        {buttonLabel}
+                                                        View Case Study
                                                     </span>
 
                                                     <span className="arr">
