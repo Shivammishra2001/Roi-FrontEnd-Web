@@ -5,7 +5,9 @@ import React from "react";
 export default function LegalHero({
     badge = "LEGAL & COMPLIANCE",
     title = "PRIVACY POLICY",
-    description = "We value your trust and are dedicated to maintaining the confidentiality and integrity of your information."
+    description = "We value your trust and are dedicated to maintaining the confidentiality and integrity of your information.",
+    effectiveDate = "",
+    lastUpdated = "",
 }) {
     return (
 
@@ -38,6 +40,13 @@ export default function LegalHero({
                     <h1 className="legal-hero-title">
                         {title}
                     </h1>
+
+                    {(effectiveDate || lastUpdated) && (
+                        <div className="legal-hero-meta">
+                            {effectiveDate && <span>Effective: {effectiveDate}</span>}
+                            {lastUpdated && <span>Last updated: {lastUpdated}</span>}
+                        </div>
+                    )}
 
                     <p className="legal-hero-description blog-hero-description ">
                         {description}

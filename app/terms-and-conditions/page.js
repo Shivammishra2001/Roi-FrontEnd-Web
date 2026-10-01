@@ -1,14 +1,20 @@
-import TermsConditions from '../../components/Legal/TermsConditions.jsx';
+import LegalPage from '../../components/Legal/LegalPage.jsx';
+import { TERMS_AND_CONDITIONS } from '../../components/Legal/legalContent';
+import { getLegalPage } from '../../lib/strapi';
+import { mergeLegalPage, legalMetadata } from '../../lib/legal';
 
-export const metadata = {
-  title: 'Terms & Conditions | ROI Mantra',
-  description: 'Read the terms, rules, and conditions governing the use of ROI Mantra website and professional services.',
-  openGraph: {
-    title: 'Terms & Conditions | ROI Mantra',
-    description: 'Read the terms, rules, and conditions governing the use of ROI Mantra website and professional services.',
-  },
-};
+// Rendered per request so edits published in Strapi show up immediately.
+// If Strapi is unreachable the page shows its built-in copy.
+export const dynamic = 'force-dynamic';
 
-export default function TermsConditionsPage() {
-  return <TermsConditions />;
+async function loadPage() {
+  return mergeLegalPage(await getLegalPage('terms-and-condition'), TERMS_AND_CONDITIONS);
+}
+
+export async function generateMetadata() {
+  return legalMetadata(await loadPage());
+}
+
+export default async function TermsConditionsPage() {
+  return <LegalPage page={await loadPage()} />;
 }

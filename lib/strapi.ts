@@ -74,6 +74,26 @@ export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null
   return strapiGet<CaseStudyDetail>(`/api/case-studies/slug/${encodeURIComponent(slug)}`, { allow404: true });
 }
 
+/**
+ * A legal page single type (`GET /api/privacy-policy`, `GET /api/terms-and-condition`),
+ * raw core REST. Unlike the other fetchers this never throws: the legal pages
+ * must always render, so on any failure it logs and returns null, and the page
+ * shows its built-in copy (lib/legal.js).
+ */
+export async function getLegalPage(kind: 'privacy-policy' | 'terms-and-condition'): Promise<unknown | null> {
+  const query = new URLSearchParams({
+    'populate[sections]': 'true',
+    'populate[helpCard]': 'true',
+    'populate[seo][populate][ogImage][populate][0]': 'file',
+  });
+  try {
+    return await strapiGet<unknown>(`/api/${kind}?${query}`, { allow404: true });
+  } catch (err) {
+    console.error(`[strapi] ${kind} unavailable, showing built-in copy:`, err instanceof Error ? err.message : err);
+    return null;
+  }
+}
+
 /** Labels, background video and CTA shared by every /blog/[slug] page. */
 export async function getBlogDetailSettings(): Promise<BlogDetailSettings> {
   return (await strapiGet<BlogDetailSettings>('/api/blog-detail-page'))!;
