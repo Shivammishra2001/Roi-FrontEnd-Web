@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { caseStudies } from "../data/caseStudiesData";
 
 const filters = [
   {
@@ -29,7 +28,8 @@ const filters = [
 
 const ITEMS_PER_PAGE = 8;
 
-export default function CaseStudieCardSection() {
+// `caseStudies`: published case studies from Strapi, mapped by lib/caseStudies.js.
+export default function CaseStudieCardSection({ caseStudies = [] }) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 

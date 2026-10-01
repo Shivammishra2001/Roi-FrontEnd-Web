@@ -20,6 +20,16 @@ const nextConfig = {
         const strapiUrl = (process.env.STRAPI_URL || 'http://localhost:1338').replace(/\/$/, '');
         return [{ source: '/uploads/:path*', destination: `${strapiUrl}/uploads/:path*` }];
     },
+    // Case study URLs that changed in the redesign.
+    async redirects() {
+        return [
+            {
+                source: '/case-studies/max-healthcare-digital-growth',
+                destination: '/case-studies/cementing-leadership-fostering-growth',
+                permanent: true,
+            },
+        ];
+    },
 };
 
 module.exports = nextConfig;

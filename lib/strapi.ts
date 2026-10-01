@@ -54,6 +54,21 @@ export async function getBlogPost(slug: string): Promise<BlogPostDetail | null> 
   return strapiGet<BlogPostDetail>(`/api/blog-posts/slug/${encodeURIComponent(slug)}`, { allow404: true });
 }
 
+/**
+ * Every published case study for the /case-studies cards, in List Order
+ * (`GET /api/case-studies`, core REST, raw — map with lib/caseStudies.js).
+ */
+export async function getCaseStudies(): Promise<unknown[]> {
+  const query = new URLSearchParams({
+    'sort[0]': 'sortOrder:asc',
+    'sort[1]': 'id:asc',
+    'pagination[pageSize]': '100',
+    'populate[image][populate][0]': 'file',
+    'populate[cardMetrics]': 'true',
+  });
+  return (await strapiGet<unknown[]>(`/api/case-studies?${query}`)) ?? [];
+}
+
 /** A published case study + related case studies, or null when the slug doesn't exist. */
 export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null> {
   return strapiGet<CaseStudyDetail>(`/api/case-studies/slug/${encodeURIComponent(slug)}`, { allow404: true });
