@@ -75,21 +75,22 @@ export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null
 }
 
 /**
- * A legal page single type (`GET /api/privacy-policy`, `GET /api/terms-and-condition`),
- * raw core REST. Unlike the other fetchers this never throws: the legal pages
- * must always render, so on any failure it logs and returns null, and the page
- * shows its built-in copy (lib/legal.js).
+ * A legal page from Pages (`GET /api/pages/slug/privacy-policy` or
+ * `/terms-and-conditions`): the page's title and SEO plus the fields of its
+ * "Legal Content" section, in one flat object. Unlike the other fetchers this
+ * never throws: the legal pages must always render, so on any failure (or a
+ * missing page / section) it logs and returns null, and the page shows its
+ * built-in copy (lib/legal.js).
  */
-export async function getLegalPage(kind: 'privacy-policy' | 'terms-and-condition'): Promise<unknown | null> {
-  const query = new URLSearchParams({
-    'populate[sections]': 'true',
-    'populate[helpCard]': 'true',
-    'populate[seo][populate][ogImage][populate][0]': 'file',
-  });
+export async function getLegalPage(slug: 'privacy-policy' | 'terms-and-conditions'): Promise<Record<string, unknown> | null> {
   try {
-    return await strapiGet<unknown>(`/api/${kind}?${query}`, { allow404: true });
+    const page = await strapiGet<PageData>(`/api/pages/slug/${slug}`, { allow404: true });
+    const legal = page?.sections?.find((s) => s.__component === 'sections.legal-content');
+    if (!page || !legal) return null;
+    const { __component, ...fields } = legal as Record<string, unknown>;
+    return { ...fields, title: page.title, seo: page.seo };
   } catch (err) {
-    console.error(`[strapi] ${kind} unavailable, showing built-in copy:`, err instanceof Error ? err.message : err);
+    console.error(`[strapi] ${slug} unavailable, showing built-in copy:`, err instanceof Error ? err.message : err);
     return null;
   }
 }

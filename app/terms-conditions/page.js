@@ -8,7 +8,7 @@ import { mergeLegalPage, legalMetadata } from '../../lib/legal';
 export const dynamic = 'force-dynamic';
 
 async function loadPage() {
-  return mergeLegalPage(await getLegalPage('terms-and-condition'), TERMS_AND_CONDITIONS);
+  return mergeLegalPage(await getLegalPage('terms-and-conditions'), TERMS_AND_CONDITIONS);
 }
 
 export async function generateMetadata() {

@@ -1,6 +1,6 @@
-// Built-in copy of the two legal pages, in the shape Strapi returns for the
-// `privacy-policy` and `terms-and-condition` single types (section bodies in
-// Strapi "Blocks" rich-text format).
+// Built-in copy of the two legal pages (Pages entries privacy-policy and
+// terms-and-conditions, "Legal Content" section), in the flat shape
+// getLegalPage returns (section bodies in Strapi "Blocks" rich-text format).
 //
 // Used as the fallback when Strapi is unreachable or a field is empty, and
 // exported to the backend's data/legal-pages/ snapshot that seeds the CMS
