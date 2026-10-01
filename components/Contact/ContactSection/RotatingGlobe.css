@@ -1,0 +1,151 @@
+
+
+.globe-section {
+  position: relative;
+  overflow: hidden;
+  padding: 7rem 0;
+  background: #07111f;
+  color: #f4f7fb;
+}
+
+.globe-ambient-glow {
+  position: absolute;
+  top: 18%;
+  left: 16%;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 50%;
+  background: rgba(0, 155, 255, 0.12);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.globe-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.globe-title {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  line-height: 1;
+}
+
+.accent-yellow {
+  color: #f4c95d;
+}
+
+.globe-main-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
+  align-items: center;
+  gap: 3rem;
+}
+
+.globe-column {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.globe-wrapper {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 36rem);
+  aspect-ratio: 1;
+}
+
+.globe-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.globe-tooltip {
+  position: absolute;
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: min(17rem, 80%);
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(108, 215, 255, 0.45);
+  border-radius: 999px;
+  background: rgba(4, 22, 43, 0.9);
+  font-size: 0.75rem;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.flag-badge img {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.globe-tooltip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.globe-location-sidebar {
+  display: flex;
+  justify-content: center;
+}
+
+.globe-office-card {
+  width: 100%;
+  max-width: 34rem;
+  padding: 2rem;
+  border: 1px solid rgba(111, 216, 255, 0.25);
+  border-radius: 1rem;
+  background: rgba(14, 34, 58, 0.72);
+  transform-style: preserve-3d;
+}
+
+.globe-office-name {
+  margin: 0 0 1.5rem;
+  color: #f4c95d;
+  font-size: 2rem;
+}
+
+.globe-office-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  color: #c5d5e5;
+  line-height: 1.6;
+}
+
+.globe-detail-icon {
+  flex: 0 0 auto;
+  color: #6cd7ff;
+}
+
+.globe-detail-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .globe-section {
+    padding: 5rem 0;
+  }
+
+  .globe-main-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .globe-office-card {
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,716 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You | ROI Mantra</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       GLOBAL CSS
+    ========================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: #17191c;
+      background: #f5f4ef;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* =========================
+       THANK YOU HERO SECTION
+    ========================= */
+
+    .thankyou-hero {
+      position: relative;
+      width: 100%;
+      min-height: 380px;
+      padding: 25px 20px 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #f8f8f8;
+      background-color: #0d0e10;
+      overflow: hidden;
+      border-bottom: 1px solid #292a2c;
+    }
+
+    /* Background Grid */
+    .thankyou-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0.055) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.055) 1px,
+          transparent 1px
+        );
+      background-size: 36px 36px;
+      pointer-events: none;
+    }
+
+    .thankyou-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Message Received Label */
+
+    .message-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: #f3c928;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .message-label .label-dot {
+      width: 5px;
+      height: 5px;
+      display: inline-block;
+      border-radius: 50%;
+      background: #f3c928;
+      box-shadow: 0 0 10px rgba(243, 201, 40, 0.35);
+    }
+
+    /* Main Heading */
+
+    .thankyou-title {
+      margin: 0;
+      color: #f8f8f8;
+      font-family: "Anton", sans-serif;
+      font-size: clamp(48px, 8vw, 64px);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: -1.2px;
+      text-transform: uppercase;
+    }
+
+    .thankyou-title span {
+      display: block;
+    }
+
+    .thankyou-title .title-subtitle {
+      margin-top: 4px;
+      font-size: 0.57em;
+      line-height: 1.05;
+      letter-spacing: -0.4px;
+    }
+
+    /* Success Icon */
+
+    .success-icon {
+      position: relative;
+      width: 47px;
+      height: 47px;
+      margin: 20px auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #f3c928;
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 5px rgba(243, 201, 40, 0.035),
+        0 0 24px rgba(243, 201, 40, 0.15);
+    }
+
+    .success-icon svg {
+      width: 25px;
+      height: 25px;
+      stroke: #f3c928;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+    }
+
+    /* Description */
+
+    .thankyou-description {
+      max-width: 380px;
+      margin: 0 auto;
+      color: #d0d0d2;
+      font-size: 10.5px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* Action Buttons */
+
+    .thankyou-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 19px;
+    }
+
+    .thankyou-btn {
+      min-width: 112px;
+      min-height: 29px;
+      padding: 8px 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid #f4f4f4;
+      border-radius: 30px;
+      font-family: "Inter", sans-serif;
+      font-size: 9px;
+      font-weight: 500;
+      line-height: 1.2;
+      transition: all 0.3s ease;
+    }
+
+    .thankyou-btn-primary {
+      color: #111214;
+      background: #f8f8f8;
+    }
+
+    .thankyou-btn-secondary {
+      color: #f8f8f8;
+      background: transparent;
+    }
+
+    .thankyou-btn:hover {
+      color: #111214;
+      background: #f3c928;
+      border-color: #f3c928;
+      transform: translateY(-2px);
+    }
+
+    .thankyou-btn svg {
+      width: 11px;
+      height: 11px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    /* Response Time */
+
+    .response-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 17px;
+      color: #a8aaae;
+      font-size: 8px;
+      line-height: 1.5;
+    }
+
+    .response-dot {
+      width: 4px;
+      height: 4px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #19c7e5;
+      box-shadow: 0 0 7px rgba(25, 199, 229, 0.4);
+    }
+
+    /* =========================
+       WHAT HAPPENS NEXT SECTION
+    ========================= */
+
+    .next-steps-section {
+      position: relative;
+      padding: 24px 20px 40px;
+      background: #f5f4ef;
+    }
+
+    .next-steps-container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Section Eyebrow */
+
+    .section-eyebrow {
+      margin-bottom: 13px;
+      color: #202226;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      line-height: 1.5;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* Section Heading */
+
+    .next-steps-title {
+      max-width: 550px;
+      margin: 0 auto 18px;
+      color: #17191c;
+      font-family: "Anton", sans-serif;
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.3px;
+      text-align: center;
+    }
+
+    .next-steps-title span {
+      display: block;
+    }
+
+    /* Steps Grid */
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    /* Individual Step Card */
+
+    .step-card {
+      min-width: 0;
+      min-height: 116px;
+      padding: 10px 10px 12px;
+      border: 1px solid #d8d7d1;
+      border-radius: 5px;
+      background: transparent;
+      transition:
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .step-card:hover {
+      border-color: #e6b81d;
+      background: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    /* Number and Divider */
+
+    .step-number-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 7px;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      color: #f3b91f;
+      font-family: "Anton", sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .step-line {
+      width: 100%;
+      height: 1px;
+      background: #d5d4ce;
+    }
+
+    /* Card Content */
+
+    .step-card h3 {
+      margin: 0 0 7px;
+      color: #191b1f;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .step-card p {
+      margin: 0;
+      color: #777a80;
+      font-size: 9.5px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       TABLET RESPONSIVE
+    ========================= */
+
+    @media (min-width: 768px) {
+      .thankyou-hero {
+        min-height: 460px;
+        padding: 45px 25px;
+      }
+
+      .thankyou-hero::before {
+        background-size: 50px 50px;
+      }
+
+      .message-label {
+        font-size: 10px;
+        margin-bottom: 16px;
+      }
+
+      .thankyou-title {
+        font-size: clamp(64px, 8vw, 86px);
+      }
+
+      .success-icon {
+        width: 58px;
+        height: 58px;
+        margin: 25px auto 22px;
+      }
+
+      .success-icon svg {
+        width: 30px;
+        height: 30px;
+      }
+
+      .thankyou-description {
+        max-width: 460px;
+        font-size: 13px;
+      }
+
+      .thankyou-buttons {
+        gap: 12px;
+        margin-top: 23px;
+      }
+
+      .thankyou-btn {
+        min-width: 145px;
+        min-height: 38px;
+        padding: 10px 20px;
+        font-size: 11px;
+      }
+
+      .response-note {
+        margin-top: 20px;
+        font-size: 10px;
+      }
+
+      .next-steps-section {
+        padding: 42px 30px 55px;
+      }
+
+      .section-eyebrow {
+        margin-bottom: 18px;
+        font-size: 10px;
+      }
+
+      .next-steps-title {
+        margin-bottom: 30px;
+      }
+
+      .steps-grid {
+        gap: 18px;
+      }
+
+      .step-card {
+        min-height: 155px;
+        padding: 15px;
+      }
+
+      .step-number {
+        font-size: 28px;
+      }
+
+      .step-number-row {
+        margin-bottom: 12px;
+      }
+
+      .step-card h3 {
+        font-size: 15px;
+      }
+
+      .step-card p {
+        font-size: 12px;
+      }
+    }
+
+    /* =========================
+       MOBILE RESPONSIVE
+    ========================= */
+
+    @media (max-width: 480px) {
+      .thankyou-hero {
+        min-height: 380px;
+        padding: 22px 18px 35px;
+      }
+
+      .thankyou-content {
+        max-width: 380px;
+      }
+
+      .thankyou-title {
+        font-size: clamp(45px, 12vw, 58px);
+      }
+
+      .thankyou-title .title-subtitle {
+        font-size: 0.55em;
+      }
+
+      .thankyou-description {
+        max-width: 340px;
+        font-size: 10px;
+      }
+
+      .thankyou-buttons {
+        gap: 9px;
+      }
+
+      .thankyou-btn {
+        min-width: 0;
+        padding: 8px 13px;
+      }
+
+      .next-steps-section {
+        padding: 23px 14px 35px;
+      }
+
+      .next-steps-title {
+        font-size: clamp(30px, 8.3vw, 39px);
+        margin-bottom: 16px;
+      }
+
+      .steps-grid {
+        gap: 10px;
+      }
+
+      .step-card {
+        min-height: 116px;
+        padding: 9px 9px 10px;
+      }
+
+      .step-number-row {
+        gap: 8px;
+        margin-bottom: 7px;
+      }
+
+      .step-number {
+        font-size: 21px;
+      }
+
+      .step-card h3 {
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .step-card p {
+        font-size: 9px;
+        line-height: 1.55;
+      }
+    }
+
+    /* Extra Small Mobile */
+
+    @media (max-width: 360px) {
+      .thankyou-title {
+        font-size: 42px;
+      }
+
+      .thankyou-buttons {
+        gap: 7px;
+      }
+
+      .thankyou-btn {
+        padding: 8px 10px;
+        font-size: 8px;
+      }
+
+      .steps-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .step-card {
+        min-height: auto;
+        padding: 14px;
+      }
+
+      .step-card h3 {
+        font-size: 13px;
+      }
+
+      .step-card p {
+        font-size: 11px;
+      }
+
+      .step-number {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       THANK YOU HERO
+  ========================= -->
+
+  <section class="thankyou-hero">
+
+    <div class="thankyou-content">
+
+      <div class="message-label">
+        <span class="label-dot"></span>
+        <span>Message Received</span>
+      </div>
+
+      <h1 class="thankyou-title">
+        <span>Thank You!</span>
+        <span class="title-subtitle">We'll Be in Touch.</span>
+      </h1>
+
+      <div class="success-icon" aria-label="Message successfully received">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 12.5 9.5 17 20 6.5"></path>
+        </svg>
+      </div>
+
+      <p class="thankyou-description">
+        Thanks for reaching out to ROI Mantra. Your message has been
+        received. Our team will review your requirements and get back
+        to you shortly.
+      </p>
+
+      <div class="thankyou-buttons">
+
+        <a href="/" class="thankyou-btn thankyou-btn-primary">
+          Back to Home
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17 17 7M8 7h9v9"></path>
+          </svg>
+        </a>
+
+        <a href="/case-studies" class="thankyou-btn thankyou-btn-secondary">
+          Explore Case Studies
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 17 17 7M8 7h9v9"></path>
+          </svg>
+        </a>
+
+      </div>
+
+      <div class="response-note">
+        <span class="response-dot"></span>
+        <span>Usually responds within 1 business day.</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       WHAT HAPPENS NEXT
+  ========================= -->
+
+  <section class="next-steps-section">
+
+    <div class="next-steps-container">
+
+      <div class="section-eyebrow">
+        [ What Happens Next ]
+      </div>
+
+      <h2 class="next-steps-title">
+        <span>Good Things Start With</span>
+        <span>A Conversation.</span>
+      </h2>
+
+      <div class="steps-grid">
+
+        <!-- STEP 01 -->
+
+        <div class="step-card">
+
+          <div class="step-number-row">
+            <span class="step-number">01</span>
+            <span class="step-line"></span>
+          </div>
+
+          <h3>We review your brief</h3>
+
+          <p>
+            Our team takes a close look at your requirements and
+            understands your goals.
+          </p>
+
+        </div>
+
+        <!-- STEP 02 -->
+
+        <div class="step-card">
+
+          <div class="step-number-row">
+            <span class="step-number">02</span>
+            <span class="step-line"></span>
+          </div>
+
+          <h3>We align on goals</h3>
+
+          <p>
+            We discuss the best approach, timeline and strategy to
+            create real impact.
+          </p>
+
+        </div>
+
+        <!-- STEP 03 -->
+
+        <div class="step-card">
+
+          <div class="step-number-row">
+            <span class="step-number">03</span>
+            <span class="step-line"></span>
+          </div>
+
+          <h3>We plan the next step</h3>
+
+          <p>
+            You'll get a clear plan, next steps and a dedicated team
+            working on your project.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</body>
+</html>
