@@ -1356,19 +1356,19 @@ a, button, [role="button"], input[type="submit"], input[type="button"], select, 
 }
 
 .creative-future-col:nth-child(1) .creative-future-card::after {
-    background-image: url("/images/future-icon1.png");
+    background-image: var(--future-icon, url("/images/future-icon1.png"));
 }
 
 .creative-future-col:nth-child(2) .creative-future-card::after {
-    background-image: url("/images/future-icon2.png");
+    background-image: var(--future-icon, url("/images/future-icon2.png"));
 }
 
 .creative-future-col:nth-child(3) .creative-future-card::after {
-    background-image: url("/images/future-icon3.png");
+    background-image: var(--future-icon, url("/images/future-icon3.png"));
 }
 
 .creative-future-col:nth-child(4) .creative-future-card::after {
-    background-image: url("/images/future-icon4.png");
+    background-image: var(--future-icon, url("/images/future-icon4.png"));
 }
 @media (max-width: 1200px) {
     .creative-future-grid {

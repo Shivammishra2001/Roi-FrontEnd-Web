@@ -1,45 +1,32 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
+import { text, list, mediaUrl, mediaAlt } from "../../../lib/cms";
 
-export default function BrandsSection() {
+const DEFAULT_TILES = [
+    { image: "/images/Ease-mt-trip.jpg" },
+    { image: "/images/PVR-05.jpg" },
+    { image: "/images/MAX01.jpg" },
+    { image: "/images/whirlpoo02.jpg" },
+    { image: "/images/greenlam2.jpg" },
+    { image: "/images/whirlpooL01.jpg" },
+    { image: "/images/emmar.jpg" },
+    { image: "/images/County.jpg" },
+    { image: "/images/ZIVAME.jpg" },
+];
+
+export default function BrandsSection({ data = {} }) {
     const sectionRef = useRef(null);
     const trackRef = useRef(null);
 
     const [trackOffset, setTrackOffset] = useState(0);
     const [tilt, setTilt] = useState(1);
 
-    const TILES = [
-        {
-            image: "/images/Ease-mt-trip.jpg",
-        },
-        {
-            image: "/images/PVR-05.jpg",
-        },
-        {
-            image: "/images/MAX01.jpg",
-        },
-        {
-            image: "/images/whirlpoo02.jpg",
-        },
-        {
-            image: "/images/greenlam2.jpg",
-        },
-
-         {
-            image: "/images/whirlpooL01.jpg",
-        },
-        {
-            image: "/images/emmar.jpg",
-        },
-
-        {
-            image: "/images/County.jpg",
-        },
-        {
-            image: "/images/ZIVAME.jpg",
-        },
-    ];
+    const TILES = list(data.brandTiles, DEFAULT_TILES)
+        .map((t) => ({ image: mediaUrl(t.photo || t.image), name: text(t.name, mediaAlt(t.photo)) }))
+        .filter((t) => t.image);
+    const headingPrefix = text(data.headingPrefix, "Fourteen Brands One ");
+    const headingEmphasis = text(data.headingEmphasis, "Playbook.");
 
     useEffect(() => {
         const sec = sectionRef.current;
@@ -118,8 +105,8 @@ export default function BrandsSection() {
 
                     <div className="work-header">
                         <h2 className="common-top-heading page-title">
-                            Fourteen Brands One{" "}
-                            <span>Playbook.</span>
+                            {headingPrefix.trimEnd()}{" "}
+                            <span>{headingEmphasis}</span>
                         </h2>
                     </div>
 
@@ -150,8 +137,10 @@ export default function BrandsSection() {
                                     <div
                                         key={i}
                                         className="work-tile"
+                                        role={t.name ? "img" : undefined}
+                                        aria-label={t.name || undefined}
                                         style={{
-                                            backgroundImage: `url(${t.image})`,
+                                            backgroundImage: `url("${t.image}")`,
                                             transform: `
                                                 rotateZ(
                                                     ${

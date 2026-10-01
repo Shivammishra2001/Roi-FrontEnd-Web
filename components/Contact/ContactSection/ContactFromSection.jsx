@@ -14,6 +14,8 @@ export default function ContactSection() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,22 +26,56 @@ export default function ContactSection() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Option value → the label the visitor saw, so the Strapi admin shows
+  // "₹5 Lakhs - ₹10 Lakhs" rather than "5-10".
+  const optionLabel = (form, name, value) =>
+    form.elements[name]?.selectedOptions?.[0]?.textContent.trim() || value;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
 
-    console.log("Form Data:", formData);
+    setSubmitting(true);
+    setError("");
 
-    setSubmitted(true);
+    try {
+      // Same-origin: Nginx routes /api to Strapi (next.config.js rewrites it in dev).
+      const res = await fetch("/api/contact-submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          data: {
+            fullName: formData.fullName.trim(),
+            phone: formData.phone.trim(),
+            budget: optionLabel(e.currentTarget, "budget", formData.budget),
+            service: optionLabel(e.currentTarget, "help", formData.help),
+            message: formData.message.trim(),
+          },
+        }),
+      });
 
-    setFormData({
-      fullName: "",
-      phone: "",
-      budget: "",
-      help: "",
-      message: "",
-    });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error?.message || `HTTP ${res.status}`);
+      }
 
-    router.push("/thank-you");
+      setSubmitted(true);
+
+      setFormData({
+        fullName: "",
+        phone: "",
+        budget: "",
+        help: "",
+        message: "",
+      });
+
+      router.push("/thank-you");
+    } catch (err) {
+      console.error("Contact form submission failed:", err);
+      setError("Sorry, your message couldn't be sent. Please try again, or email us at info@roimantra.com.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleScheduleCall = () => {
@@ -293,10 +329,12 @@ export default function ContactSection() {
                   <button
                     type="submit"
                     className="submit-btn"
+                    disabled={submitting}
+                    aria-busy={submitting}
                   >
 
                     <span className="submit-text">
-                      Send Message
+                      {submitting ? "Sending…" : "Send Message"}
                     </span>
 
                     <span className="button-arrow">
@@ -306,6 +344,12 @@ export default function ContactSection() {
                   </button>
 
                 </div>
+
+                {error && (
+                  <div className="form-error" role="alert">
+                    {error}
+                  </div>
+                )}
 
                 {/* SUCCESS MESSAGE */}
                 {submitted && (

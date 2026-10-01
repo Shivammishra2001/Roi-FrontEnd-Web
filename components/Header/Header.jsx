@@ -2,9 +2,27 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import CmsLink from "../common/CmsLink";
+import { text, list, href, mediaUrl, mediaAlt } from "../../lib/cms";
 import "./Header.css";
 
-function Header() {
+const DEFAULT_NAV = [
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+];
+
+function Header({ navbar }) {
+  const nav = navbar || {};
+  const logoDefault = mediaUrl(nav.logoDefault, "/images/logo-img.svg");
+  const logoScrolled = mediaUrl(nav.logoScrolled, "/images/logo-img2.svg");
+  const logoMobile = mediaUrl(nav.logoMobile, "/images/logo-img2.svg");
+  const logoAlt = mediaAlt(nav.logoDefault, "ROI MANTRA");
+  const navItems = list(nav.primaryNavItems, DEFAULT_NAV).filter((item) => item && text(item.label));
+  const submenuItems = list(nav.theThinkingSubmenuItems).filter((item) => item && text(item.label));
+  const ctaLabel = text(nav.ctaLabel, "Start a conversation ");
+  const ctaHref = href(nav.ctaHref, "/contact");
+
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState("");
@@ -45,8 +63,8 @@ function Header() {
               <div className="header__logo">
                 <Link href="/">
                   <img
-                    src={scrolled ? "/images/logo-img2.svg" : "/images/logo-img.svg"}
-                    alt="ROI MANTRA"
+                    src={scrolled ? logoScrolled : logoDefault}
+                    alt={logoAlt}
                   />
                 </Link>
               </div>
@@ -55,7 +73,7 @@ function Header() {
               <div className={`header__menu ${isMenuOpen ? "active" : ""}`}>
                 <div className="header__logo__mobile">
                   <Link href="/" onClick={closeMenu}>
-                    <img src="/images/logo-img2.svg" alt="ROI MANTRA" />
+                    <img src={logoMobile} alt={mediaAlt(nav.logoMobile, logoAlt)} />
                   </Link>
                 </div>
                 <ul className="header__list">
@@ -83,24 +101,53 @@ function Header() {
                     </ul>
                   </li> */}
 
-                  <li className="header__item">
-                    <Link href="/case-studies" className="header__link" onClick={closeMenu}>Case Studies</Link>
-                  </li>
-                  <li className="header__item">
-                    <Link href="/blog" className="header__link" onClick={closeMenu}>Blog</Link>
-                  </li>
-                  <li className="header__item">
-                    <Link href="/contact" className="header__link" onClick={closeMenu}>Contact</Link>
-                  </li>
+                  {navItems.map((item, i) => {
+                    const hasSubmenu = item.hasSubmenu && submenuItems.length > 0;
+                    const key = `nav-${i}`;
+                    return (
+                      <li
+                        key={key}
+                        className={`header__item${hasSubmenu ? " has-submenu" : ""}${hasSubmenu && openSubmenu === key ? " submenu-open" : ""}`}
+                      >
+                        <CmsLink
+                          href={href(item.href, DEFAULT_NAV[i]?.href)}
+                          isExternal={item.isExternal}
+                          className="header__link"
+                          onClick={hasSubmenu ? (e) => handleSubmenuClick(e, key) : closeMenu}
+                        >
+                          {item.label}
+                        </CmsLink>
+                        {hasSubmenu && (
+                          <ul className="header__submenu">
+                            {submenuItems.map((sub, j) => (
+                              <li className="header__submenu-item" key={`${key}-${j}`}>
+                                <CmsLink
+                                  href={href(sub.href)}
+                                  isExternal={sub.isExternal}
+                                  aria-label={sub.ariaLabel || undefined}
+                                  className="header__submenu-link"
+                                  onClick={closeMenu}
+                                >
+                                  {sub.label}
+                                </CmsLink>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
             <div className="header__col__right">
               <div className="header__btn-group">
-                <Link href="/contact" className="btn btn--primary work-buttons">
-                  <span>Start a conversation </span>
-                  <span className="arr"><i className="fa fa-long-arrow-right"></i></span>
-                </Link>
+                <CmsLink href={ctaHref} className="btn btn--primary work-buttons">
+                  <span>{ctaLabel}</span>
+                  <span className="arr">
+                    {text(nav.ctaArrowGlyph) || <i className="fa fa-long-arrow-right"></i>}
+                  </span>
+                </CmsLink>
               </div>
               <div className="header__toggle_btn">
                 <button className="toggle-btn" id="toggle-btn" onClick={toggleMenu} aria-expanded={isMenuOpen}>

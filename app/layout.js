@@ -2,14 +2,22 @@ import Script from 'next/script';
 import App from './App.js';
 import Header from '../components/Header/Header.jsx';
 import Footer from '../components/Footer/Footer.jsx';
+import { getGlobal } from '../lib/strapi';
+import { text } from '../lib/cms';
 import '../public/styles/style.css';
 import '../public/styles/responsive.css';
-export const metadata = {
-    title: 'ROI Mantra',
-    description: 'ROI Mantra website',
-};
 
-export default function RootLayout({ children }) {
+export async function generateMetadata() {
+    const seo = (await getGlobal())?.defaultSeo;
+    return {
+        title: text(seo?.metaTitle, 'ROI Mantra'),
+        description: text(seo?.metaDescription, 'ROI Mantra website'),
+    };
+}
+
+export default async function RootLayout({ children }) {
+    const global = await getGlobal();
+
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
@@ -23,10 +31,10 @@ export default function RootLayout({ children }) {
                 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
             </head>
             <body suppressHydrationWarning>
-                <App>
-                    <Header />
+                <App loader={global?.loader}>
+                    <Header navbar={global?.navbar} />
                     {children}
-                    <Footer />
+                    <Footer footer={global?.footer} />
                 </App>
                 <Script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" strategy="beforeInteractive" />
             </body>

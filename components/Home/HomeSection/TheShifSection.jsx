@@ -1,8 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { text, list } from "../../../lib/cms";
 
-export default function TheShift() {
+const DEFAULT_ROWS = [
+  { number: "01", verb: "They Google." },
+  { number: "02", verb: "Then ask ChatGPT." },
+  { number: "03", verb: "Scroll past an ad." },
+  { number: "04", verb: "Read a review." },
+  { number: "05", verb: "Watch a Reel." },
+  { number: "06", verb: "Decide." },
+];
+
+export default function TheShift({ data = {} }) {
   const sectionRef = useRef(null);
   const [progress, setProgress] = useState(0);
 
@@ -23,14 +33,9 @@ export default function TheShift() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const ROWS = [
-    { n: "01", verb: "They Google." },
-    { n: "02", verb: "Then ask ChatGPT." },
-    { n: "03", verb: "Scroll past an ad." },
-    { n: "04", verb: "Read a review." },
-    { n: "05", verb: "Watch a Reel." },
-    { n: "06", verb: "Decide." },
-  ];
+  const eyebrow = text(data.eyebrow, "⟶ The Shift");
+  const heading = text(data.heading, "Search isn't one box anymore.");
+  const ROWS = list(data.shiftRows, DEFAULT_ROWS).filter((r) => r && text(r.verb));
 
   const rowThresholds = ROWS.map((_, i) => 0.05 + (i / ROWS.length) * 0.7);
 
@@ -40,11 +45,11 @@ export default function TheShift() {
         <div className="srcn-container">
           <div className="heading">
             <div className="eyebrow Believe-subtitle">
-              ⟶ The Shift
+              {eyebrow}
             </div>
 
             <h2 className="common-top-heading">
-              Search isn&apos;t one box anymore.
+              {heading}
             </h2>
           </div>
 
@@ -55,14 +60,14 @@ export default function TheShift() {
 
                 return (
                   <div
-                    key={r.n}
+                    key={`${r.number}-${i}`}
                     className="the-shif-section-row"
                     style={{
                       opacity: shown ? 1 : 0.2,
                       transform: shown ? "translateY(0)" : "translateY(18px)",
                     }}
                   >
-                    <span className="the-shif-section-number">{r.n}</span>
+                    <span className="the-shif-section-number">{text(r.number, String(i + 1).padStart(2, "0"))}</span>
                     <span
                       className="the-shif-section-text"
                       style={{

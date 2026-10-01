@@ -1,7 +1,8 @@
 import React from "react";
+import { text } from "../../../lib/cms";
 
-export default function OutlinedMarquee() {
-  const phrase = "ORGANIC - PAID - AI - ";
+export default function OutlinedMarquee({ data = {} }) {
+  const phrase = text(data.marqueePhrase, "ORGANIC - PAID - AI - ");
   const repeated = phrase.repeat(15);
 
   return (

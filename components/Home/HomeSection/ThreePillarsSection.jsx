@@ -1,89 +1,82 @@
-export default function ThreePillarsSection() {
+import CmsLink from '../../common/CmsLink';
+import { text, list, href, mediaUrl } from '../../../lib/cms';
+
+const item = (label) => ({ label, href: '#' });
+
+const DEFAULT_PILLARS = [
+    {
+        number: '01',
+        tag: '01 / Organic Discovery',
+        title: 'Show up where buyers go looking.',
+        listItems: ['Search engines', 'Marketplaces', 'Reddit', 'Wikipedia', 'LinkedIn', 'App stores', 'Knowledge graphs'].map(item),
+    },
+    {
+        number: '02',
+        tag: '02 / Paid Discovery',
+        title: 'Meet intent at the right moment.',
+        listItems: [' Google', 'Meta', 'programmatic', 'YouTube', 'Snap', 'Retargeting', 'Every rupee tied to outcome'].map(item),
+    },
+    {
+        number: '03',
+        tag: '03 / AI Discovery',
+        title: 'Be the answer when buyers ask the machine.',
+        listItems: [' ChatGPT', 'Perplexity', 'Gemini', 'AI Overviews', 'Claude', 'Built to be cited'].map(item),
+    },
+];
+
+// Per-card colour classes from HomeCss.css; cards past the third reuse them.
+const CARD_CLASSES = ['three-pillars-one', 'three-pillars-pillar-two', 'three-pillars-pillar-three'];
+
+export default function ThreePillarsSection({ data = {} }) {
+    const pillars = list(data.pillars, DEFAULT_PILLARS).filter(Boolean);
+    // Without a CMS image the CSS default (/images/three-pillars-banner.jpg) applies.
+    const background = mediaUrl(data.backgroundImage);
+    const cardStyle = background ? { backgroundImage: `url("${background}")` } : undefined;
+
     return (
         <>
             <section id="capabilities" className="three-pillars-section-area">
-                <div className="three-pillars-stack-card three-pillars-one">
-                    <div className="srcn-container">
-                        <div className="pillar-container-warpper">
-                            <div className="three-pillars-row">
-                                <div className="three-pillars-number-box">
-                                    <div className="three-pillars-number">01</div>
-                                </div>
-                                <div className="three-pillars-content">
-                                    <div className="three-pillars-tag">01 / Organic Discovery</div>
-                                    <h3 className="three-pillars-title">Show up where buyers go looking.</h3>
-                                    <div className="three-pillars-body">
-                                        <ul className="three-pillars-list">
-                                            <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Search engines</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Marketplaces</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Reddit</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Wikipedia</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">LinkedIn</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">App stores</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Knowledge graphs</a></li>
-                                        </ul>
+                {pillars.map((pillar, i) => {
+                    const fallback = DEFAULT_PILLARS[i] || {};
+                    const items = list(pillar.listItems, fallback.listItems || []).filter((li) => li && text(li.label));
+                    return (
+                        <div
+                            key={`${pillar.number}-${i}`}
+                            className={`three-pillars-stack-card ${CARD_CLASSES[i % CARD_CLASSES.length]}`}
+                            style={cardStyle}
+                        >
+                            <div className="srcn-container">
+                                <div className="pillar-container-warpper">
+                                    <div className="three-pillars-row">
+                                        <div className="three-pillars-number-box">
+                                            <div className="three-pillars-number">{text(pillar.number, fallback.number || String(i + 1).padStart(2, '0'))}</div>
+                                        </div>
+                                        <div className="three-pillars-content">
+                                            <div className="three-pillars-tag">{text(pillar.tag, fallback.tag)}</div>
+                                            <h3 className="three-pillars-title">{text(pillar.title, fallback.title)}</h3>
+                                            <div className="three-pillars-body">
+                                                <ul className="three-pillars-list">
+                                                    {items.map((li, j) => (
+                                                        <li className="three-pillars-itme" key={`${li.label}-${j}`}>
+                                                            <CmsLink
+                                                                href={href(li.href)}
+                                                                isExternal={li.isExternal}
+                                                                aria-label={li.ariaLabel || undefined}
+                                                                className="three-pillars-link"
+                                                            >
+                                                                {li.label}
+                                                            </CmsLink>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="three-pillars-stack-card three-pillars-pillar-two">
-                    <div className="srcn-container">
-                        <div className="pillar-container-warpper">
-                            <div className="three-pillars-row">
-                                <div className="three-pillars-number-box">
-                                    <div className="three-pillars-number">02</div>
-                                </div>
-                                <div className="three-pillars-content">
-                                    <div className="three-pillars-tag">02 / Paid Discovery</div>
-                                    <h3 className="three-pillars-title">Meet intent at the right moment.</h3>
-                                    
-                                     <div className="three-pillars-body">
-                                        <ul className="three-pillars-list">
-                                            <li className="three-pillars-itme"><a href="#"  className="three-pillars-link"> Google</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Meta</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">programmatic</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">YouTube</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Snap</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Retargeting</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Every rupee tied to outcome</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="three-pillars-stack-card three-pillars-pillar-three">
-                    <div className="srcn-container">
-                        <div className="pillar-container-warpper">
-                            <div className="three-pillars-row">
-                                <div className="three-pillars-number-box">
-                                    <div className="three-pillars-number">03</div>
-                                </div>
-                                <div className="three-pillars-content">
-                                    <div className="three-pillars-tag">03 / AI Discovery</div>
-                                    <h3 className="three-pillars-title">Be the answer when buyers ask the machine.</h3>
-                                  
-                                    <div className="three-pillars-body">
-                                        <ul className="three-pillars-list">
-                                            <li className="three-pillars-itme"><a href="#"  className="three-pillars-link"> ChatGPT</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Perplexity</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Gemini</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">AI Overviews</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Claude</a></li>
-                                             <li className="three-pillars-itme"><a href="#"  className="three-pillars-link">Built to be cited</a></li>
-                                            
-                                        </ul>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    );
+                })}
             </section>
         </>
     );

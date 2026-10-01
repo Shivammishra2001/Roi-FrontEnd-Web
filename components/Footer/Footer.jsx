@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
+import { text } from '../../lib/cms';
 import './Footer.css';
-export default function Footer() {
+export default function Footer({ footer }) {
+    const logoText = text(footer?.footerLogoText, 'ROI MANTRA');
+    const copyright = text(footer?.copyrightText, 'Copyright 2026 ROI Mantra. | All Rights Reserved');
     return (
         <>
             <footer className="footer-section" style={{ zIndex: 0 }}>
@@ -9,7 +12,7 @@ export default function Footer() {
                     <div className="footer-wrapper-top-box">
                         <div className="footer-row-area">
                             <div className="footer-logo">
-                                <h2 className="footer-logo-tilte"> ROI MANTRA</h2>
+                                <h2 className="footer-logo-tilte"> {logoText}</h2>
                             </div>
                             {/* <div className="footer-main-menu-box">
                                 <div className="footer-main-menu-row">
@@ -105,9 +108,11 @@ export default function Footer() {
                     </div>
                     <div className="footer-bottom">
                         <div className="footer-bottom-left">
-                           Copyright 2026 ROI Mantra. | All Rights Reserved
+                           {copyright}
                         </div>
 
+                        {/* Kept static: the CMS `legalLinks` are still placeholders
+                            (Cookies Policy / Sitemap → "/#") with no matching pages. */}
                         <div className="footer-bottom-right">
                             <Link href="/privacy-policy">Privacy Policy</Link>
                             <span aria-hidden="true">•</span>

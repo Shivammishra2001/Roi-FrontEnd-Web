@@ -1,16 +1,26 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
+import CmsLink from "../../common/CmsLink";
+import { text, href, mediaUrl } from "../../../lib/cms";
 
-
-export default function TalkDiscoverySection() {
+export default function TalkDiscoverySection({ data = {} }) {
   const titleRef = useRef(null);
   const sectionRef = useRef(null);
 
-  useEffect(() => {
-    const title = "LET'S TALK DISCOVERY.";
+  const title = text(data.title, "LET'S TALK DISCOVERY.");
+  const bodyText = text(
+    data.bodyText,
+    "Where you're showing up. Where you're not. What's leaking. What the next twelve months should look like."
+  );
+  const ctaLabel = text(data.ctaLabel, "Start a conversation");
+  const ctaHref = href(data.ctaHref, "/contact");
+  const ctaArrow = text(data.ctaArrowGlyph, "↗");
+  const video = data.backgroundVideo || {};
+  const videoUrl = mediaUrl(video.url, "/video/animation.mp4");
+  const poster = text(video.poster) || undefined;
 
+  useEffect(() => {
     const titleBox = titleRef.current;
     const section = sectionRef.current;
 
@@ -25,7 +35,8 @@ export default function TalkDiscoverySection() {
       const letter = document.createElement("span");
       letter.className = "letter";
       letter.style.transitionDelay = `${index * 35}ms`;
-      letter.innerHTML = char === " " ? "&nbsp;" : char;
+      if (char === " ") letter.innerHTML = "&nbsp;";
+      else letter.textContent = char;
 
       wrap.appendChild(letter);
       titleBox.appendChild(wrap);
@@ -46,7 +57,7 @@ export default function TalkDiscoverySection() {
     observer.observe(section);
 
     return () => observer.disconnect();
-  }, []);
+  }, [title]);
 
   return (
     <section
@@ -55,8 +66,15 @@ export default function TalkDiscoverySection() {
       className="talk-discovery-section"
     >
       <div className="talk-discovery-bg-video" aria-hidden="true">
-        <video autoPlay muted loop playsInline>
-          <source src="/video/animation.mp4" type="video/mp4" />
+        <video
+          key={videoUrl}
+          autoPlay={video.autoplay ?? true}
+          muted={video.muted ?? true}
+          loop={video.loop ?? true}
+          playsInline
+          poster={poster}
+        >
+          <source src={videoUrl} type="video/mp4" />
         </video>
       </div>
 
@@ -65,20 +83,18 @@ export default function TalkDiscoverySection() {
           <h2
             className="talk-discovery-title"
             ref={titleRef}
+            aria-label={title}
           ></h2>
 
           <div className="talk-discovery-text">
-            <p>
-              Where you're showing up. Where you're not. What's leaking.
-              What the next twelve months should look like.
-            </p>
+            <p>{bodyText}</p>
           </div>
 
           <div className="talk-discovery-btn-wrap">
-            <Link href="/contact" className="talk-discovery-btn">
-              <span>Start a conversation</span>
-             <span className="arr">↗</span>
-            </Link>
+            <CmsLink href={ctaHref} className="talk-discovery-btn">
+              <span>{ctaLabel}</span>
+             <span className="arr">{ctaArrow}</span>
+            </CmsLink>
           </div>
         </div>
       </div>

@@ -2200,3 +2200,15 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
+/* Contact form: submit states */
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.form-error {
+    margin-top: 16px;
+    color: #d93025;
+    font-size: 14px;
+    line-height: 1.5;
+}
