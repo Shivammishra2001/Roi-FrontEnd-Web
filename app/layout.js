@@ -14,6 +14,8 @@ export async function generateMetadata() {
     return {
         title: defaultSeo?.metaTitle,
         description: defaultSeo?.metaDescription,
+        // Site-wide default; a page with its own Meta Keywords overrides it.
+        ...(defaultSeo?.keywords?.trim() ? { keywords: defaultSeo.keywords.trim() } : {}),
     };
 }
 

@@ -112,6 +112,7 @@ export function constructMetadata(seo: Seo | null): Metadata {
   return {
     title: seo.metaTitle,
     description: seo.metaDescription,
+    ...(seo.keywords?.trim() ? { keywords: seo.keywords.trim() } : {}),
     ...(seo.ogImage
       ? { openGraph: { images: [{ url: seo.ogImage.url, alt: seo.ogImage.alt }] } }
       : {}),

@@ -24,6 +24,8 @@ export interface Link {
 export interface Seo {
   metaTitle: string;
   metaDescription: string;
+  /** "Meta Keywords", comma-separated; rendered as <meta name="keywords">. */
+  keywords?: string | null;
   ogImage: Media | null;
 }
 
@@ -173,8 +175,6 @@ export interface BlogPost {
 
 export interface BlogPreviewSectionData {
   __component: 'sections.blog-preview';
-  /** "Show on Home Page" switch; the section is hidden unless true. */
-  showBlogSection?: boolean;
   eyebrow: string;
   heading: string;
   viewAllLabel: string;

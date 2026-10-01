@@ -15,10 +15,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return constructMetadata(data.seo);
 }
 
-// "Our Blog" (sections.blog-preview) shows only when "Show on Home Page" is
-// switched on in Strapi; false or missing = not rendered at all.
-const isVisible = (section: Section) =>
-  section.__component !== 'sections.blog-preview' || section.showBlogSection === true;
+// Each home section has a "Show on Page" switch in Strapi (isEnabled); a
+// section switched off is not rendered at all. Missing = shown.
+const isVisible = (section: Section) => (section as { isEnabled?: boolean }).isEnabled !== false;
 
 export default async function Home() {
   const data = await getPageBySlug('home');

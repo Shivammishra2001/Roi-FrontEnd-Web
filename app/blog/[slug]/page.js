@@ -19,6 +19,7 @@ export async function generateMetadata({ params }) {
   return {
     title: post.seo?.metaTitle || `${post.title}${settings.metaTitleSuffix || ''}`,
     description: post.seo?.metaDescription || post.excerpt || post.content?.replace(/<[^>]*>?/gm, '').slice(0, 160),
+    ...(post.seo?.keywords?.trim() ? { keywords: post.seo.keywords.trim() } : {}),
   };
 }
 
