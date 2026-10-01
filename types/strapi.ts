@@ -173,6 +173,8 @@ export interface BlogPost {
 
 export interface BlogPreviewSectionData {
   __component: 'sections.blog-preview';
+  /** "Show on Home Page" switch; the section is hidden unless true. */
+  showBlogSection?: boolean;
   eyebrow: string;
   heading: string;
   viewAllLabel: string;
