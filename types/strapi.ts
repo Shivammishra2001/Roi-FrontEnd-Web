@@ -317,6 +317,8 @@ export interface BlogPostDetail {
     id: string;
     title: string;
     slug: string;
+    /** "Show on Website" switch in Strapi; false = hidden. */
+    isActive?: boolean | null;
     date: string;
     category: string;
     categoryKey: string | null;
@@ -345,6 +347,8 @@ export interface CaseStudyDetail {
     id: string;
     title: string;
     slug: string;
+    /** "Show on Website" switch in Strapi; false = hidden. */
+    isActive?: boolean | null;
     subtitle: string | null;
     summary: string | null;
     seo: Seo | null;

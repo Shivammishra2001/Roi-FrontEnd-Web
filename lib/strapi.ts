@@ -51,7 +51,9 @@ export async function getPageBySlug(slug: string): Promise<PageData> {
 
 /** A published blog post + related posts, or null when the slug doesn't exist. */
 export async function getBlogPost(slug: string): Promise<BlogPostDetail | null> {
-  return strapiGet<BlogPostDetail>(`/api/blog-posts/slug/${encodeURIComponent(slug)}`, { allow404: true });
+  const detail = await strapiGet<BlogPostDetail>(`/api/blog-posts/slug/${encodeURIComponent(slug)}`, { allow404: true });
+  // "Show on Website" switched off: treated as not found (Strapi already 404s it; this is a second guard).
+  return detail?.post?.isActive === false ? null : detail;
 }
 
 /**
@@ -60,6 +62,7 @@ export async function getBlogPost(slug: string): Promise<BlogPostDetail | null> 
  */
 export async function getCaseStudies(): Promise<unknown[]> {
   const query = new URLSearchParams({
+    'filters[isActive][$eq]': 'true',
     'sort[0]': 'sortOrder:asc',
     'sort[1]': 'id:asc',
     'pagination[pageSize]': '100',
@@ -71,7 +74,9 @@ export async function getCaseStudies(): Promise<unknown[]> {
 
 /** A published case study + related case studies, or null when the slug doesn't exist. */
 export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null> {
-  return strapiGet<CaseStudyDetail>(`/api/case-studies/slug/${encodeURIComponent(slug)}`, { allow404: true });
+  const detail = await strapiGet<CaseStudyDetail>(`/api/case-studies/slug/${encodeURIComponent(slug)}`, { allow404: true });
+  // "Show on Website" switched off: treated as not found (Strapi already 404s it; this is a second guard).
+  return detail?.caseStudy?.isActive === false ? null : detail;
 }
 
 /**
