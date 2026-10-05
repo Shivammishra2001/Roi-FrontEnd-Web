@@ -1080,98 +1080,24 @@ span.button-arrow {
 
    
 
- .case-intro-form-control{
-    color: #04264e;
-    letter-spacing: 0;
-    background: #fff;
-    border: 1px solid #dededb;
-    border-radius: 10px;
-    outline: none;
-    width: 100%;
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    line-height: 120%;
-    transition: border-color .3s, box-shadow .3s, background .3s;
-    display: block;
-            height: 52px;
-    font-weight: 600 !important;
-    padding: 0 10px;
- }
- form#projectForm {
+.case-intro-form-wrapper {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: clamp(24px, 3vw, 32px);
     display: flex;
-    flex-direction: column;
-    gap: 0  !important;
-}
-
-.case-intro-form-wrapper{
-        background: #ffffffb2;
     flex-direction: column;
     gap: 2px;
-    display: flex;
-    padding: 17px;
-
-}
-.case-intro-form-group {
-    margin-bottom: 12px;
-}
-.case-intro-form-textarea {
-    height: auto;
-    min-height: 110px;
-    padding: 14px 10px;
-    resize: vertical;
-}
-.case-intro-form-control:focus {
-    border-color: #04264e;
-}
-.case-intro-form-wrapper .submit-btn:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-}
-/* Same typography as the Contact Us form (components/Contact/Contact.css). */
-.case-intro-form-wrapper .case-intro-form-control {
-    padding: 0 18px;
-}
-.case-intro-form-wrapper .case-intro-form-textarea {
-    padding: 18px;
-}
-.case-intro-form-control::placeholder {
-    color: #8a8a8a;
-    opacity: 1;
-}
-.case-intro-form-wrapper .submit-btn {
-    font-family: "Inter", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: normal;
-}
-@media (max-width: 767px) {
-    .case-intro-form-wrapper input.case-intro-form-control {
-        font-size: 15px;
-    }
-    .case-intro-form-wrapper .case-intro-form-textarea {
-        padding: 15px;
-    }
-    .case-intro-form-wrapper .submit-btn {
-        font-size: 13px;
-    }
 }
 @media (max-width: 480px) {
-    .case-intro-form-wrapper input.case-intro-form-control,
-    .case-intro-form-wrapper .case-intro-form-textarea {
-        font-size: 13px;
+    .case-intro-form-wrapper {
+        padding: 18px 14px;
+        border-radius: 16px;
     }
 }
 .case-intro-form-error {
     color: #c0392b;
     font-size: 14px;
-    text-align: center;
     margin: 0;
-}
-.case-intro-form-wrapper .submit-row {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
 }
 .intro-form-heading {
     color: #171717;

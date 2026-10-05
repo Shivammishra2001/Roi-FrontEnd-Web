@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatDate } from "../../../lib/format";
+import "../../../components/Contact/ContactFormFields.css";
 
 const EMPTY_FORM = { fullName: "", phone: "", email: "", message: "" };
 
@@ -103,51 +104,50 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                             Let’s Talk About Your Project
                                         </h3>
                                         <form
-                                            className="case-intro-form"
+                                            className="contact-form"
                                             id="projectForm"
                                             onSubmit={handleSubmit}
                                         >
-                                            <div className="case-intro-form-group">
+                                            <div className="form-group">
                                                 <input
                                                     type="text"
                                                     name="fullName"
-                                                    className="case-intro-form-control"
+                                                    className="form-control"
                                                     placeholder="Full Name"
                                                     value={formData.fullName}
                                                     onChange={handleChange}
                                                     required
                                                 />
                                             </div>
-                                            <div className="case-intro-form-group">
+                                            <div className="form-group">
                                                 <input
                                                     type="tel"
                                                     name="phone"
-                                                    className="case-intro-form-control"
-                                                    placeholder="Phone Number"
+                                                    className="form-control"
+                                                    placeholder="Phone"
                                                     value={formData.phone}
                                                     onChange={handleChange}
                                                     required
                                                 />
                                             </div>
-                                            <div className="case-intro-form-group">
+                                            <div className="form-group">
                                                 <input
                                                     type="email"
                                                     name="email"
-                                                    className="case-intro-form-control"
+                                                    className="form-control"
                                                     placeholder="Email"
                                                     value={formData.email}
                                                     onChange={handleChange}
                                                     required
                                                 />
                                             </div>
-                                            <div className="case-intro-form-group">
+                                            <div className="form-group">
                                                 <textarea
                                                     name="message"
-                                                    className="case-intro-form-control case-intro-form-textarea"
+                                                    className="form-textarea"
                                                     placeholder="Tell us about your product and goals."
                                                     value={formData.message}
                                                     onChange={handleChange}
-                                                    rows={4}
                                                     required
                                                 ></textarea>
                                             </div>
@@ -155,7 +155,7 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                             <div className="submit-row">
                                                 <button
                                                     type="submit"
-                                                    className="submit-btn work-button"
+                                                    className="submit-btn"
                                                     disabled={submitting}
                                                 >
                                                     <span className="submit-text">
