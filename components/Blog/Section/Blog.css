@@ -1112,6 +1112,22 @@ span.button-arrow {
     padding: 17px;
 
 }
+.case-intro-form-group {
+    margin-bottom: 12px;
+}
+.case-intro-form-control:focus {
+    border-color: #04264e;
+}
+.case-intro-form-wrapper .submit-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+.case-intro-form-error {
+    color: #c0392b;
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+}
 .case-intro-form-wrapper .submit-row {
     display: flex;
     justify-content: center;
