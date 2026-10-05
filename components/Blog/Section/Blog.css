@@ -1128,6 +1128,40 @@ span.button-arrow {
     opacity: .6;
     cursor: not-allowed;
 }
+/* Same typography as the Contact Us form (components/Contact/Contact.css). */
+.case-intro-form-wrapper .case-intro-form-control {
+    padding: 0 18px;
+}
+.case-intro-form-wrapper .case-intro-form-textarea {
+    padding: 18px;
+}
+.case-intro-form-control::placeholder {
+    color: #8a8a8a;
+    opacity: 1;
+}
+.case-intro-form-wrapper .submit-btn {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+}
+@media (max-width: 767px) {
+    .case-intro-form-wrapper input.case-intro-form-control {
+        font-size: 15px;
+    }
+    .case-intro-form-wrapper .case-intro-form-textarea {
+        padding: 15px;
+    }
+    .case-intro-form-wrapper .submit-btn {
+        font-size: 13px;
+    }
+}
+@media (max-width: 480px) {
+    .case-intro-form-wrapper input.case-intro-form-control,
+    .case-intro-form-wrapper .case-intro-form-textarea {
+        font-size: 13px;
+    }
+}
 .case-intro-form-error {
     color: #c0392b;
     font-size: 14px;
