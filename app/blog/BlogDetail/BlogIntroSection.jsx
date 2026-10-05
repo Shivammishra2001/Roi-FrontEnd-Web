@@ -111,7 +111,7 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                                 <input
                                                     type="text"
                                                     name="fullName"
-                                                    className="case-intro-form-control"
+                                                    className="form-control"
                                                     placeholder="Full Name"
                                                     value={formData.fullName}
                                                     onChange={handleChange}
@@ -122,8 +122,8 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                                 <input
                                                     type="tel"
                                                     name="phone"
-                                                    className="case-intro-form-control"
-                                                    placeholder="Phone"
+                                                    className="form-control"
+                                                    placeholder="Phone Number"
                                                     value={formData.phone}
                                                     onChange={handleChange}
                                                     required
@@ -133,8 +133,8 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                                 <input
                                                     type="email"
                                                     name="email"
-                                                    className="case-intro-form-control"
-                                                    placeholder="Email"
+                                                    className="form-control"
+                                                    placeholder="Email Address"
                                                     value={formData.email}
                                                     onChange={handleChange}
                                                     required
