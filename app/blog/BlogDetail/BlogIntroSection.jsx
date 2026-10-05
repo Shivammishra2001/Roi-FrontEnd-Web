@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatDate } from "../../../lib/format";
 
-const EMPTY_FORM = { fullName: "", phone: "", email: "" };
+const EMPTY_FORM = { fullName: "", phone: "", email: "", message: "" };
 
 const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
     const router = useRouter();
@@ -16,8 +16,8 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Same endpoint as the Contact page form. Strapi requires a message, and
-    // this form has no message box, so it records which post it came from.
+    // Same endpoint as the Contact page form. The message also records which
+    // post the enquiry came from.
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (submitting) return;
@@ -34,7 +34,9 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                         fullName: formData.fullName,
                         phone: formData.phone,
                         email: formData.email,
-                        message: `Enquiry from blog post: ${currentBlog?.title || ""} (${window.location.href})`,
+                        message: `${formData.message.trim()}
+
+— Sent from blog post: ${currentBlog?.title || ""} (${window.location.href})`,
                     },
                 }),
             });
@@ -137,6 +139,17 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                                     onChange={handleChange}
                                                     required
                                                 />
+                                            </div>
+                                            <div className="case-intro-form-group">
+                                                <textarea
+                                                    name="message"
+                                                    className="case-intro-form-control case-intro-form-textarea"
+                                                    placeholder="Tell us about your product and goals."
+                                                    value={formData.message}
+                                                    onChange={handleChange}
+                                                    rows={4}
+                                                    required
+                                                ></textarea>
                                             </div>
 
                                             <div className="submit-row">

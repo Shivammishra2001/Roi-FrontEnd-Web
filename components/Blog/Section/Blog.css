@@ -1115,6 +1115,12 @@ span.button-arrow {
 .case-intro-form-group {
     margin-bottom: 12px;
 }
+.case-intro-form-textarea {
+    height: auto;
+    min-height: 110px;
+    padding: 14px 10px;
+    resize: vertical;
+}
 .case-intro-form-control:focus {
     border-color: #04264e;
 }
