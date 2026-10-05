@@ -79,14 +79,21 @@ export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null
  * `/terms-and-conditions`): the page's title and SEO plus the fields of its
  * "Legal Content" section, in one flat object. Unlike the other fetchers this
  * never throws: the legal pages must always render, so on any failure (or a
- * missing page / section) it logs and returns null, and the page shows its
- * built-in copy (lib/legal.js).
+ * missing section) it logs and returns null, and the page shows its
+ * built-in copy (lib/legal.js). The one exception is a page Strapi has no
+ * published version of (unpublished / still a draft): that returns
+ * LEGAL_NOT_PUBLISHED, and the route renders a 404 instead.
  */
-export async function getLegalPage(slug: 'privacy-policy' | 'terms-and-conditions'): Promise<Record<string, unknown> | null> {
+export const LEGAL_NOT_PUBLISHED = 'not-published';
+
+export async function getLegalPage(
+  slug: 'privacy-policy' | 'terms-and-conditions'
+): Promise<Record<string, unknown> | typeof LEGAL_NOT_PUBLISHED | null> {
   try {
     const page = await strapiGet<PageData>(`/api/pages/slug/${slug}`, { allow404: true });
-    const legal = page?.sections?.find((s) => s.__component === 'sections.legal-content');
-    if (!page || !legal) return null;
+    if (page === null) return LEGAL_NOT_PUBLISHED;
+    const legal = page.sections?.find((s) => s.__component === 'sections.legal-content');
+    if (!legal) return null;
     const { __component, ...fields } = legal as Record<string, unknown>;
     return { ...fields, title: page.title, seo: page.seo };
   } catch (err) {
