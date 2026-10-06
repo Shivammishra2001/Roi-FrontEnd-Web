@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="16 -3 38 32">
+  <!-- Cropped from the ring mark in logo-img.svg/logo-roi.svg (the "O" in ROI) —
+       the wordmark logos have no square icon variant, so this isolates the one
+       existing brand element that works as a favicon, rather than inventing a new mark. -->
+  <path d="M31.8312 2.4873H38.795C44.0138 2.48756 48.2441 6.71773 48.2443 11.9365C48.2443 17.1554 44.0139 21.3865 38.795 21.3867H31.8312C26.6122 21.3866 22.382 17.1555 22.382 11.9365C22.3821 6.71767 26.6123 2.48745 31.8312 2.4873Z" fill="none" stroke="#F5C24B" stroke-width="4.97366"/>
+</svg>
