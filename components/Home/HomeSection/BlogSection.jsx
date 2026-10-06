@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { formatDate } from "../../../lib/format";
+import { formatDate, blogCategoryName } from "../../../lib/format";
 
 export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHref, viewAllArrowGlyph, posts = [] }) {
     const sectionRef = useRef(null);
@@ -67,7 +67,7 @@ export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHre
                                 <div className="blog-card-content">
                                     <div className="blog-card-meta">
                                         <span className="blog-card-date">{formatDate(blog.date)}</span>
-                                        <span className="blog-card-category">{blog.category}</span>
+                                        <span className="blog-card-category">{blogCategoryName(blog)}</span>
                                     </div>
                                     <h3 className="blog-card-title">{blog.title}</h3>
                                 </div>

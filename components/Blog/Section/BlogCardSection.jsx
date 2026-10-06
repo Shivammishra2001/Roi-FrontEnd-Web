@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { blogCategoryName } from "../../../lib/format";
 
 
 export default function BlogCardSection({
@@ -69,7 +70,7 @@ export default function BlogCardSection({
                       <div className="work-content">
                         <div className="work-meta">
                           <div className="card-sector-subitel">
-                            {blog.sector || blog.category}
+                            {blog.sector || blogCategoryName(blog)}
                           </div>
                         </div>
                         <div className="blog-contnet-area">

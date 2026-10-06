@@ -159,13 +159,21 @@ export interface MarqueeBandSectionData {
   marqueePhrase: string;
 }
 
+/** A Blog Category picked in Strapi (blog-post `blog_category` relation). */
+export interface BlogCategory {
+  name: string;
+  slug: string | null;
+}
+
 export interface BlogPost {
   id: string;
   title: string;
   slug: string;
   /** ISO date (YYYY-MM-DD); format with lib/format.js. */
   date: string;
+  /** Old free-text category; fallback when blog_category is null. */
   category: string;
+  blog_category?: BlogCategory | null;
   categoryKey: string | null;
   sector: string | null;
   excerpt: string | null;
@@ -321,6 +329,7 @@ export interface BlogPostDetail {
     isActive?: boolean | null;
     date: string;
     category: string;
+    blog_category?: BlogCategory | null;
     categoryKey: string | null;
     sector: string | null;
     excerpt: string | null;

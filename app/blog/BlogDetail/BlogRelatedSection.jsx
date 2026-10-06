@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { blogCategoryName } from "../../../lib/format";
 import Swiper from "swiper";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -108,7 +109,7 @@ const BlogRelatedSection = ({ relatedBlogs = [], kicker, title, buttonLabel }) =
                                         </Link>
                                         <div className="case-content">
                                             <span className="case-category">
-                                                {item.category || item.sector}
+                                                {blogCategoryName(item, item.sector || "MARKETING")}
                                             </span>
                                             <h3>
                                                 <Link href={`/blog/${item.slug}`}>

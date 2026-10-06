@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { formatDate } from "../../../lib/format";
+import { formatDate, blogCategoryName } from "../../../lib/format";
 
 const EMPTY_FORM = { fullName: "", phone: "", email: "", message: "" };
 
@@ -90,7 +90,7 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
 
                                     <div className="case-side-contnet-area">
                                         <span>{categoryLabel}</span>
-                                        <h5>{currentBlog?.category}</h5>
+                                        <h5>{blogCategoryName(currentBlog)}</h5>
                                     </div>
                                 </div>
                             </div>

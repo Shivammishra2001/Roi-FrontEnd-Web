@@ -1,4 +1,5 @@
 "use client";
+import { blogCategoryName } from "../../../lib/format";
 
 const BlogDetailHeroSection = ({ currentBlog, backgroundVideo }) => {
     const blog = currentBlog;
@@ -26,7 +27,7 @@ const BlogDetailHeroSection = ({ currentBlog, backgroundVideo }) => {
             <div className="container">
                 <div className="case-contnet-area blog-hero-contnet-area">
                     <div className="case-label hero-small-subtitle contact-hero-badge">
-                        {blog?.category}
+                        {blogCategoryName(blog)}
                     </div>
                     <h1 className="case-hero-title contact-hero-title">
                         {blog?.title}
