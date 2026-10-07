@@ -38,11 +38,13 @@ export default function ContactSection({
     budget: "",
     help: "",
     message: "",
+    website: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(false);
+  const [submitErrorText, setSubmitErrorText] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,28 +61,31 @@ export default function ContactSection({
 
     setSubmitting(true);
     setSubmitError(false);
+    setSubmitErrorText("");
 
     try {
-      // Field names match Strapi's contact-submission schema; "help" is
-      // stored in its `service` field. Same-origin path: Nginx sends /api to
-      // Strapi on every host the site is served from (roimantra.com over
-      // HTTPS, the server IP), so the browser never makes a cross-origin or
-      // insecure (http on an https page) request that it would block.
-      const res = await fetch("/api/contact-submissions", {
+      // app/contact/submit/route.js saves the lead in Strapi and emails it.
+      // Same-origin path, so the browser never blocks it (https page).
+      const res = await fetch("/contact/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          data: {
-            fullName: formData.fullName,
-            phone: formData.phone,
-            budget: formData.budget,
-            service: formData.help,
-            message: formData.message,
-          },
+          name: formData.fullName,
+          phone: formData.phone,
+          budget: formData.budget,
+          service: formData.help,
+          message: formData.message,
+          source: window.location.href,
+          website: formData.website,
         }),
       });
 
-      if (!res.ok) throw new Error(`Submission failed with status ${res.status}`);
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        // Show the server's reason for a rejected form (e.g. invalid phone).
+        setSubmitErrorText(Object.values(body?.errors || {})[0] || "");
+        throw new Error(`Submission failed with status ${res.status}`);
+      }
     } catch (err) {
       setSubmitError(true);
       return;
@@ -96,6 +101,7 @@ export default function ContactSection({
       budget: "",
       help: "",
       message: "",
+      website: "",
     });
 
     router.push("/thank-you");
@@ -222,6 +228,10 @@ export default function ContactSection({
                 id="projectForm"
                 onSubmit={handleSubmit}
               >
+                {/* Spam trap: hidden from people, filled in by bots (see app/contact/submit/route.js). */}
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"
+                  value={formData.website} onChange={handleChange}
+                  style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }} />
 
                 {/* FULL NAME */}
                 <div className="form-group">
@@ -359,7 +369,7 @@ export default function ContactSection({
 
                 {submitError && (
                   <div className="form-success" role="alert">
-                    {errorMessage}
+                    {submitErrorText || errorMessage}
                   </div>
                 )}
 

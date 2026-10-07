@@ -3,46 +3,51 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatDate, blogCategoryName } from "../../../lib/format";
 
-const EMPTY_FORM = { fullName: "", phone: "", email: "", message: "" };
+const EMPTY_FORM = { fullName: "", phone: "", email: "", message: "", website: "" };
 
 const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
     const router = useRouter();
     const [formData, setFormData] = useState(EMPTY_FORM);
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(false);
+    const [submitErrorText, setSubmitErrorText] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Same endpoint as the Contact page form. The message also records which
-    // post the enquiry came from.
+    // Same endpoint as the Contact page form; `source` records which post the
+    // enquiry came from.
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (submitting) return;
 
         setSubmitting(true);
         setSubmitError(false);
+        setSubmitErrorText("");
 
         try {
-            // Same-origin path, like the Contact page form (see ContactFromSection.jsx).
-            const res = await fetch("/api/contact-submissions", {
+            // app/contact/submit/route.js saves the lead in Strapi and emails it
+            // (same-origin path, like the Contact page form).
+            const res = await fetch("/contact/submit", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    data: {
-                        fullName: formData.fullName,
-                        phone: formData.phone,
-                        email: formData.email,
-                        message: `${formData.message.trim()}
-
-— Sent from blog post: ${currentBlog?.title || ""} (${window.location.href})`,
-                    },
+                    name: formData.fullName,
+                    phone: formData.phone,
+                    email: formData.email,
+                    message: formData.message,
+                    source: `Blog post: ${currentBlog?.title || ""} (${window.location.href})`,
+                    website: formData.website,
                 }),
             });
 
-            if (!res.ok) throw new Error(`Submission failed with status ${res.status}`);
+            if (!res.ok) {
+                const body = await res.json().catch(() => null);
+                setSubmitErrorText(Object.values(body?.errors || {})[0] || "");
+                throw new Error(`Submission failed with status ${res.status}`);
+            }
         } catch (err) {
             setSubmitError(true);
             setSubmitting(false);
@@ -108,6 +113,10 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                             id="projectForm"
                                             onSubmit={handleSubmit}
                                         >
+                                            {/* Spam trap: hidden from people, filled in by bots (see app/contact/submit/route.js). */}
+                                            <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"
+                                              value={formData.website} onChange={handleChange}
+                                              style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }} />
                                             <div className="case-intro-form-group">
                                                 <input
                                                     type="text"
@@ -171,7 +180,7 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
 
                                             {submitError && (
                                                 <p className="case-intro-form-error" role="alert">
-                                                    Something went wrong. Please try again.
+                                                    {submitErrorText || "Something went wrong. Please try again."}
                                                 </p>
                                             )}
                                         </form>
