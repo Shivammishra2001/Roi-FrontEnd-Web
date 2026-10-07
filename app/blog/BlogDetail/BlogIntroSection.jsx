@@ -26,7 +26,8 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
         setSubmitError(false);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL || ""}/api/contact-submissions`, {
+            // Same-origin path, like the Contact page form (see ContactFromSection.jsx).
+            const res = await fetch("/api/contact-submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

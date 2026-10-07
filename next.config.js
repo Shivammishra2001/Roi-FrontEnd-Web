@@ -18,7 +18,13 @@ const nextConfig = {
     // its own source images server-side).
     async rewrites() {
         const strapiUrl = (process.env.STRAPI_URL || 'http://localhost:1338').replace(/\/$/, '');
-        return [{ source: '/uploads/:path*', destination: `${strapiUrl}/uploads/:path*` }];
+        return [
+            { source: '/uploads/:path*', destination: `${strapiUrl}/uploads/:path*` },
+            // The contact forms post to /api/contact-submissions on the site itself.
+            // In production Nginx routes /api to Strapi before Next.js sees it; this
+            // does the same when Next.js is reached directly (local dev).
+            { source: '/api/:path*', destination: `${strapiUrl}/api/:path*` },
+        ];
     },
     // Case study URLs that changed in the redesign.
     async redirects() {

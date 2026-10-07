@@ -62,8 +62,11 @@ export default function ContactSection({
 
     try {
       // Field names match Strapi's contact-submission schema; "help" is
-      // stored in its `service` field.
-      const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL || ""}/api/contact-submissions`, {
+      // stored in its `service` field. Same-origin path: Nginx sends /api to
+      // Strapi on every host the site is served from (roimantra.com over
+      // HTTPS, the server IP), so the browser never makes a cross-origin or
+      // insecure (http on an https page) request that it would block.
+      const res = await fetch("/api/contact-submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
