@@ -53,7 +53,6 @@ export default function ThankYou() {
 
                         <h1 className="thankyou-title ">
                             <span>Thank You!</span>
-                            <span class="title-subtitle">We'll Be in Touch.</span>
                         </h1>
 
                         <div className="thankyou-check-circle" aria-label="Success checkmark">
