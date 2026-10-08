@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { rawLandDeg } from './globeLandData';
+import { cleanText } from '../../../lib/format';
 
 if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -321,45 +322,50 @@ export default function ContactMapSection({ titlePrefix, titleAccent, cities = [
                                         <span><span className="arr"><i className="fa fa-long-arrow-right"></i></span> {region.title}</span>
                                     </h3>
                                     <div className="office-region-card">
-                                        {(region.offices || []).map((office, officeIndex) => (
-                                            <div className="office-item" key={officeIndex}>
-                                                <h4 className={`office-city${office.highlighted ? ' selected' : ''}`}>
-                                                    {office.city}
-                                                </h4>
-                                                {office.address && (
-                                                    <div className="office-detail">
-                                                        {office.iconVariant === 'location-svg' ? (
-                                                            <span className="office-icon">
-                                                                <img src="/images/location.svg" alt="" />
+                                        {(region.offices || []).map((office, officeIndex) => {
+                                            // Optional contact fields: a blank one hides its whole row, icon included.
+                                            const address = cleanText(office.address);
+                                            const email = cleanText(office.email ?? office.mail);
+                                            return (
+                                                <div className="office-item" key={officeIndex}>
+                                                    <h4 className={`office-city${office.highlighted ? ' selected' : ''}`}>
+                                                        {office.city}
+                                                    </h4>
+                                                    {address && (
+                                                        <div className="office-detail">
+                                                            {office.iconVariant === 'location-svg' ? (
+                                                                <span className="office-icon">
+                                                                    <img src="/images/location.svg" alt="" />
+                                                                </span>
+                                                            ) : (
+                                                                <span className="mail-icon">
+                                                                    <img
+                                                                        src="/images/location-icon.png"
+                                                                        alt=""
+                                                                    />
+                                                                </span>
+                                                            )}
+                                                            <span>
+                                                                {address}
                                                             </span>
-                                                        ) : (
+                                                        </div>
+                                                    )}
+                                                    {email && (
+                                                        <div className="office-detail">
                                                             <span className="mail-icon">
                                                                 <img
-                                                                    src="/images/location-icon.png"
+                                                                    src="/images/sms-icon.png"
                                                                     alt=""
                                                                 />
                                                             </span>
-                                                        )}
-                                                        <span>
-                                                            {office.address}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                {office.email && (
-                                                    <div className="office-detail">
-                                                        <span className="mail-icon">
-                                                            <img
-                                                                src="/images/sms-icon.png"
-                                                                alt=""
-                                                            />
-                                                        </span>
-                                                        <a href={`mailto:${office.email}`}>
-                                                          {office.email}
-                                                        </a>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
+                                                            <a href={`mailto:${email}`}>
+                                                              {email}
+                                                            </a>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             ))}

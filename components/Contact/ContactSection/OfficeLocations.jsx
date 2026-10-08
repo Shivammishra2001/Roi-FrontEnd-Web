@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { cleanText } from "../../../lib/format";
 
 export default function OfficeLocations({ badge, title, backgroundVideo, fallbackImage, directionLabel, offices = [] }) {
     const officeData = offices;
     const [activeIndex, setActiveIndex] = useState(0);
     const activeOffice = officeData[activeIndex] || officeData[0];
+
+    // Optional contact fields: a blank one hides its whole row, icon included.
+    const address = cleanText(activeOffice?.address);
+    const email = cleanText(activeOffice?.email ?? activeOffice?.mail);
+    const directionUrl = cleanText(activeOffice?.directionUrl);
+    const imageUrl = cleanText(activeOffice?.image?.url || fallbackImage?.url);
 
     useEffect(() => {
         if (officeData.length < 2) return undefined;
@@ -48,14 +55,16 @@ export default function OfficeLocations({ badge, title, backgroundVideo, fallbac
                             key={activeOffice.city}
                             className="office-image-card owl-item animated owl-animated-in"
                         >
-                            <img
-                                src={activeOffice.image?.url || fallbackImage?.url}
-                                alt={activeOffice.city}
-                                onError={(event) => {
-                                    event.currentTarget.onerror = null;
-                                    if (fallbackImage?.url) event.currentTarget.src = fallbackImage.url;
-                                }}
-                            />
+                            {imageUrl && (
+                                <img
+                                    src={imageUrl}
+                                    alt={activeOffice.city}
+                                    onError={(event) => {
+                                        event.currentTarget.onerror = null;
+                                        if (fallbackImage?.url) event.currentTarget.src = fallbackImage.url;
+                                    }}
+                                />
+                            )}
                         </div>
                     </div>
                     <div
@@ -63,36 +72,42 @@ export default function OfficeLocations({ badge, title, backgroundVideo, fallbac
                         className="office-info owl-item animated owl-animated-in"
                     >
                         <h3 className="office-city-title">{activeOffice.city}</h3>
-                        <p className="office-address">
-                            <span className="mail-icon">
-                                <img
-                                    src="/images/location-icon.png"
-                                    alt=""
-                                />
-                            </span>
-                            <span>{activeOffice.address}</span>
-                        </p>
-                        <a
-                            href={`mailto:${activeOffice.email}`}
-                            className="office-mail"
-                        >
-                            <span className="mail-icon">
-                                <img
-                                    src="/images/sms-icon.png"
-                                    alt=""
-                                />
-                            </span>
-                            <span>{activeOffice.email}</span>
-                        </a>
-                        <a
-                            href={activeOffice.directionUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="office-direction"
-                        >
-                            {directionLabel}
-                            <span className="arr" aria-hidden="true">↗</span>
-                        </a>
+                        {address && (
+                            <p className="office-address">
+                                <span className="mail-icon">
+                                    <img
+                                        src="/images/location-icon.png"
+                                        alt=""
+                                    />
+                                </span>
+                                <span>{address}</span>
+                            </p>
+                        )}
+                        {email && (
+                            <a
+                                href={`mailto:${email}`}
+                                className="office-mail"
+                            >
+                                <span className="mail-icon">
+                                    <img
+                                        src="/images/sms-icon.png"
+                                        alt=""
+                                    />
+                                </span>
+                                <span>{email}</span>
+                            </a>
+                        )}
+                        {directionUrl && (
+                            <a
+                                href={directionUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="office-direction"
+                            >
+                                {directionLabel}
+                                <span className="arr" aria-hidden="true">↗</span>
+                            </a>
+                        )}
                     </div>
                     </>)}
                 </div>

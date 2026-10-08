@@ -1050,7 +1050,7 @@
   align-items: center;
   gap: 14px;
   width: fit-content;
-  margin: 0 0 34px 0;
+  margin: 0 0 16px 0;
   color: #ffffff;
   text-decoration: none;
   font-family: "Inter", sans-serif;
@@ -1090,6 +1090,9 @@
   align-items: center;
   gap: 10px;
   width: max-content;
+  /* The gap above the button lives here, not on the row before it, so it
+     stays the same when an office has no email (or no address) row. */
+  margin-top: 18px;
   padding: 13px 30px;
   font-family: Inter, system-ui, sans-serif;
   font-size: 16px;
@@ -1310,10 +1313,10 @@
 
   .office-mail {
     font-size: 14px;
-    margin-bottom: 25px;
   }
 
   .office-direction {
+    margin-top: 9px;
     width: 125px;
     height: 50px;
     font-size: 15px;
