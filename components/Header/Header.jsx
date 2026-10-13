@@ -38,30 +38,9 @@ function Header({ navbar }) {
     }
   };
 
-  const baseNavItems = navbar?.primaryNavItems || [];
-  const hasDiscovery = baseNavItems.some(
-    (item) => item.href === "/discovery" || item.href === "/organic-discovery" || item.label?.toLowerCase()?.includes("discovery")
-  );
-
-  let navItems = [...baseNavItems];
-  if (!hasDiscovery) {
-    const caseStudiesIdx = navItems.findIndex((item) => item.href === "/case-studies");
-    if (caseStudiesIdx !== -1) {
-      navItems.splice(caseStudiesIdx + 1, 0, {
-        label: "Discovery",
-        href: "/discovery",
-        isExternal: false,
-        hasSubmenu: false,
-      });
-    } else {
-      navItems.unshift({
-        label: "Discovery",
-        href: "/discovery",
-        isExternal: false,
-        hasSubmenu: false,
-      });
-    }
-  }
+  // Menu links come from Strapi (Header & Footer -> Header -> Menu Links),
+  // in the order set there; "Discovery" is seeded by `npm run seed:discovery`.
+  const navItems = navbar?.primaryNavItems || [];
 
   const submenuItems = navbar?.theThinkingSubmenuItems || [];
   const logo = scrolled ? navbar?.logoScrolled : navbar?.logoDefault;
