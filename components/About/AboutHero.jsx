@@ -1,4 +1,4 @@
-import './AboutSection/About.css';
+import '@/public/styles/About.css';
 
 export default function AboutHero({ eyebrow, title, subtitle }) {
   return (

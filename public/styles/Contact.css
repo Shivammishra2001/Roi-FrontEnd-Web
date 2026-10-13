@@ -1045,12 +1045,17 @@
   margin: 0 0 16px 0;
 }
 
+/* No email row (office without an email): keep the mail row's gap above the button. */
+.office-address--last {
+  margin-bottom: 34px;
+}
+
 .office-mail {
   display: flex;
   align-items: center;
   gap: 14px;
   width: fit-content;
-  margin: 0 0 16px 0;
+  margin: 0 0 34px 0;
   color: #ffffff;
   text-decoration: none;
   font-family: "Inter", sans-serif;
@@ -1090,9 +1095,6 @@
   align-items: center;
   gap: 10px;
   width: max-content;
-  /* The gap above the button lives here, not on the row before it, so it
-     stays the same when an office has no email (or no address) row. */
-  margin-top: 18px;
   padding: 13px 30px;
   font-family: Inter, system-ui, sans-serif;
   font-size: 16px;
@@ -1140,14 +1142,13 @@
 }
 
 .office-city-list {
-  width: 92%;
-  height: 100%;
-
-  margin: auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+     width: 92%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 57px;
 }
 
 .office-city-btn {
@@ -1313,10 +1314,14 @@
 
   .office-mail {
     font-size: 14px;
+    margin-bottom: 25px;
+  }
+
+  .office-address--last {
+    margin-bottom: 25px;
   }
 
   .office-direction {
-    margin-top: 9px;
     width: 125px;
     height: 50px;
     font-size: 15px;
@@ -1411,6 +1416,48 @@
   flex-direction: column;
   gap: 18px;
   margin-top: 26px;
+}
+
+.contact-social {
+  margin-top: 34px;
+}
+
+.contact-social-title {
+  margin: 0 0 16px;
+  color: #555555;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.contact-social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.contact-social-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111111;
+  font-size: 20px;
+cursor: pointer;
+ transition: all 0.3s ease;
+}
+.contact-social-icon:hover {
+  background-color: #f5c24b;
+  border-color: #f5c24b;
+  color: #111;
+}
+.contact-social-x {
+  font-size: 22px;
+  line-height: 1;
 }
 
 .contact-info-card {

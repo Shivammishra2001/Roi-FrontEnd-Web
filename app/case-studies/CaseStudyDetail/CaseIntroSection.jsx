@@ -38,7 +38,7 @@ const CaseIntroSection = ({ currentCase }) => {
                 <div className="container">
                     <div className="case-intro-grid">
                         {/* Sidebar */}
-                        <aside className="case-side-nav-lift">
+                        <aside className="case-side-nav-lift case-intro-form-wrapper">
                             <div className="case-side-nav-area">
                                 <a
                                     href="#problem"

@@ -103,11 +103,15 @@ body {
 }
 
 .header__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
     color: #fff;
     font-size: 15px;
     font-weight: 400;
     text-decoration: none;
-    transition: all .3s;
+    padding: 6px 0;
+    transition: color .3s ease;
 }
 
 .work-buttons .arr{
@@ -115,26 +119,45 @@ body {
     line-height: 1;
     rotate: 308deg;
 }
-/* .header__link::after {
+
+/* ================= Header Link Underline Line Animation ================= */
+.header__link::after {
     content: "";
     position: absolute;
     left: 0;
-    right: 100%;
-    bottom: -4px;
-    height: 1.5px;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
     background: currentColor;
-    transition: right 360ms cubic-bezier(.2, .7, .2, 1);
+    transition: width 320ms cubic-bezier(.2, .7, .2, 1);
+    pointer-events: none;
 }
 
-.header__link:hover::after {
-    right: 0;
-} */
+.header__link:hover::after,
+.header__item.active > .header__link::after,
+.header__link.active::after {
+    width: 100%;
+}
+
+.header__item.active > .header__link,
+.header__link.active {
+    color: #f4b400;
+}
+
+.header__link:hover {
+    color: #f4b400;
+}
 
 .navbar-scrolled .header__link {
     color: #111;
 }
 
 .navbar-scrolled .header__link:hover {
+    color: #f4b400;
+}
+
+.navbar-scrolled .header__item.active > .header__link,
+.navbar-scrolled .header__link.active {
     color: #f4b400;
 }
 
@@ -304,9 +327,21 @@ body {
     .header__link {
         display: block;
         width: 100%;
-        padding: 16px;
+        padding: 16px 20px;
         color: #111;
         border-bottom: 1px solid #eee;
+    }
+
+    .header__link::after {
+        display: none !important;
+    }
+
+    .header__item.active > .header__link,
+    .header__link.active {
+        color: #f4b400;
+        font-weight: 600;
+        border-left: 3px solid #f4b400;
+        background-color: rgba(244, 180, 0, 0.05);
     }
 
     .header__submenu {

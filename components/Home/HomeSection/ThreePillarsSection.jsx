@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 // Per-position modifier classes carry each card's colour treatment in
 // HomeCss.css; cards beyond the third reuse them in order.
 const PILLAR_CLASSES = ['three-pillars-one', 'three-pillars-pillar-two', 'three-pillars-pillar-three'];
@@ -21,21 +23,40 @@ export default function ThreePillarsSection({ backgroundImage, pillars = [] }) {
                                         <div className="three-pillars-number">{pillar.number}</div>
                                     </div>
                                     <div className="three-pillars-content">
-                                        <div className="three-pillars-tag">{pillar.tag}</div>
-                                        <h3 className="three-pillars-title">{pillar.title}</h3>
+                                        <div className="three-pillars-tag">
+                                            {pillar.number === '01' ? (
+                                                <Link href="/discovery" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                                    {pillar.tag}
+                                                </Link>
+                                            ) : (
+                                                pillar.tag
+                                            )}
+                                        </div>
+                                        <h3 className="three-pillars-title">
+                                            {pillar.number === '01' ? (
+                                                <Link href="/discovery" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                                    {pillar.title}
+                                                </Link>
+                                            ) : (
+                                                pillar.title
+                                            )}
+                                        </h3>
                                         <div className="three-pillars-body">
                                             <ul className="three-pillars-list">
-                                                {(pillar.listItems || []).map((item, itemIndex) => (
-                                                    <li className="three-pillars-itme" key={itemIndex}>
-                                                        <a
-                                                            href={item.href}
-                                                            className="three-pillars-link"
-                                                            {...(item.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                                        >
-                                                            {item.label}
-                                                        </a>
-                                                    </li>
-                                                ))}
+                                                {(pillar.listItems || []).map((item, itemIndex) => {
+                                                    const itemHref = (pillar.number === '01' && (!item.href || item.href === '#')) ? '/discovery' : item.href;
+                                                    return (
+                                                        <li className="three-pillars-itme" key={itemIndex}>
+                                                            <a
+                                                                href={itemHref}
+                                                                className="three-pillars-link"
+                                                                {...(item.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                                            >
+                                                                {item.label}
+                                                            </a>
+                                                        </li>
+                                                    );
+                                                })}
                                             </ul>
                                         </div>
                                     </div>

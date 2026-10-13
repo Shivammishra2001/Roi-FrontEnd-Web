@@ -259,3 +259,40 @@ interface VideoCtaSection {
 
 - **`sections.three-pillars.backgroundImage.alt`** and **`sections.stats-grid.statCards[].icon.alt`**: the source renders these as CSS `background-image`s with no `<img alt>` anywhere in code. Since the CMS requires alt text on every media field, minimal descriptive alts were added during seeding (`"Discovery pillars background"`, `"Stat icon 1"`–`"4"`). Replace via the admin UI if you want more descriptive copy.
 - **Blog posts are relations, not embedded data.** `sections.blog-preview.posts` comes from `home-page.featuredBlogPosts` (a `manyToMany` to the new `api::blog-post.blog-post` collection type), per the modeling rule that reused entities (blog teasers) should be independent, publishable content — not copy-pasted into a component. This matches the current site (all 3 posts on `/blog`'s data file are the same 3 shown on Home) and additionally makes those posts independently editable/reusable for a future `/blog` and `/blog/[slug]` CMS migration.
+
+## Discovery page — `GET /api/pages/slug/discovery`
+
+Public, unauthenticated (the `api::page.page.findBySlug` permission already
+granted in `src/bootstrap.ts`). Seed it with `npm run seed:discovery`.
+Same envelope as every page: `{ "data": { title, slug, seo, sections, ... } }`.
+Every Discovery section carries `isEnabled` ("Show on Page"); render only
+`isEnabled !== false`.
+
+```ts
+type DiscoverySection =
+  | { __component: 'sections.discovery-hero'; isEnabled: boolean; badge: string | null;
+      headingLine1: string; headingLine2: string | null; buttons: Link[];
+      backgroundVideo: { url: string; alt: string; mime: string | null; width: null; height: null } | null }
+  | { __component: 'sections.discovery-shift'; isEnabled: boolean; eyebrow: string | null; heading: string;
+      headingHighlight: string | null; listLabel: string | null; listItems: string[];
+      intro: string | null; paragraph: string | null; highlight: string | null }
+  | { __component: 'sections.discovery-statement'; isEnabled: boolean; intro: string | null; heading: string; description: string | null }
+  | { __component: 'sections.discovery-how-it-works'; isEnabled: boolean; eyebrow: string | null; heading: string;
+      steps: NumberedCard[]; resultText: string | null; resultHighlight: string | null }
+  | { __component: 'sections.discovery-surfaces'; isEnabled: boolean; eyebrow: string | null; heading: string;
+      surfaces: { number: string; title: string; href: string | null; tags: string[] }[];
+      footerText: string | null; footerHighlight: string | null }
+  | { __component: 'sections.discovery-work'; isEnabled: boolean; eyebrow: string | null; heading: string;
+      buttonLabel: string | null; buttonHref: string | null;
+      cards: { category: string; number: string; title: string; description: string; href: string | null }[] }
+  | { __component: 'sections.discovery-ai'; isEnabled: boolean; eyebrow: string | null; heading: string;
+      headingHighlight: string | null; body: string | null; secondaryText: string | null; button: Link | null }
+  | { __component: 'sections.discovery-consistency'; isEnabled: boolean; eyebrow: string | null; heading: string;
+      headingHighlight: string | null; description: string | null; subtitle: string | null;
+      tagline: string | null; taglineHighlight: string | null }
+  | { __component: 'sections.discovery-principles'; isEnabled: boolean; eyebrow: string | null; items: NumberedCard[] }
+  | { __component: 'sections.cta-banner'; label: string | null; title: string; description: string | null;
+      buttonLabel: string; buttonHref: string };
+
+interface NumberedCard { number: string; title: string; description: string; fullWidth: boolean | null }
+```

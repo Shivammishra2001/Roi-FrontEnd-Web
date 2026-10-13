@@ -3,7 +3,7 @@ import Link from "next/link";
 import LegalHero from "./LegalHero";
 import LegalBlocks from "./LegalBlocks";
 import { formatDate } from "../../lib/format";
-import "./Legal.css";
+import "@/public/styles/Legal.css";
 
 // One legal page (Privacy Policy, Terms & Conditions). `page` is already
 // merged with the built-in copy (lib/legal.js), so every field is present.
@@ -26,24 +26,7 @@ export default function LegalPage({ page }) {
                     <div className="legal-grid-container">
                         {/* Sidebar Navigation */}
                         <aside className="legal-sidebar">
-                            <div className="legal-nav-box">
-                                <h3 className="legal-nav-title">
-                                    <i className="fa fa-list-ul"></i> Table of Contents
-                                </h3>
-                                <ul className="legal-nav-list">
-                                    {sections.map((item, i) => (
-                                        <li key={item.anchorId}>
-                                            <a href={`#${item.anchorId}`} className="legal-nav-link">
-                                                <span>
-                                                    <span className="num">{String(i + 1).padStart(2, "0")}.</span>
-                                                    {item.navTitle}
-                                                </span>
-                                                <i className="fa fa-angle-right" style={{ fontSize: "12px", opacity: 0.5 }}></i>
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+
 
                             <div className="legal-help-card">
                                 <h4 className="legal-help-title">{helpCard.title}</h4>
@@ -67,6 +50,24 @@ export default function LegalPage({ page }) {
                                         {helpCard.buttonLabel}
                                     </Link>
                                 </div>
+                            </div>
+                            <div className="legal-nav-box">
+                                <h3 className="legal-nav-title">
+                                    <i className="fa fa-list-ul"></i> Table of Contents
+                                </h3>
+                                <ul className="legal-nav-list">
+                                    {sections.map((item, i) => (
+                                        <li key={item.anchorId}>
+                                            <a href={`#${item.anchorId}`} className="legal-nav-link">
+                                                <span>
+                                                    <span className="num">{String(i + 1).padStart(2, "0")}.</span>
+                                                    {item.navTitle}
+                                                </span>
+                                                <i className="fa fa-angle-right" style={{ fontSize: "12px", opacity: 0.5 }}></i>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </aside>
 

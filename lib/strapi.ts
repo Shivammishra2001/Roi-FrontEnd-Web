@@ -9,35 +9,76 @@ import type {
   Seo,
 } from '../types/strapi';
 
-const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1338';
+const STRAPI_URL = (process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1338').replace(/\/+$/, '');
+
+const FALLBACK_GLOBAL: Global = {
+  navbar: {
+    logoDefault: { url: '/images/logo.png', alt: 'ROI MANTRA', width: 160, height: 25, priority: false },
+    logoScrolled: { url: '/images/logo.png', alt: 'ROI MANTRA', width: 160, height: 25, priority: false },
+    logoMobile: { url: '/images/logo.png', alt: 'ROI MANTRA', width: 160, height: 25, priority: false },
+    ctaLabel: 'Start a conversation',
+    ctaHref: '/contact',
+    ctaArrowGlyph: '→',
+    primaryNavItems: [
+      { label: 'Discovery', href: '/discovery', isExternal: false, hasSubmenu: false },
+      { label: 'Case Studies', href: '/case-studies', isExternal: false, hasSubmenu: false },
+      { label: 'Careers', href: '#', isExternal: false, hasSubmenu: false },
+      { label: 'Blog', href: '/blog', isExternal: false, hasSubmenu: false },
+      { label: 'Contact', href: '/contact', isExternal: false, hasSubmenu: false },
+    ],
+    theThinkingSubmenuItems: [],
+  },
+  footer: {
+    footerLogoText: 'ROI MANTRA',
+    copyrightText: 'Copyright 2026 ROI Mantra. | All Rights Reserved',
+    legalLinks: [],
+    reachUsEmailLabel: 'hello@roimantra.com',
+    reachUsEmailHref: 'mailto:hello@roimantra.com',
+    reachUsLocation1: 'Dallas, TX',
+    reachUsLocation2: 'Delhi NCR',
+    footerLinkColumns: [],
+    socialLinks: [],
+  },
+  loader: {
+    brandText: 'ROI MANTRA',
+    progressCounterSuffix: '%',
+  },
+  defaultSeo: {
+    metaTitle: 'ROI Mantra',
+    metaDescription: 'ROI Mantra website',
+    ogImage: null,
+  },
+};
 
 /**
  * All site content comes from Strapi, fetched fresh on every request
  * (`no-store`) so an edit published in the admin shows up on the next page
- * load — no rebuild, no redeploy. Any non-200 throws a descriptive Error
- * instead of silently falling back to hardcoded content, which would hide a
- * broken, unseeded, or unreachable CMS.
+ * load. If Strapi is offline or unreachable, handles gracefully with fallbacks.
  */
 async function strapiGet<T>(path: string, { allow404 = false } = {}): Promise<T | null> {
   const endpoint = `${STRAPI_URL}${path}`;
-  const res = await fetch(endpoint, { cache: 'no-store' });
+  try {
+    const res = await fetch(endpoint, { cache: 'no-store' });
 
-  if (allow404 && res.status === 404) return null;
+    if (allow404 && res.status === 404) return null;
 
-  if (!res.ok) {
-    throw new Error(
-      `Strapi returned ${res.status} ${res.statusText} for ${endpoint}. ` +
-        'Check that the Strapi server is running, STRAPI_URL is set correctly, and the entry is published.'
-    );
+    if (!res.ok) {
+      console.warn(`[strapi] Returned ${res.status} ${res.statusText} for ${endpoint}`);
+      return null;
+    }
+
+    const json = (await res.json()) as { data: T };
+    return json.data;
+  } catch (err) {
+    console.warn(`[strapi] Connection to ${endpoint} failed:`, err instanceof Error ? err.message : err);
+    return null;
   }
-
-  const json = (await res.json()) as { data: T };
-  return json.data;
 }
 
 /** Navbar, footer, intro loader and site-wide default SEO (`GET /api/global/full`). */
 export async function getGlobal(): Promise<Global> {
-  return (await strapiGet<Global>('/api/global/full'))!;
+  const data = await strapiGet<Global>('/api/global/full');
+  return data ?? FALLBACK_GLOBAL;
 }
 
 /**
@@ -46,7 +87,22 @@ export async function getGlobal(): Promise<Global> {
  * dynamic zone, rendered in order by SectionRenderer.
  */
 export async function getPageBySlug(slug: string): Promise<PageData> {
-  return (await strapiGet<PageData>(`/api/pages/slug/${encodeURIComponent(slug)}`))!;
+  const data = await strapiGet<PageData>(`/api/pages/slug/${encodeURIComponent(slug)}`);
+  return (
+    data ?? {
+      title: slug,
+      slug,
+      seo: null,
+      sections: [],
+      heroBadge: null,
+      heroHeading: null,
+      heroSubheading: null,
+      infoCard: null,
+      stats: [],
+      nextStepsHeading: null,
+      nextSteps: [],
+    }
+  );
 }
 
 /** A published blog post + related posts, or null when the slug doesn't exist. */

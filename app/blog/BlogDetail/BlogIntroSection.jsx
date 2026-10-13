@@ -82,24 +82,7 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                     <aside className="case-intro-aside-row">
 
                         <div className="case-side-nav">
-                            <div className="case-side-nav-area">
-                                <div className="case-side-nav-row">
 
-                                    <div className="case-side-contnet-area">
-                                        <span>{dateLabel}</span>
-                                        <h5>{formatDate(currentBlog?.date)}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="case-side-nav-area">
-                                <div className="case-side-nav-row">
-
-                                    <div className="case-side-contnet-area">
-                                        <span>{categoryLabel}</span>
-                                        <h5>{blogCategoryName(currentBlog)}</h5>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div className="case-intro-wrapper">
                                 <div className="case-intros">
@@ -115,9 +98,9 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                         >
                                             {/* Spam trap: hidden from people, filled in by bots (see app/contact/submit/route.js). */}
                                             <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true"
-                                              value={formData.website} onChange={handleChange}
-                                              style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }} />
-                                            <div className="case-intro-form-group">
+                                                value={formData.website} onChange={handleChange}
+                                                style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }} />
+                                            <div className="case-intro-form-group ">
                                                 <input
                                                     type="text"
                                                     name="fullName"
@@ -187,6 +170,27 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="case-intro-form-wrapper">
+                                <div className="case-side-nav-area">
+                                    <div className="case-side-nav-row">
+
+                                        <div className="case-side-contnet-area">
+                                            <span>{dateLabel}</span>
+                                            <h5>{formatDate(currentBlog?.date)}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="case-side-nav-area">
+                                    <div className="case-side-nav-row">
+
+                                        <div className="case-side-contnet-area">
+                                            <span>{categoryLabel}</span>
+                                            <h5>{blogCategoryName(currentBlog)}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                     </aside>

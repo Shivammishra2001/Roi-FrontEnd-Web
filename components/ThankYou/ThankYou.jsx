@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import "./ThankYou.css";
+import "@/public/styles/ThankYou.css";
 
 const steps = [
     {

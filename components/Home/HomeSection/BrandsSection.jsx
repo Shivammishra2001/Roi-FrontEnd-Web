@@ -79,10 +79,7 @@ export default function BrandsSection({ headingPrefix, headingEmphasis, brandTil
         <section
             id="work"
             ref={sectionRef}
-            className="pin-section bg-paper"
-            style={{
-                height: "380vh",
-            }}
+            className="pin-section brands-pin-section bg-paper"
         >
             <div className="pin-stage">
 

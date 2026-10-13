@@ -34,6 +34,11 @@ const nextConfig = {
                 destination: '/case-studies/cementing-leadership-fostering-growth',
                 permanent: true,
             },
+            {
+                source: '/organic-discovery',
+                destination: '/discovery',
+                permanent: true,
+            },
         ];
     },
 };

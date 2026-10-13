@@ -12,15 +12,9 @@ export default function ContactSection({
   phoneLabel,
   phone,
   phoneHref,
-  scheduleTitle,
-  profileImage,
-  profileName,
-  profileRole,
-  scheduleButtonLabel,
   scheduleButtonHref,
   fullNamePlaceholder,
-  emailPlaceholder,
-  phonePlaceholder = "Phone",
+  phonePlaceholder,
   budgetPlaceholder,
   budgetOptions = [],
   helpPlaceholder,
@@ -171,53 +165,63 @@ export default function ContactSection({
                   </div>
                 </div>
               </div>
-              {/* Schedule-a-call card hidden, as on the localhost design.
-              <div className="schedule-title">
-                <span>
-                  <span className="arr">
-                    <i className="fa fa-long-arrow-right"></i>
-                  </span>
-                  {scheduleTitle}
-                </span>
-              </div>
+              <div className="contact-social">
+                <p className="contact-social-title">Follow Us</p>
+            
+                <div className="contact-social-icons" aria-label="Social media">
 
-              <div className="schedule-card">
-                <div className="profile-row">
+                  <a
+                    className="contact-social-icon"
+                    href="https://www.linkedin.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                  >
+                    <i className="fa fa-linkedin" aria-hidden="true"></i>
+                  </a>
 
-                  {profileImage?.url && (
-                    <img
-                      className="profile-image"
-                      src={profileImage.url}
-                      alt={profileImage.alt}
-                    />
-                  )}
+                  <a
+                    className="contact-social-icon"
+                    href="https://www.facebook.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                  >
+                    <i className="fa fa-facebook" aria-hidden="true"></i>
+                  </a>
 
-                  <div className="profile-info">
-                    <h4>
-                      {profileName}
-                    </h4>
+                  <a
+                    className="contact-social-icon contact-social-x"
+                    href="https://x.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="X"
+                  >
+                   <i class="fa fa-twitter" aria-hidden="true"></i>
+                  </a>
 
-                    <span>
-                      {profileRole}
-                    </span>
-                  </div>
+                  <a
+                    className="contact-social-icon"
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                  >
+                    <i className="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+
+                  <a
+                    className="contact-social-icon"
+                    href="https://www.youtube.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube"
+                  >
+                    <i className="fa fa-youtube-play" aria-hidden="true"></i>
+                  </a>
 
                 </div>
-
-                <button
-                  className="schedule-btn"
-                  type="button"
-                  onClick={handleScheduleCall}
-                >
-                  {scheduleButtonLabel}
-
-                  <span className="button-arrow">
-                     <i className="fa fa-long-arrow-right"></i>
-                  </span>
-                </button>
-
-              </div> */}
-
+              </div>
             </div>
 
             {/* ================= RIGHT FORM ================= */}
@@ -248,14 +252,13 @@ export default function ContactSection({
 
                 </div>
 
-                {/* PHONE */}
                 <div className="form-group">
 
                   <input
                     type="tel"
                     name="phone"
                     className="form-control"
-                    placeholder={phonePlaceholder}
+                    placeholder={phonePlaceholder?.trim() || "Phone Number"}
                     value={formData.phone}
                     onChange={handleChange}
                     required
@@ -288,7 +291,7 @@ export default function ContactSection({
 
                   <span className="select-arrow" aria-hidden="true">
                     <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
 
@@ -319,7 +322,7 @@ export default function ContactSection({
 
                   <span className="select-arrow" aria-hidden="true">
                     <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
 
@@ -353,7 +356,7 @@ export default function ContactSection({
                     </span>
 
                     <span className="button-arrow">
-                       <i className="fa fa-long-arrow-right"></i>
+                      <i className="fa fa-long-arrow-right"></i>
                     </span>
 
                   </button>

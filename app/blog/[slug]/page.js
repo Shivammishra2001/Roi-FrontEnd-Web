@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getBlogPost, getBlogDetailSettings } from "../../../lib/strapi";
-import "../../../components/Blog/Section/Blog.css";
+import "@/public/styles/Blog.css";
 
 import BlogDetailHeroSection from "../BlogDetail/BlogDetailHeroSection";
 import BlogIntroSection from "../BlogDetail/BlogIntroSection";

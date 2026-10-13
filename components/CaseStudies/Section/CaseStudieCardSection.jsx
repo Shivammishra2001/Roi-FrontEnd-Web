@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const filters = [
@@ -32,6 +32,20 @@ const ITEMS_PER_PAGE = 8;
 export default function CaseStudieCardSection({ caseStudies = [] }) {
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const cardGridRef = useRef(null);
+  const previousPageRef = useRef(currentPage);
+
+  useEffect(() => {
+    if (previousPageRef.current === currentPage) {
+      return;
+    }
+
+    previousPageRef.current = currentPage;
+    cardGridRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [currentPage]);
 
   const filteredBlogs =
     activeFilter === "all"
@@ -71,7 +85,7 @@ export default function CaseStudieCardSection({ caseStudies = [] }) {
               ))}
             </div>
             {currentBlogs.length > 0 ? (
-              <div className="blog-card-grid">
+              <div ref={cardGridRef} className="blog-card-grid">
                 {currentBlogs.map((blog) => {
                   const metric1 = blog.cardMetrics?.[0] || {
                     value: blog.impactMetrics?.[0]?.value || "+00%",

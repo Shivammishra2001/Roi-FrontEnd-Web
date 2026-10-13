@@ -1,0 +1,72 @@
+/* =====================================================
+   OD CONSISTENCY SECTION
+===================================================== */
+.discovery-heading{
+  letter-spacing: -.025em;
+    font-family: Anton, sans-serif;
+    font-size: clamp(44px, 8vw, 161px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 114%;
+
+}
+span.case-study-hero-line {
+    color: #f5c24b;
+}
+
+.discovery-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 56px;
+    align-items: center;
+}
+
+
+.discovery-row-btn {
+ color: #fff;
+    white-space: nowrap;
+    background-color: #111;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: all .3s;
+    display: inline-flex;
+}
+
+.discovery-row-btn:hover {
+    background-color: #f5b82e;
+    color: #181818;
+    transform: translateY(-2px);
+    border-color: #111;
+    
+}
+
+
+.discovery-row-btn:focus,
+.discovery-row-btn:active {
+    outline: none;
+    box-shadow: none;
+}
+
+
+@media (max-width: 576px) {
+    .discovery-row {
+        gap: 12px;
+        margin-top: 32px;
+    }
+
+    .discovery-row-btn {
+        padding: 12px 20px;
+        font-size: 13px;
+        gap: 8px;
+    }
+}

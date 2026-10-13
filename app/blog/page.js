@@ -1,4 +1,4 @@
-import "../../components/Blog/Section/Blog.css";
+import "@/public/styles/Blog.css";
 import { getPageBySlug, constructMetadata } from "../../lib/strapi";
 import SectionRenderer from "../../components/sections/SectionRenderer";
 import { BLOG_SECTIONS } from "../../components/sections/registry/listings";

@@ -1,5 +1,7 @@
 import React from 'react';
-import './Footer.css';
+import '@/public/styles/Footer.css';
+
+
 
 export default function Footer({ footer }) {
     const legalLinks = footer?.legalLinks || [];
@@ -9,6 +11,7 @@ export default function Footer({ footer }) {
             <footer className="footer-section" style={{ zIndex: 0 }}>
                 <div className="srcn-container">
                     <div className="footer-wrapper-top-box">
+                       
                         <div className="footer-row-area">
                             <div className="footer-logo">
                                 <h2 className="footer-logo-tilte"> {footer?.footerLogoText}</h2>

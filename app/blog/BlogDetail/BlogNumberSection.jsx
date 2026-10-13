@@ -1,36 +1,15 @@
 "use client";
 
-import Link from "next/link";
+import WordRevealCta from "@/components/Cta/WordRevealCta";
 
-const BlogNumberSection = ({ label, title, description, buttonLabel, buttonHref }) => {
-    return (
-        <section className="blog-number-section">
-            <div className="container">
-                <div className="blog-number-inner">
-                    <div className="blog-number-content">
-                        <div className="blog-number-label">
-                            <span className="arr"><i className="fa fa-long-arrow-right"></i></span> {label}
-                        </div>
-                        <h2 className="blog-number-title">
-                            {title}
-                        </h2>
-                        <p className="blog-number-description">
-                            {description}
-                        </p>
-                    </div>
-                    <div className="blog-number-btm-area">
-                        <Link
-                            href={buttonHref}
-                            className="blog-number-button work-button"
-                        >
-                            <span>{buttonLabel}</span>
-                            <span className="button-arrow"><i className="fa fa-long-arrow-right"></i></span>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+const DEFAULTS = {
+    title: "Have a number that needs moving?",
+    description: "Tell us the metric. We will come back with a plan, not a pitch deck.",
+    buttonLabel: "Start a conversation",
+    buttonHref: "/contact",
 };
 
-export default BlogNumberSection;
+// Strapi `sections.cta-banner` (listing pages) or the `cta` of the detail-page settings.
+export default function NumberCtaSection(props) {
+    return <WordRevealCta {...props} defaults={DEFAULTS} />;
+}

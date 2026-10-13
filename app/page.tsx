@@ -3,7 +3,7 @@ import type { Section } from '../types/strapi';
 import { getPageBySlug, constructMetadata } from '../lib/strapi';
 import SectionRenderer from '../components/sections/SectionRenderer';
 import { HOME_SECTIONS } from '../components/sections/registry/home';
-import '../components/Home/HomeCss.css';
+import '@/public/styles/HomeCss.css';
 
 // Strapi is fetched with cache: 'no-store' — force this route to render
 // dynamically on every request instead of being frozen as static output
@@ -21,5 +21,6 @@ const isVisible = (section: Section) => (section as { isEnabled?: boolean }).isE
 
 export default async function Home() {
   const data = await getPageBySlug('home');
-  return <SectionRenderer sections={data.sections.filter(isVisible)} components={HOME_SECTIONS} />;
+  const sections = Array.isArray(data?.sections) ? data.sections.filter(isVisible) : [];
+  return <SectionRenderer sections={sections} components={HOME_SECTIONS} />;
 }

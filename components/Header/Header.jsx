@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import "./Header.css";
+import "@/public/styles/Header.css";
 
 function Header({ navbar }) {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState("");
@@ -36,11 +38,42 @@ function Header({ navbar }) {
     }
   };
 
-  const navItems = navbar?.primaryNavItems || [];
+  const baseNavItems = navbar?.primaryNavItems || [];
+  const hasDiscovery = baseNavItems.some(
+    (item) => item.href === "/discovery" || item.href === "/organic-discovery" || item.label?.toLowerCase()?.includes("discovery")
+  );
+
+  let navItems = [...baseNavItems];
+  if (!hasDiscovery) {
+    const caseStudiesIdx = navItems.findIndex((item) => item.href === "/case-studies");
+    if (caseStudiesIdx !== -1) {
+      navItems.splice(caseStudiesIdx + 1, 0, {
+        label: "Discovery",
+        href: "/discovery",
+        isExternal: false,
+        hasSubmenu: false,
+      });
+    } else {
+      navItems.unshift({
+        label: "Discovery",
+        href: "/discovery",
+        isExternal: false,
+        hasSubmenu: false,
+      });
+    }
+  }
+
   const submenuItems = navbar?.theThinkingSubmenuItems || [];
   const logo = scrolled ? navbar?.logoScrolled : navbar?.logoDefault;
   const mobileLogo = navbar?.logoMobile || navbar?.logoScrolled;
   const externalProps = (isExternal) => (isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {});
+
+  const isItemActive = (href) => {
+    if (!pathname || !href || href === "#") return false;
+    if (href === "/" && pathname === "/") return true;
+    if (href !== "/" && (pathname === href || pathname.startsWith(href + "/"))) return true;
+    return false;
+  };
 
   return (
     <>
@@ -64,28 +97,53 @@ function Header({ navbar }) {
                 <ul className="header__list">
                   {navItems.map((item, index) => {
                     const menuKey = `menu-${index}`;
+                    const isActive = isItemActive(item.href);
+                    const activeClass = isActive ? "active" : "";
 
                     if (item.hasSubmenu && submenuItems.length > 0) {
                       return (
                         <li
                           key={menuKey}
-                          className={`header__item has-submenu ${openSubmenu === menuKey ? "submenu-open" : ""}`}
+                          className={`header__item has-submenu ${openSubmenu === menuKey ? "submenu-open" : ""} ${activeClass}`}
                         >
-                          <Link href={item.href} className="header__link" onClick={(e) => handleSubmenuClick(e, menuKey)}>{item.label}</Link>
+                          <Link
+                            href={item.href}
+                            className={`header__link ${activeClass}`}
+                            onClick={(e) => handleSubmenuClick(e, menuKey)}
+                          >
+                            {item.label}
+                          </Link>
                           <ul className="header__submenu">
-                            {submenuItems.map((sub, subIndex) => (
-                              <li className="header__submenu-item" key={subIndex}>
-                                <Link href={sub.href} className="header__submenu-link" onClick={closeMenu} {...externalProps(sub.isExternal)}>{sub.label}</Link>
-                              </li>
-                            ))}
+                            {submenuItems.map((sub, subIndex) => {
+                              const isSubActive = isItemActive(sub.href);
+                              return (
+                                <li className={`header__submenu-item ${isSubActive ? "active" : ""}`} key={subIndex}>
+                                  <Link
+                                    href={sub.href}
+                                    className={`header__submenu-link ${isSubActive ? "active" : ""}`}
+                                    onClick={closeMenu}
+                                    {...externalProps(sub.isExternal)}
+                                  >
+                                    {sub.label}
+                                  </Link>
+                                </li>
+                              );
+                            })}
                           </ul>
                         </li>
                       );
                     }
 
                     return (
-                      <li className="header__item" key={menuKey}>
-                        <Link href={item.href} className="header__link" onClick={closeMenu} {...externalProps(item.isExternal)}>{item.label}</Link>
+                      <li className={`header__item ${activeClass}`} key={menuKey}>
+                        <Link
+                          href={item.href}
+                          className={`header__link ${activeClass}`}
+                          onClick={closeMenu}
+                          {...externalProps(item.isExternal)}
+                        >
+                          {item.label}
+                        </Link>
                       </li>
                     );
                   })}

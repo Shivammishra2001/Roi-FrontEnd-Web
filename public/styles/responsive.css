@@ -7,10 +7,10 @@
 
 @media (max-width: 768px) {
     .creative-future-grid {
-        grid-template-columns: 1fr  !important;;
+        grid-template-columns: 1fr !important;
         gap: 20px;
     }
-    .contact-hero-section, .office-section{
-            padding: 121px 0 47px;
+    .contact-hero-section, .office-section {
+        padding: 120px 0 38px !important;
     }
 }

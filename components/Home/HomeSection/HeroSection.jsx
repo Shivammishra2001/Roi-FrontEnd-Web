@@ -77,56 +77,58 @@ export default function HeroSection({
             <section id="hero-section-area" className="hero-section-area">
 
                 <div className="srcn-container">
-                  <div className="hero-container">
-                    <div className="hero-section-area-rapper ">
-                        <div className="hero-section-area-label reveal-up" style={{ animationDelay: '900ms' }}>
-                            <span className="sub-tilte-heading">
-                                <span className="hero-dot"></span>
-                                {badgeText}
-                            </span>
-                        </div>
-                        <h1 className="hero-section-area-heeading">
-                            <div className="hero-title-line">
-                                {renderWords(line1Words, 0)}
-                            </div>
-                            <div className="hero-title-line">
-                                {renderWords(line2Words, line1Words.length)}
-                            </div>
-                            <div className="hero-title-line flex">
-                                <span className="hero-winner-rotator">
-                                    <span id="rotatorWord" className="hero-rotator-word in">{headingRotatorDefaultWord || rotatorWords[0]}</span>
+                    <div className="hero-container">
+                        <div className="hero-section-area-rapper ">
+                            <div className="hero-section-area-label sub-tilte-heading reveal-up" style={{ animationDelay: '900ms' }}>
+                                <span className=" contact-hero-badge">
+                                    <span className="hero-dot"></span>
+                                    {badgeText}
                                 </span>
-                                {headingTrailingPeriod && (
-                                    <span className="hero-title-winner" style={{ '--d': wordDelay(titleWordCount + 1) }}>{headingTrailingPeriod}</span>
-                                )}
                             </div>
-                        </h1>
-                        <div className="hero-subtitle-innre reveal-up" style={{ animationDelay: '1100ms' }}>
-                            <p className="hero-subtitle">{subtitle}</p>
-                        </div>
-                        <div className="hero-buttons reveal-up" style={{ animationDelay: '1300ms' }}>
-                            {ctaButtons.map((button, index) => (
-                                <a
-                                    key={index}
-                                    href={button.href}
-                                    className="hero-buttons-pill common-btn"
-                                    {...(button.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                >
-                                    <span>{button.label}</span>
-                                    <span className="arr">{button.arrowGlyph}</span>
-                                </a>
-                            ))}
-                        </div>
-                        <div className="hero-info reveal-up" style={{ animationDelay: '1500ms' }}>
-                            {infoStrip}
-                        </div>
-                        {scrollCueText && (
-                            <div className="hero-scroll reveal-up" style={{ animationDelay: '1500ms' }}>
-                               <span> {scrollCueText}</span>
+                            <h1 className="hero-section-area-heeading">
+                                <div className="hero-title-line">
+                                    {renderWords(line1Words, 0)}
+                                </div>
+                                <div className="hero-title-line">
+                                    {renderWords(line2Words, line1Words.length)}
+                                </div>
+                                <div className="hero-title-line flex">
+                                    <span className="hero-winner-rotator">
+                                        <span id="rotatorWord" className="hero-rotator-word in">{headingRotatorDefaultWord || rotatorWords[0]}</span>
+                                    </span>
+                                    {headingTrailingPeriod && (
+                                        <span className="hero-title-winner" style={{ '--d': wordDelay(titleWordCount + 1) }}>{headingTrailingPeriod}</span>
+                                    )}
+                                </div>
+                            </h1>
+                            <div className="hero-subtitle-innre reveal-up" style={{ animationDelay: '1100ms' }}>
+                                <p className="hero-subtitle">{subtitle}</p>
                             </div>
-                        )}
+                            <div className="hero-buttons reveal-up" style={{ animationDelay: '1300ms' }}>
+                                {ctaButtons.map((button, index) => (
+                                    <a
+                                        key={index}
+                                        href={button.href}
+                                        className="hero-buttons-pill common-btn work-buttons"
+                                        {...(button.isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                                    >
+                                        <span>{button.label}</span>
+                                        <span className="arr ">
+                                            <i className="fa fa-long-arrow-right"></i>
+                                        </span>
+                                    </a>
+                                ))}
+                            </div>
+                            <div className="hero-info reveal-up" style={{ animationDelay: '1500ms' }}>
+                                {infoStrip}
+                            </div>
+                            {scrollCueText && (
+                                <div className="hero-scroll reveal-up" style={{ animationDelay: '1500ms' }}>
+                                    <span> {scrollCueText}</span>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                  </div>
 
                 </div>
             </section>

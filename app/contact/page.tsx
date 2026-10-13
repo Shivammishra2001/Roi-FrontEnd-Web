@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 // Contact.css first, then the section components (and the Swiper CSS the logo
 // slider imports) — the same stylesheet order the page has always had.
-import '../../components/Contact/Contact.css';
+import '@/public/styles/Contact.css';
 import { getPageBySlug, constructMetadata } from '../../lib/strapi';
 import SectionRenderer from '../../components/sections/SectionRenderer';
 import { CONTACT_SECTIONS } from '../../components/sections/registry/contact';

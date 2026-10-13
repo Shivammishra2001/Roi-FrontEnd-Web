@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import "../../../components/Blog/Section/Blog.css";
+import "@/public/styles/Blog.css";
 
 import CaseStudyDetailHeroSection from "../CaseStudyDetail/CaseStudyDetailHeroSection";
 // import MetricsSection from "../CaseStudyDetail/MetricsSection";
@@ -10,7 +10,7 @@ import CaseImpactSection from "../CaseStudyDetail/CaseImpactSection";
 // import CaseRelatedSection from "../CaseStudyDetail/CaseRelatedSection";
 import CaseNumberSection from "../CaseStudyDetail/CaseNumberSection";
 // import ResultsSection from "../CaseStudyDetail/ResultsSection"
-import { getCaseStudy, constructMetadata } from "../../../lib/strapi";
+import { getCaseStudy, getCaseStudyDetailSettings, constructMetadata } from "../../../lib/strapi";
 import { toCaseStudy, caseStudyDescription } from "../../../lib/caseStudies";
 
 // Rendered per request so edits published in Strapi show up immediately.
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CaseStudyDetailPage({ params }) {
-  const { item: currentCase } = await loadCaseStudy(params);
+  const [{ item: currentCase }, settings] = await Promise.all([loadCaseStudy(params), getCaseStudyDetailSettings()]);
   if (!currentCase) return notFound();
   return (
     <main className="case-study-detail-page-wrapper">
@@ -64,7 +64,7 @@ export default async function CaseStudyDetailPage({ params }) {
         {/* <ResultsSection/> */}
       {/* <CaseRelatedSection currentCase={currentCase} relatedCases={relatedCases} /> */}
      
-      <CaseNumberSection />
+      <CaseNumberSection {...(settings?.cta ?? {})} />
     </main>
   );
 }
