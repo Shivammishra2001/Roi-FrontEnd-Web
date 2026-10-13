@@ -296,3 +296,21 @@ type DiscoverySection =
 
 interface NumberedCard { number: string; title: string; description: string; fullWidth: boolean | null }
 ```
+
+## Page Live switch — `isActive` on Pages
+
+Every Pages entry has `isActive: boolean` (admin label "Is Active / Page Live",
+default `true`; existing entries are backfilled to `true` on boot).
+
+- `GET /api/pages/slug/:slug` returns **404** when the page is unpublished
+  *or* `isActive` is `false`; otherwise the payload includes `isActive: true`.
+- `GET /api/blog-detail-page` / `GET /api/case-study-detail-page` still read
+  the Blog / Case Studies page when it is switched off (posts have their own
+  "Show on Website" switch).
+- Frontend: `getPageBySlug()` returns `null` on that 404 and the route calls
+  `notFound()`. If Strapi is unreachable it returns an empty page instead
+  (no 404 during an outage).
+
+```ts
+interface PageData { title: string; slug: string; isActive?: boolean; seo: Seo | null; sections: Section[]; /* … */ }
+```

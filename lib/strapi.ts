@@ -55,12 +55,18 @@ const FALLBACK_GLOBAL: Global = {
  * (`no-store`) so an edit published in the admin shows up on the next page
  * load. If Strapi is offline or unreachable, handles gracefully with fallbacks.
  */
-async function strapiGet<T>(path: string, { allow404 = false } = {}): Promise<T | null> {
+const NOT_FOUND = Symbol('strapi-not-found');
+
+async function strapiGet<T>(path: string, opts?: { allow404?: boolean }): Promise<T | null>;
+async function strapiGet<T>(path: string, opts: { allow404: true; distinct404: true }): Promise<T | null | typeof NOT_FOUND>;
+// `distinct404`: a 404 returns NOT_FOUND instead of null, so callers can tell
+// "doesn't exist / switched off" apart from "Strapi unreachable".
+async function strapiGet<T>(path: string, { allow404 = false, distinct404 = false } = {}): Promise<T | null | typeof NOT_FOUND> {
   const endpoint = `${STRAPI_URL}${path}`;
   try {
     const res = await fetch(endpoint, { cache: 'no-store' });
 
-    if (allow404 && res.status === 404) return null;
+    if (allow404 && res.status === 404) return distinct404 ? NOT_FOUND : null;
 
     if (!res.ok) {
       console.warn(`[strapi] Returned ${res.status} ${res.statusText} for ${endpoint}`);
@@ -83,15 +89,22 @@ export async function getGlobal(): Promise<Global> {
 
 /**
  * One entry from the Pages collection by slug (`GET /api/pages/slug/:slug`):
- * home, about-us, contact, blog, case-studies. `sections` is the page's
- * dynamic zone, rendered in order by SectionRenderer.
+ * home, about-us, contact, discovery, blog, case-studies. `sections` is the
+ * page's dynamic zone, rendered in order by SectionRenderer.
+ *
+ * Returns null when the page doesn't exist, isn't published, or has its
+ * "Page Live" switch (isActive) off — Strapi 404s all three; callers then
+ * render notFound(). If Strapi is unreachable it returns an empty page
+ * instead, so an outage never turns the site into 404s.
  */
-export async function getPageBySlug(slug: string): Promise<PageData> {
-  const data = await strapiGet<PageData>(`/api/pages/slug/${encodeURIComponent(slug)}`);
+export async function getPageBySlug(slug: string): Promise<PageData | null> {
+  const data = await strapiGet<PageData>(`/api/pages/slug/${encodeURIComponent(slug)}`, { allow404: true, distinct404: true });
+  if (data === NOT_FOUND || data?.isActive === false) return null;
   return (
     data ?? {
       title: slug,
       slug,
+      isActive: true,
       seo: null,
       sections: [],
       heroBadge: null,

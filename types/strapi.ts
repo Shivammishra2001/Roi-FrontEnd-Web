@@ -291,6 +291,8 @@ export interface ContactPageData {
 export interface PageData {
   title: string;
   slug: string;
+  /** "Page Live" switch in Strapi; a switched-off page 404s (Strapi never returns it). */
+  isActive?: boolean;
   seo: Seo | null;
   sections: Section[];
   heroBadge: string | null;
