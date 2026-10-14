@@ -216,9 +216,18 @@ interface BlogPost {
   title: string;
   slug: string;
   date: string;      // "YYYY-MM-DD"
-  category: string;
+  category: string;  // old free-text category; fallback when blog_category is null
+  blog_category: BlogCategory | null; // the Blog Categories relation (null when none / switched off)
+  categoryKey: string | null; // Blog filter tab: blog_category.categoryKey, else the post's own key
   href: string;      // "/blog/{slug}"
-  image: Media;
+  image: Media | null; // cover image is optional
+}
+
+// GET /api/categories (public find/findOne) returns the same fields plus ids.
+interface BlogCategory {
+  name: string;
+  slug: string | null;
+  categoryKey: string | null; // healthcare | ecommerce | hospitality | real-estate | other — matches sections.blog-grid filters[].value
 }
 
 interface TestimonialsCarouselSection {

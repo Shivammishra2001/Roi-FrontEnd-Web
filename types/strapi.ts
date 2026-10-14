@@ -163,6 +163,8 @@ export interface MarqueeBandSectionData {
 export interface BlogCategory {
   name: string;
   slug: string | null;
+  /** Blog filter tab of the category (sections.blog-grid filters[].value). */
+  categoryKey: string | null;
 }
 
 export interface BlogPost {
@@ -174,6 +176,7 @@ export interface BlogPost {
   /** Old free-text category; fallback when blog_category is null. */
   category: string;
   blog_category?: BlogCategory | null;
+  /** Blog filter tab: the category's key, else the post's own. */
   categoryKey: string | null;
   sector: string | null;
   excerpt: string | null;
