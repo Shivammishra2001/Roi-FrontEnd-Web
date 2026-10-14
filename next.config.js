@@ -26,6 +26,10 @@ const nextConfig = {
             { source: '/api/:path*', destination: `${strapiUrl}/api/:path*` },
         ];
     },
+    // Trailing slashes are removed in proxy.js instead, after the CMS
+    // redirects are checked, so /old-post/ goes to /blog/old-post in one
+    // redirect rather than two (Next's own slash redirect runs first).
+    skipTrailingSlashRedirect: true,
     // Case study URLs that changed in the redesign.
     async redirects() {
         return [

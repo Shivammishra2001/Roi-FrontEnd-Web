@@ -99,26 +99,43 @@ async function getRules() {
   return rules;
 }
 
+/**
+ * "/about/" → 308 "/about" (query kept). Next's built-in trailing-slash
+ * redirect is off (skipTrailingSlashRedirect in next.config.js) so that the
+ * CMS rules are checked first and match with or without the slash in one hop;
+ * this does the same job for every other URL.
+ */
+function stripTrailingSlash(request) {
+  const { pathname } = request.nextUrl;
+  if (pathname === '/' || !pathname.endsWith('/')) return NextResponse.next();
+  // A plain URL: a NextURL clone keeps the trailing slash it came with.
+  const url = new URL(request.url);
+  url.pathname = pathname.replace(/\/+$/, '') || '/';
+  return NextResponse.redirect(url, { status: 308 });
+}
+
 export async function proxy(request) {
   try {
     const map = await getRules();
-    if (!map || map.size === 0) return NextResponse.next();
+    if (!map || map.size === 0) return stripTrailingSlash(request);
 
     const { pathname, search } = request.nextUrl;
+    // normalizePath drops the trailing slash, so "/old-post" and "/old-post/"
+    // both match the rule and redirect straight to its destination.
     const rule = map.get(normalizePath(pathname));
-    if (!rule) return NextResponse.next();
+    if (!rule) return stripTrailingSlash(request);
 
     const target = new URL(rule.destination, request.url);
     // Never redirect a page to itself (would loop forever).
     if (target.origin === request.nextUrl.origin && normalizePath(target.pathname) === normalizePath(pathname)) {
-      return NextResponse.next();
+      return stripTrailingSlash(request);
     }
     // Carry the visitor's query string (UTMs etc.) unless the rule sets its own.
     if (!target.search && search) target.search = search;
 
     return NextResponse.redirect(target, { status: rule.isPermanent ? 308 : 307 });
   } catch {
-    return NextResponse.next();
+    return stripTrailingSlash(request);
   }
 }
 
