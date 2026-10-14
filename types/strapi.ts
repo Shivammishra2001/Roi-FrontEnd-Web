@@ -178,7 +178,8 @@ export interface BlogPost {
   sector: string | null;
   excerpt: string | null;
   href: string;
-  image: Media;
+  /** null when the post has no cover image yet (optional; cards use lib/format.js blogImageUrl). */
+  image: Media | null;
 }
 
 export interface BlogPreviewSectionData {

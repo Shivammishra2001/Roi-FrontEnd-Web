@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { blogCategoryName } from "../../../lib/format";
+import { blogCategoryName, blogImageUrl } from "../../../lib/format";
 import Swiper from "swiper";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -101,7 +101,7 @@ const BlogRelatedSection = ({ relatedBlogs = [], kicker, title, buttonLabel }) =
                                         >
                                             <div className="case-image">
                                                 <img
-                                                    src={item.image?.url}
+                                                    src={blogImageUrl(item)}
                                                     alt={item.image?.alt || item.title}
                                                 />
                                                 <div className="image-overlay"></div>

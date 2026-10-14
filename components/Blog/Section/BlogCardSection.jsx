@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { blogCategoryName } from "../../../lib/format";
+import { blogCategoryName, blogImageUrl } from "../../../lib/format";
 
 
 export default function BlogCardSection({
@@ -65,7 +65,7 @@ export default function BlogCardSection({
                   >
                     <div className="blog-card-area">
                       <Link href={`/blog/${blog.slug}`} className="work-image" style={{ display: 'block' }}>
-                        <img src={blog.image?.url} alt={blog.image?.alt || blog.title} />
+                        <img src={blogImageUrl(blog)} alt={blog.image?.alt || blog.title} />
                       </Link>
                       <div className="work-content">
                         <div className="work-meta">

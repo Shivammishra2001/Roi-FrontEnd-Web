@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { formatDate, blogCategoryName } from "../../../lib/format";
+import { formatDate, blogCategoryName, blogImageUrl } from "../../../lib/format";
 
 export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHref, viewAllArrowGlyph, posts = [] }) {
     const sectionRef = useRef(null);
@@ -56,7 +56,7 @@ export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHre
                                 <div className="blog-card-img">
                                     <figure>
                                         <img
-                                            src={blog.image?.url}
+                                            src={blogImageUrl(blog)}
                                             alt={blog.image?.alt || blog.title}
                                             width={500}
                                             height={320}
