@@ -192,6 +192,8 @@ interface BrandTileMarqueeSection {
   brandTiles: {
     name: string;
     category: string;
+    link: string | null;   // optional: tile is clickable only when set (/internal-path or https://…)
+    isExternal: boolean;   // open in a new tab (always true in effect for http(s) links)
     photo: Media;
   }[]; // always 14
 }

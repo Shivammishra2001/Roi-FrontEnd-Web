@@ -638,6 +638,25 @@ line-height: 114%;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
 }
 
+/* Brand tiles with a link (Strapi: Brand Image -> Link). */
+.work-tile--link {
+    display: block;
+    cursor: pointer;
+}
+
+.work-tile--link::before {
+    transition: opacity 480ms ease;
+}
+
+.work-tile--link:hover::before {
+    opacity: 0.6;
+}
+
+.work-tile--link:focus-visible {
+    outline: 3px solid #f4b400;
+    outline-offset: 4px;
+}
+
 .work-tile-label {
     position: absolute;
     left: 22px;

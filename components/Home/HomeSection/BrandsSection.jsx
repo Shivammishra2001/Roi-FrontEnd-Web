@@ -1,6 +1,18 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
+import Link from "next/link";
+
+/**
+ * A brand's optional link from Strapi, or null. Only site paths, #anchors,
+ * http(s), mailto: and tel: links are used (anything else, e.g.
+ * "javascript:", is ignored); "www.example.com" gets https:// added.
+ */
+function brandHref(link) {
+    const href = typeof link === "string" ? link.trim() : "";
+    if (/^www\./i.test(href)) return `https://${href}`;
+    return /^(https?:\/\/|mailto:|tel:|\/(?!\/)|#)/i.test(href) ? href : null;
+}
 
 export default function BrandsSection({ headingPrefix, headingEmphasis, brandTiles = [] }) {
     const sectionRef = useRef(null);
@@ -11,7 +23,21 @@ export default function BrandsSection({ headingPrefix, headingEmphasis, brandTil
 
     const TILES = brandTiles
         .filter((tile) => tile.photo?.url)
-        .map((tile) => ({ image: tile.photo.url }));
+        .map((tile) => {
+            const href = brandHref(tile.link);
+            return {
+                image: tile.photo.url,
+                name: tile.name || tile.photo.alt || "Brand",
+                href,
+                // External sites always open in a new tab.
+                newTab: !!href && (!!tile.isExternal || /^https?:\/\//i.test(href)),
+            };
+        });
+
+    const tileStyle = (t, i) => ({
+        backgroundImage: `url(${t.image})`,
+        transform: `rotateZ(${(i % 2 === 0 ? 1 : -1) * 3 * tilt}deg)`,
+    });
 
     useEffect(() => {
         const sec = sectionRef.current;
@@ -115,26 +141,34 @@ export default function BrandsSection({ headingPrefix, headingEmphasis, brandTil
                                 }}
                             >
 
-                                {TILES.map((t, i) => (
-                                    <div
-                                        key={i}
-                                        className="work-tile"
-                                        style={{
-                                            backgroundImage: `url(${t.image})`,
-                                            transform: `
-                                                rotateZ(
-                                                    ${
-                                                        (i % 2 === 0
-                                                            ? 1
-                                                            : -1) *
-                                                        3 *
-                                                        tilt
-                                                    }deg
-                                                )
-                                            `,
-                                        }}
-                                    />
-                                ))}
+                                {TILES.map((t, i) => {
+                                    // No link: the plain image, as before.
+                                    if (!t.href) {
+                                        return <div key={i} className="work-tile" style={tileStyle(t, i)} />;
+                                    }
+                                    if (t.newTab) {
+                                        return (
+                                            <a
+                                                key={i}
+                                                href={t.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="work-tile work-tile--link"
+                                                style={tileStyle(t, i)}
+                                                aria-label={`${t.name} (opens in a new tab)`}
+                                            />
+                                        );
+                                    }
+                                    return (
+                                        <Link
+                                            key={i}
+                                            href={t.href}
+                                            className="work-tile work-tile--link"
+                                            style={tileStyle(t, i)}
+                                            aria-label={t.name}
+                                        />
+                                    );
+                                })}
 
                             </div>
 

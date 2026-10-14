@@ -144,6 +144,10 @@ export interface StatsGridSectionData {
 export interface BrandTile {
   name: string;
   category: string;
+  /** Optional: the tile is clickable only when set (/internal-path or https://…). */
+  link?: string | null;
+  /** Open in a new tab (http(s) links always do). */
+  isExternal?: boolean;
   photo: Media;
 }
 
