@@ -141,6 +141,36 @@ export async function getCaseStudies(): Promise<unknown[]> {
   return (await strapiGet<unknown[]>(`/api/case-studies?${query}`)) ?? [];
 }
 
+export interface SitemapEntry {
+  slug: string;
+  updatedAt: string | null;
+}
+
+/**
+ * Slug + last update of every published entry shown on the website
+ * ("Show on Website" / "Page Live" not switched off), for app/sitemap.js.
+ * Returns null when Strapi is unreachable.
+ */
+export async function getSitemapEntries(collection: 'pages' | 'blog-posts' | 'case-studies'): Promise<SitemapEntry[] | null> {
+  const entries: SitemapEntry[] = [];
+  const pageSize = 100; // Strapi's maximum page size
+  for (let page = 1; ; page++) {
+    const query = new URLSearchParams({
+      'fields[0]': 'slug',
+      'fields[1]': 'isActive',
+      'fields[2]': 'updatedAt',
+      'sort[0]': 'id:asc',
+      'pagination[page]': String(page),
+      'pagination[pageSize]': String(pageSize),
+    });
+    const data = await strapiGet<Array<SitemapEntry & { isActive?: boolean | null }>>(`/api/${collection}?${query}`);
+    if (!data) return page === 1 ? null : entries;
+    // Entries saved before the switch existed (null) count as shown, as in Strapi.
+    for (const e of data) if (e.slug && e.isActive !== false) entries.push({ slug: e.slug, updatedAt: e.updatedAt ?? null });
+    if (data.length < pageSize) return entries;
+  }
+}
+
 /** A published case study + related case studies, or null when the slug doesn't exist. */
 export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null> {
   const detail = await strapiGet<CaseStudyDetail>(`/api/case-studies/slug/${encodeURIComponent(slug)}`, { allow404: true });
