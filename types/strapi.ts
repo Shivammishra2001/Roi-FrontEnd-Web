@@ -53,8 +53,13 @@ export interface LinkColumn {
 }
 
 export interface SocialLink {
-  iconName: string;
-  href: string;
+  /** linkedin | facebook | x | instagram | youtube (picks the icon). */
+  platform?: string | null;
+  /** Profile URL; null when none is set (the icon is hidden). */
+  url?: string | null;
+  href: string | null;
+  /** Older entries: a Font Awesome class, e.g. fa-facebook. */
+  iconName: string | null;
   isExternal: boolean;
 }
 

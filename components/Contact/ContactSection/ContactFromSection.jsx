@@ -3,6 +3,38 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+/** Icon + name per platform (Global → Footer → Social Media Links). */
+const PLATFORMS = {
+  linkedin: { icon: "fa-linkedin", label: "LinkedIn" },
+  facebook: { icon: "fa-facebook", label: "Facebook" },
+  x: { icon: "fa-twitter", label: "X (Twitter)", className: "contact-social-x" },
+  instagram: { icon: "fa-instagram", label: "Instagram" },
+  youtube: { icon: "fa-youtube-play", label: "YouTube" },
+};
+
+/** Older entries have no platform: tell it from the link instead. */
+function platformOf(link, url) {
+  if (PLATFORMS[link.platform]) return link.platform;
+  const host = url.replace(/^https?:\/\/(www\.)?/i, "").toLowerCase();
+  if (host.startsWith("twitter.com") || host.startsWith("x.com")) return "x";
+  if (host.startsWith("youtu")) return "youtube";
+  return Object.keys(PLATFORMS).find((p) => host.startsWith(`${p}.com`)) || null;
+}
+
+/** Only links with a full http(s) URL are shown. */
+function socialIcons(links) {
+  return (links || []).flatMap((link) => {
+    const url = (link.url ?? link.href ?? "").trim();
+    if (!/^https?:\/\/\S+$/i.test(url)) return [];
+    const platform = PLATFORMS[platformOf(link, url)];
+    const icon = platform?.icon || (/^fa-[\w-]+$/.test(link.iconName || "") ? link.iconName : "fa-link");
+    return [{ url, icon, label: platform?.label || "Social media", className: platform?.className }];
+  });
+}
+
+/** tel: link for the number as shown, e.g. "+91 96500 95232" -> "tel:+919650095232". */
+const telHref = (phone) => `tel:${phone.replace(/[\s().-]+/g, "")}`;
+
 export default function ContactSection({
   label,
   title,
@@ -11,7 +43,6 @@ export default function ContactSection({
   email,
   phoneLabel,
   phone,
-  phoneHref,
   scheduleButtonHref,
   fullNamePlaceholder,
   phonePlaceholder,
@@ -24,7 +55,11 @@ export default function ContactSection({
   submittingLabel,
   successMessage,
   errorMessage,
+  socialLinks = [],
 }) {
+  const icons = socialIcons(socialLinks);
+  const emailAddress = email?.trim();
+  const phoneNumber = phone?.trim();
   const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -126,102 +161,58 @@ export default function ContactSection({
               <p className="contact-subtitle">
                 {subtitle}
               </p>
-              <div className="contact-info">
-                <div className="contact-info-card">
-                  <div className="info-icon">
-                    <i
-                      className="fa fa-envelope-o"
-                      aria-hidden="true"
-                    ></i>
-                  </div>
-                  <div className="info-content">
-                    <span className="info-label">
-                      {emailLabel}
-                    </span>
-                    <span className="info-value">
-                      <a href={`mailto:${email}`}>
-                        {email}
+              {(emailAddress || phoneNumber) && (
+                <div className="contact-info">
+                  {emailAddress && (
+                    <div className="contact-info-card">
+                      <div className="info-icon">
+                        <i className="fa fa-envelope-o" aria-hidden="true"></i>
+                      </div>
+                      <div className="info-content">
+                        <span className="info-label">{emailLabel}</span>
+                        <span className="info-value">
+                          <a href={`mailto:${emailAddress}`}>{emailAddress}</a>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {phoneNumber && (
+                    <div className="contact-info-card">
+                      <div className="info-icon">
+                        <i className="fa fa-phone" aria-hidden="true"></i>
+                      </div>
+                      <div className="info-content">
+                        <span className="info-label">{phoneLabel}</span>
+                        <span className="info-value">
+                          <a href={telHref(phoneNumber)}>{phoneNumber}</a>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {icons.length > 0 && (
+                <div className="contact-social">
+                  <p className="contact-social-title">Follow Us</p>
+
+                  <div className="contact-social-icons" aria-label="Social media">
+                    {icons.map((item) => (
+                      <a
+                        key={item.url}
+                        className={`contact-social-icon${item.className ? ` ${item.className}` : ""}`}
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${item.label} (opens in a new tab)`}
+                      >
+                        <i className={`fa ${item.icon}`} aria-hidden="true"></i>
                       </a>
-                    </span>
+                    ))}
                   </div>
                 </div>
-
-                <div className="contact-info-card">
-                  <div className="info-icon">
-                    <i
-                      className="fa fa-phone"
-                      aria-hidden="true"
-                    ></i>
-                  </div>
-                  <div className="info-content">
-                    <span className="info-label">
-                      {phoneLabel}
-                    </span>
-                    <span className="info-value">
-                      <a href={phoneHref}>
-                        {phone}
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="contact-social">
-                <p className="contact-social-title">Follow Us</p>
-            
-                <div className="contact-social-icons" aria-label="Social media">
-
-                  <a
-                    className="contact-social-icon"
-                    href="https://www.linkedin.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="LinkedIn"
-                  >
-                    <i className="fa fa-linkedin" aria-hidden="true"></i>
-                  </a>
-
-                  <a
-                    className="contact-social-icon"
-                    href="https://www.facebook.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Facebook"
-                  >
-                    <i className="fa fa-facebook" aria-hidden="true"></i>
-                  </a>
-
-                  <a
-                    className="contact-social-icon contact-social-x"
-                    href="https://x.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="X"
-                  >
-                   <i class="fa fa-twitter" aria-hidden="true"></i>
-                  </a>
-
-                  <a
-                    className="contact-social-icon"
-                    href="https://www.instagram.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Instagram"
-                  >
-                    <i className="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-
-                  <a
-                    className="contact-social-icon"
-                    href="https://www.youtube.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="YouTube"
-                  >
-                    <i className="fa fa-youtube-play" aria-hidden="true"></i>
-                  </a>
-
-                </div>
-              </div>
+              )}
             </div>
 
             {/* ================= RIGHT FORM ================= */}
