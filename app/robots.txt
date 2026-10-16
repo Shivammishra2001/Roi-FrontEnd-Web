@@ -1,24 +1,30 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /api/
-Disallow: /contact/submit
-Disallow: /thank-you
-
-User-agent: GPTBot
+ 
 User-agent: ChatGPT-User
+Allow: /
+User-agent: GPTBot
+Allow: /
 User-agent: OpenAI-User
+Allow: /
 User-agent: ClaudeBot
-User-agent: PerplexityBot
-User-agent: Google-Extended
-User-agent: Bingbot
-User-agent: CCBot
+Allow: /
 User-agent: facebookexternalhit
+Allow: /
 User-agent: MetaAI
 Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: CCBot
+Allow: /
+ 
+Sitemap: https://www.roimantra.com/sitemap.xml
+ 
 Disallow: /admin
 Disallow: /api/
 Disallow: /contact/submit
 Disallow: /thank-you
-
-Sitemap: https://www.roimantra.com/sitemap.xml
