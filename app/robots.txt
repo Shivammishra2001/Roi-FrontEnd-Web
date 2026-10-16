@@ -1,0 +1,29 @@
+# Allow all standard search engines
+# (the CMS admin, raw API, contact form endpoint and thank-you page stay private)
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /contact/submit
+Disallow: /thank-you
+
+# Allow AI Search & Crawlers
+# A crawler follows only the group that names it, so the private routes are repeated here.
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OpenAI-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Bingbot
+User-agent: CCBot
+User-agent: facebookexternalhit
+User-agent: MetaAI
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /contact/submit
+Disallow: /thank-you
+
+# Sitemap URL
+Sitemap: https://www.roimantra.com/sitemap.xml
