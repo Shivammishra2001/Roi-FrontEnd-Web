@@ -24,13 +24,16 @@ export default function BrandsSection({ headingPrefix, headingEmphasis, brandTil
     const TILES = brandTiles
         .filter((tile) => tile.photo?.url)
         .map((tile) => {
-            const href = brandHref(tile.link);
+            // A linked case study wins; otherwise the Link field; neither = not clickable.
+            const caseStudySlug = tile.caseStudy?.slug;
+            const href = caseStudySlug ? `/case-studies/${encodeURIComponent(caseStudySlug)}` : brandHref(tile.link);
+            const name = tile.name || tile.photo.alt || "Brand";
             return {
                 image: tile.photo.url,
-                name: tile.name || tile.photo.alt || "Brand",
+                name: caseStudySlug ? `${name} case study` : name,
                 href,
                 // External sites always open in a new tab.
-                newTab: !!href && (!!tile.isExternal || /^https?:\/\//i.test(href)),
+                newTab: !caseStudySlug && !!href && (!!tile.isExternal || /^https?:\/\//i.test(href)),
             };
         });
 

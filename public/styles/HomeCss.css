@@ -638,7 +638,12 @@ line-height: 114%;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
 }
 
-/* Brand tiles with a link (Strapi: Brand Image -> Link). */
+/* Brand tiles with no case study or link are not clickable. */
+.work-tile:not(.work-tile--link) {
+    cursor: default;
+}
+
+/* Brand tiles with a link (Strapi: Brand Image -> Case Study or Link). */
 .work-tile--link {
     display: block;
     cursor: pointer;

@@ -189,10 +189,11 @@ interface BrandTileMarqueeSection {
   __component: 'sections.brand-tile-marquee';
   headingPrefix: string;
   headingEmphasis: string;
-  brandTiles: {
+  brandTiles: {          // tiles switched off (Show on Website) are left out
     name: string;
     category: string;
-    link: string | null;   // optional: tile is clickable only when set (/internal-path or https://…)
+    caseStudy: { slug: string; title: string | null } | null; // linked case study (published, shown); tile opens /case-studies/<slug>
+    link: string | null;   // where the tile goes: the case study, else the Link field (/internal-path or https://…); null = not clickable
     isExternal: boolean;   // open in a new tab (always true in effect for http(s) links)
     photo: Media;
   }[]; // always 14

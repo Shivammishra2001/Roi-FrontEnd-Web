@@ -149,7 +149,9 @@ export interface StatsGridSectionData {
 export interface BrandTile {
   name: string;
   category: string;
-  /** Optional: the tile is clickable only when set (/internal-path or https://…). */
+  /** Linked case study (published, shown on the website); the tile opens it. */
+  caseStudy?: { slug: string; title: string | null } | null;
+  /** Where the tile goes: the case study page, else the Link field; null = not clickable. */
   link?: string | null;
   /** Open in a new tab (http(s) links always do). */
   isExternal?: boolean;
