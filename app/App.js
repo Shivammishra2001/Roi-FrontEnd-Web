@@ -5,7 +5,6 @@ import CustomCursor from '../CustomCursor.jsx'
 
 export default function App({ loader, children }) {
     const [progress, setProgress] = useState(0)
-    const [loaderGone, setLoaderGone] = useState(false)
     const [showLoader, setShowLoader] = useState(true)
 
     const logoText = loader?.brandText || ''
@@ -22,9 +21,11 @@ export default function App({ loader, children }) {
             })
         }, 50)
 
+        // The loader slides away by itself in CSS (.site-loader animation,
+        // 0.8s), so it never waits for this script; these timers only finish
+        // the counter and remove it from the page afterwards.
         const hideTimer = setTimeout(() => {
             setProgress(100)
-            setLoaderGone(true)
             document.body.classList.add('intro-done')
         }, 800)
 
@@ -43,7 +44,7 @@ export default function App({ loader, children }) {
         <>
             <CustomCursor />
             {showLoader && (
-                <div className={`site-loader${loaderGone ? ' gone' : ''}`} id="siteLoader">
+                <div className="site-loader" id="siteLoader" aria-hidden="true">
                     <div className="site-loader-inner">
                         <div className="site-loader-brand">
                             {logoText.split('').map((char, index) => (

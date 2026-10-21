@@ -43,7 +43,7 @@
   .blog-hero-description {
       color: #bcbcbc;
       margin-top: 22px;
-      font-family: Inter, sans-serif;
+      font-family: var(--font-inter), sans-serif;
       font-size: clamp(16px, 1.25vw, 20px);
       font-weight: 300;
       line-height: 1.65;
@@ -75,7 +75,7 @@
       text-transform: uppercase;
       letter-spacing: 1.17px;
       margin: 0 auto 16px;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(36px, 5vw, 80px);
       font-style: normal;
       font-weight: 400;
@@ -87,7 +87,7 @@
       letter-spacing: 1.8px;
       text-transform: uppercase;
       margin-bottom: 10px;
-      font-family: JetBrains Mono, monospace;
+      font-family: var(--font-jetbrains-mono), monospace;
       font-size: 13px;
       font-weight: 400;
       line-height: 1.27;
@@ -138,7 +138,7 @@
       align-items: center;
       gap: 8px;
       padding: 14px 22px;
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 14px;
       font-weight: 500;
       text-decoration: none;
@@ -178,7 +178,7 @@
   .blog-elementor-headline {
       margin: 0;
       display: inline-block;
-      font-family: 'Anton', sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(60px, 8vw, 120px);
       color: #fff;
       letter-spacing: 4px;
@@ -277,7 +277,7 @@
   }
 
   .blog-card-date {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 13px;
       font-weight: 400;
       color: #686b72;
@@ -285,7 +285,7 @@
   }
 
   .blog-card-category {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       color: #f13e05;
       font-weight: 400;
       text-transform: uppercase;
@@ -299,7 +299,7 @@
   .blog-card-title {
       color: #000000;
       margin: 0;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 18px;
       font-weight: 400;
       line-height: 1.22;
@@ -337,7 +337,7 @@
       position: relative;
       overflow: hidden;
       display: inline-flex;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       align-items: center;
       gap: 0.3rem;
       z-index: 1;
@@ -416,11 +416,11 @@
 
       letter-spacing: 0.5px;
       margin-bottom: 1.5rem;
-      font-family: 'Anton', sans-serif;
+      font-family: var(--font-anton), sans-serif;
   }
 
   .blog-post-header h1 {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(34px, 5vw, 64px);
       font-weight: 400;
       line-height: 135%;
@@ -475,7 +475,7 @@
   }
 
   .blog-post-body h2 {
-      font-family: 'Anton', sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 2rem;
       margin-top: 3rem;
       margin-bottom: 1.5rem;
@@ -537,7 +537,7 @@
   }
 
   .widget-title {
-      font-family: 'Anton', sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 1.5rem;
       margin-top: 0;
       margin-bottom: 1rem;
@@ -593,12 +593,12 @@
       color: #242424;
       font-weight: 200;
       transition: .3s;
-      font-family: 'Anton', sans-serif;
+      font-family: var(--font-anton), sans-serif;
   }
 
   .blog-card-date {
       margin-bottom: 3px;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 13px;
       font-weight: 400;
       color: #686b72;
@@ -678,7 +678,7 @@
       align-items: center;
       gap: 8px;
       color: #a3a3a3;
-      font-family: JetBrains Mono, monospace;
+      font-family: var(--font-jetbrains-mono), monospace;
       font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -702,7 +702,7 @@
       color: #ffffff;
       padding: 4px 12px;
       border-radius: 999px;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -710,7 +710,7 @@
   }
 
   .blog-detail-title {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(30px, 4.5vw, 54px);
       font-weight: 400;
       line-height: 1.18;
@@ -724,7 +724,7 @@
       align-items: center;
       gap: 24px;
       flex-wrap: wrap;
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 14px;
       font-weight: 500;
       color: #52525b;
@@ -787,7 +787,7 @@
 
   .blog-detail-body h2,
   .blog-detail-heading {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 26px;
       font-weight: 400;
       color: #0b0b0b;
@@ -803,7 +803,7 @@
   }
 
   .blog-detail-body h3 {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 22px;
       font-weight: 400;
       color: #0b0b0b;
@@ -813,7 +813,7 @@
 
   .blog-detail-body p,
   .blog-detail-paragraph {
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 17px;
       line-height: 1.8;
       color: #333333;
@@ -842,7 +842,7 @@
   }
 
   .blog-detail-body li {
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 17px;
       line-height: 1.8;
       color: #333333;
@@ -859,7 +859,7 @@
       width: 100%;
       border-collapse: collapse;
       margin: 24px 0;
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 14px;
       line-height: 1.6;
       background: #ffffff;
@@ -872,7 +872,7 @@
   .blog-detail-body table th {
       background-color: #0b0b0b;
       color: #ffffff !important;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 15px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -927,7 +927,7 @@
   }
 
   .blog-detail-cta .cta-title {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 28px;
       font-weight: 400;
       margin: 0 0 12px 0;
@@ -935,7 +935,7 @@
   }
 
   .blog-detail-cta .cta-desc {
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 15px;
       color: #a3a3a3;
       max-width: 600px;
@@ -998,7 +998,7 @@
   .widget-title {
       opacity: 1 !important;
       transform: none !important;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 22px;
       font-weight: 400;
       color: #0b0b0b;
@@ -1054,7 +1054,7 @@
   }
 
   .popular-blog-category {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 10px;
       color: #f13e05;
       text-transform: uppercase;
@@ -1062,7 +1062,7 @@
   }
 
   .popular-blog-title {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 15px;
       font-weight: 400;
       color: #1a1a1a;
@@ -1075,7 +1075,7 @@
   }
 
   .popular-blog-date {
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 11px;
       color: #a1a1aa;
   }
@@ -1097,7 +1097,7 @@
   }
 
   .related-title {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: 32px;
       font-weight: 400;
       color: #0b0b0b;
@@ -1118,6 +1118,8 @@
   /* ==========================================================================
    Premium Site Loader Styles
    ========================================================================== */
+  /* Slides away by itself after 0.8s, without waiting for JavaScript, so the
+     page underneath (the hero) is shown even on slow phones. */
   .site-loader {
       position: fixed;
       inset: 0;
@@ -1126,14 +1128,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.65s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.65s ease;
+      animation: siteLoaderOut 0.65s cubic-bezier(0.77, 0, 0.175, 1) 0.8s forwards;
       will-change: transform, opacity;
   }
 
-  .site-loader.gone {
-      transform: translateY(-100%);
-      opacity: 0.95;
-      pointer-events: none;
+  @keyframes siteLoaderOut {
+      to {
+          transform: translateY(-100%);
+          opacity: 0.95;
+          visibility: hidden;
+          pointer-events: none;
+      }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+      .site-loader {
+          animation-duration: 0.01s;
+          animation-delay: 0.3s;
+      }
   }
 
   .site-loader-inner {
@@ -1151,7 +1163,7 @@
   }
 
   .brand-char {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(48px, 9vw, 110px);
       font-weight: 400;
       color: #ffffff;
@@ -1177,7 +1189,7 @@
   }
 
   .brand-dot {
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(48px, 9vw, 110px);
       color: #f13e05;
       line-height: 1;
@@ -1226,7 +1238,7 @@
   }
 
   .site-loader-counter {
-      font-family: JetBrains Mono, monospace;
+      font-family: var(--font-jetbrains-mono), monospace;
       font-size: 13px;
       color: #a3a3a3;
       min-width: 40px;
@@ -1252,7 +1264,7 @@
       letter-spacing: 1.2px;
       text-transform: uppercase;
       margin-bottom: 8px;
-      font-family: JetBrains Mono, monospace;
+      font-family: var(--font-jetbrains-mono), monospace;
       font-size: 15px;
       font-weight: 500;
       line-height: 1.3;
@@ -1261,7 +1273,7 @@
   .common-top-heading {
       color: rgb(5, 5, 5);
       letter-spacing: -.025em;
-      font-family: Anton, Impact, sans-serif;
+      font-family: var(--font-anton), Impact, sans-serif;
       font-size: clamp(32px, 7vw, 120px);
       font-weight: 500;
       line-height: 110%;
@@ -1326,7 +1338,7 @@
   .creative-future-number {
       color: inherit;
       margin-bottom: 14px;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-weight: 400;
       font-style: normal;
       font-size: clamp(40px, 5vw, 70px);
@@ -1337,7 +1349,7 @@
   .creative-future-title {
       color: inherit;
       margin-bottom: 11px;
-      font-family: Anton, sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-weight: 400;
       font-size: 21px;
       line-height: 122%;
@@ -1348,7 +1360,7 @@
   .creative-future-text {
       color: rgb(105, 105, 105);
       transition: color 0.35s;
-      font-family: Inter, Arial, sans-serif;
+      font-family: var(--font-inter), Arial, sans-serif;
       font-weight: 400;
       font-style: normal;
       font-size: 16px;
@@ -1472,14 +1484,14 @@
     font-weight: 600;
     line-height: 1.3;
     display: inline-flex;
-    font-family: JetBrains Mono, monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
   }
 
   .discovery-how-heading {
       letter-spacing: -0.025em;
       color: #fff;
       margin: 0;
-      font-family: Anton, "Arial Narrow", sans-serif;
+      font-family: var(--font-anton), "Arial Narrow", sans-serif;
       font-size: clamp(52px, 6.2vw, 94px);
       font-weight: 400;
       line-height: 102%;
@@ -1513,7 +1525,7 @@
       font-weight: 400;
       transform: translateY(10px);
       margin-top: 2rem;
-      font-family: Anton, "Arial Narrow", sans-serif;
+      font-family: var(--font-anton), "Arial Narrow", sans-serif;
       font-size: clamp(24px, min(2.6vw, 4.5vh), 40px);
       line-height: 1;
       opacity: 0.18;
@@ -1570,7 +1582,7 @@
   .discovery-how-step-number {
       width: 32px;
       min-width: 32px;
-      font-family: "JetBrains Mono", "Courier New", monospace;
+      font-family: var(--font-jetbrains-mono), "Courier New", monospace;
       font-size: 12px;
       font-weight: 400;
       line-height: 1;
@@ -1585,7 +1597,7 @@
   .discovery-how-step-title {
       letter-spacing: -0.01em;
     color: rgb(255, 255, 255);
-    font-family: Anton, "Arial Narrow", sans-serif;
+    font-family: var(--font-anton), "Arial Narrow", sans-serif;
     font-size: clamp(27px, 3.2vw, 52px);
     font-weight: 400;
     line-height: 1;
@@ -1614,7 +1626,7 @@
       color: #a3a3a3;
       max-width: 590px;
       margin: 0;
-      font-family: Inter, sans-serif;
+      font-family: var(--font-inter), sans-serif;
       font-weight: 400;
       padding-top: 0.75rem;
       font-size: 15px;
@@ -1792,7 +1804,7 @@
 
   .discovery-about-organic-number {
       margin-bottom: 16px;
-      font-family: "JetBrains Mono", monospace;
+      font-family: var(--font-jetbrains-mono), monospace;
       font-size: 11px;
       font-weight: 400;
       line-height: 1.2;
@@ -1805,7 +1817,7 @@
   .discovery-about-organic-title {
 letter-spacing: -.015em;
     color: #0b0b0b;
-    font-family: Anton, Impact, sans-serif;
+    font-family: var(--font-anton), Impact, sans-serif;
     font-size: clamp(30px, 3vw, 43px);
     font-style: normal;
     font-weight: 400;
@@ -1818,7 +1830,7 @@ letter-spacing: -.015em;
   .discovery-about-organic-description {
       max-width: 512px;
       margin-top: 20px;
-      font-family: "Inter", sans-serif;
+      font-family: var(--font-inter), sans-serif;
       font-size: 17px;
       font-weight: 400;
       line-height: 1.625;
@@ -1953,7 +1965,7 @@ letter-spacing: -.015em;
          letter-spacing: -.025em;
     color: #191919;
     margin: 0 0 64px;
-    font-family: Anton, Impact, sans-serif;
+    font-family: var(--font-anton), Impact, sans-serif;
     font-size: clamp(40px, 5.5vw, 88px);
     font-weight: 400;
     line-height: 1.02;
@@ -2000,7 +2012,7 @@ letter-spacing: -.015em;
 
   /* ===================================================== NUMBER ===================================================== */
   .od-surfaces-number {
-      font-family: "JetBrains Mono", "Courier New", monospace;
+      font-family: var(--font-jetbrains-mono), "Courier New", monospace;
       font-size: 12px;
       font-weight: 400;
       line-height: 1;
@@ -2016,7 +2028,7 @@ letter-spacing: -.015em;
   .od-surfaces-title {
       display: inline-block;
       width: fit-content;
-      font-family: "Anton", "Arial Narrow", sans-serif;
+      font-family: var(--font-anton), "Arial Narrow", sans-serif;
       font-size: clamp(30px, 3.6vw, 58px);
       font-weight: 400;
       line-height: 0.95;
@@ -2040,7 +2052,7 @@ letter-spacing: -.015em;
 
   .od-surfaces-tag {
       position: relative;
-      font-family: "Inter", sans-serif;
+      font-family: var(--font-inter), sans-serif;
       font-size: 16px;
       font-weight: 400;
       line-height: 1.45;
@@ -2081,7 +2093,7 @@ letter-spacing: -.015em;
   /* ===================================================== BOTTOM STATEMENT ===================================================== */
   .od-surfaces-footer {
       margin-top: 56px;
-      font-family: "Anton", "Arial Narrow", sans-serif;
+      font-family: var(--font-anton), "Arial Narrow", sans-serif;
       font-size: clamp(28px, 3.2vw, 52px);
       font-weight: 400;
       line-height: 0.98;
@@ -2266,7 +2278,7 @@ letter-spacing: -.015em;
       column-gap: 0.22em;
       row-gap: 0;
       margin: 0;
-      font-family: var(--font-display, "Anton", sans-serif);
+      font-family: var(--font-display, var(--font-anton), sans-serif);
       font-size: clamp(52px, 9vw, 168px);
       font-weight: 400;
       line-height: 120%;
@@ -2374,7 +2386,7 @@ letter-spacing: -.015em;
   .ODWeDont-heading {
       margin: 48px 0;
       color: #191919;
-      font-family: "Anton", sans-serif;
+      font-family: var(--font-anton), sans-serif;
       font-size: clamp(96px, 16vw, 260px);
       font-weight: 400;
       line-height: 0.9;
@@ -2457,7 +2469,7 @@ letter-spacing: -.015em;
     align-items: center;
     gap: 8px;
     padding: 14px 22px;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: var(--font-inter), system-ui, sans-serif;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
@@ -2513,7 +2525,7 @@ letter-spacing: -.015em;
     transition: opacity .8s, transform .9s cubic-bezier(.2, .7, .2, 1);
     transform: translateY(0);
     letter-spacing: -.025em;
-    font-family: Anton, Impact, sans-serif;
+    font-family: var(--font-anton), Impact, sans-serif;
     font-size: clamp(40px, 5.5vw, 88px);
     font-weight: 400;
     line-height: 1.02;
@@ -2689,7 +2701,7 @@ gap: 71px 47px;
   margin: 0 0 64px;
     letter-spacing: -.025em;
     color: #fff;
-    font-family: Anton, Impact, sans-serif;
+    font-family: var(--font-anton), Impact, sans-serif;
     font-size: clamp(40px, 5.5vw, 88px);
     font-weight: 400;
     line-height: 1.02;
@@ -2736,7 +2748,7 @@ gap: 71px 47px;
 
   .ODConsistency-tagline {
       margin: 0;
-      font-family: var(--font-display, "Anton", Impact, sans-serif);
+      font-family: var(--font-display, var(--font-anton), Impact, sans-serif);
       font-size: clamp(36px, 4.5vw, 68px);
       font-weight: 400;
       line-height: 1;
@@ -2814,7 +2826,7 @@ gap: 71px 47px;
   overflow: hidden;
   background: var(--cs-cream);
   color: var(--cs-black);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-inter), sans-serif;
 }
 
 
@@ -2858,7 +2870,7 @@ gap: 71px 47px;
     align-items: center;
     gap: 7px;
    padding: 11px 22px;
-    font-family: Inter, system-ui, sans-serif;
+    font-family: var(--font-inter), system-ui, sans-serif;
     font-size: 14px;
     font-weight: 500;
 
@@ -2882,7 +2894,7 @@ span.button-arrow {
 .case-studies-heading {
 letter-spacing: -.025em;
     color: #191919;
-    font-family: Anton, Impact, sans-serif;
+    font-family: var(--font-anton), Impact, sans-serif;
     font-size: clamp(40px, 5.5vw, 88px);
     font-weight: 400;
     line-height: 1.02;
@@ -2974,7 +2986,7 @@ letter-spacing: -.025em;
   justify-content: space-between;
   gap: 20px;
 
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-jetbrains-mono), monospace;
   font-size: 12px;
   font-weight: 400;
   line-height: 1.3;
@@ -3006,7 +3018,7 @@ letter-spacing: -.025em;
 
 .case-studies-card-title {
   margin: 0;
-  font-family: "Anton", "Arial Narrow", sans-serif;
+  font-family: var(--font-anton), "Arial Narrow", sans-serif;
     font-size: clamp(32px, 3vw, 49px);
   font-weight: 400;
   line-height: 0.95;
@@ -3027,7 +3039,7 @@ letter-spacing: -.025em;
 .case-studies-card-description {
   max-width: 520px;
   margin: 20px 0 0;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.65;

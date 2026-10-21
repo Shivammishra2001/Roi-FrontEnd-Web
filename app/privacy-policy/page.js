@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation';
 import { getLegalPage, LEGAL_NOT_PUBLISHED } from '../../lib/strapi';
 import { mergeLegalPage, legalMetadata } from '../../lib/legal';
 
-// Rendered per request so edits published in Strapi show up immediately.
+// Pre-rendered and cached (ISR), refreshed when Strapi content changes.
 // If Strapi is unreachable the page shows its built-in copy; if the page is
 // unpublished (a draft) in Strapi, it's a 404.
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 async function loadPage() {
   const cms = await getLegalPage('privacy-policy');

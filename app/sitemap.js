@@ -1,11 +1,12 @@
 import { getSitemapEntries } from '../lib/strapi';
 
 /**
- * /sitemap.xml, built from Strapi on every request so a page or post that is
- * published, unpublished or switched off shows up (or drops out) right away.
+ * /sitemap.xml, built from Strapi and cached (ISR); refreshed when Strapi
+ * content changes, so a page or post that is published, unpublished or
+ * switched off shows up (or drops out) on the next request.
  * Pages switched off in Strapi ("Page Live" / "Show on Website") are left out.
  */
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 const SITE_URL = (process.env.SITE_URL || 'https://www.roimantra.com').replace(/\/+$/, '');
 

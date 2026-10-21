@@ -6,10 +6,9 @@ import { HOME_SECTIONS } from '../components/sections/registry/home';
 import '@/public/styles/HomeCss.css';
 import { notFound } from 'next/navigation';
 
-// Strapi is fetched with cache: 'no-store' — force this route to render
-// dynamically on every request instead of being frozen as static output
-// at build time, so CMS edits show up immediately on refresh.
-export const dynamic = 'force-dynamic';
+// Pre-rendered and cached (ISR): re-built at most hourly, and right away
+// when Strapi content is saved or published (app/revalidate/route.js).
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPageBySlug('home');

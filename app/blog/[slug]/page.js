@@ -7,8 +7,14 @@ import BlogIntroSection from "../BlogDetail/BlogIntroSection";
 import BlogRelatedSection from "../BlogDetail/BlogRelatedSection";
 import BlogNumberSection from "../BlogDetail/BlogNumberSection";
 
-// Any published post resolves on request — no rebuild needed for new slugs.
-export const dynamic = 'force-dynamic';
+// Cached (ISR): no slugs are built ahead; each is rendered on its first
+// visit, then re-built at most hourly, and right away when Strapi content
+// is saved or published (app/revalidate/route.js).
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+    return [];
+}
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

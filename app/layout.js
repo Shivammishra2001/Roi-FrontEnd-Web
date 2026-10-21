@@ -1,4 +1,4 @@
-import Script from 'next/script';
+import { Anton, Inter, JetBrains_Mono } from 'next/font/google';
 import App from './App.js';
 import Header from '../components/Header/Header.jsx';
 import Footer from '../components/Footer/Footer.jsx';
@@ -6,8 +6,18 @@ import { getGlobal } from '../lib/strapi';
 import '../public/styles/style.css';
 import '../public/styles/responsive.css';
 
-// Navbar/footer/loader come from Strapi's Global entry on every request.
-export const dynamic = 'force-dynamic';
+// Self-hosted at build time (no request to Google, no render-blocking
+// stylesheet). CSS uses them as var(--font-anton) / var(--font-inter) /
+// var(--font-jetbrains-mono).
+const anton = Anton({ weight: '400', subsets: ['latin'], display: 'swap', variable: '--font-anton' });
+const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], display: 'swap', variable: '--font-jetbrains-mono' });
+
+const FONT_AWESOME_CSS = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+
+// Navbar/footer/loader come from Strapi's Global entry, cached with the
+// pages (ISR) and refreshed when Strapi content changes.
+export const revalidate = 3600;
 
 export async function generateMetadata() {
     const { defaultSeo } = await getGlobal();
@@ -23,7 +33,7 @@ export default async function RootLayout({ children }) {
     const { navbar, footer, loader } = await getGlobal();
 
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en" className={`${anton.variable} ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
             <head>
                 {/* Google tag (gtag.js) */}
                 <script async src="https://www.googletagmanager.com/gtag/js?id=G-33CXWPBZ6J" />
@@ -38,14 +48,17 @@ export default async function RootLayout({ children }) {
 `,
                     }}
                 />
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-                <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-                    rel="stylesheet" />
-                <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+                {/* Icons: loaded without blocking the first paint (a stylesheet
+                    added by script doesn't hold up rendering). */}
+                <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="" />
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='${FONT_AWESOME_CSS}';document.head.appendChild(l);})();`,
+                    }}
+                />
+                <noscript>
+                    <link rel="stylesheet" href={FONT_AWESOME_CSS} />
+                </noscript>
             </head>
             <body suppressHydrationWarning>
                 <App loader={loader}>
@@ -53,7 +66,6 @@ export default async function RootLayout({ children }) {
                     {children}
                     <Footer footer={footer} />
                 </App>
-                <Script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" strategy="beforeInteractive" />
             </body>
         </html>
     );

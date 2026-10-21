@@ -6,8 +6,9 @@ import { notFound } from "next/navigation";
 import { getCaseStudies, getPageBySlug } from "../../lib/strapi";
 import { toCaseStudies } from "../../lib/caseStudies";
 
-// Rendered per request so case studies published in Strapi show up immediately.
-export const dynamic = "force-dynamic";
+// Pre-rendered and cached (ISR): re-built at most hourly, and right away
+// when Strapi content is saved or published (app/revalidate/route.js).
+export const revalidate = 3600;
 
 export const metadata = { title: "Case Studies | ROI Mantra" };
 

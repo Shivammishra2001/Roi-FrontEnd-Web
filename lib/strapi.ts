@@ -51,10 +51,17 @@ const FALLBACK_GLOBAL: Global = {
 };
 
 /**
- * All site content comes from Strapi, fetched fresh on every request
- * (`no-store`) so an edit published in the admin shows up on the next page
- * load. If Strapi is offline or unreachable, handles gracefully with fallbacks.
+ * All site content comes from Strapi. Pages are pre-rendered and cached
+ * (ISR): responses are cached for an hour under the `strapi` tag, and Strapi
+ * calls /revalidate whenever content is saved or published (see
+ * app/revalidate/route.js), so edits still show up on the next page load.
+ *
+ * If Strapi is unreachable or errors (5xx), this throws instead of returning
+ * empty content: Next.js then keeps serving the last good cached page rather
+ * than caching an empty one for an hour.
  */
+export const STRAPI_CACHE_TAG = 'strapi';
+export const REVALIDATE_SECONDS = 3600;
 const NOT_FOUND = Symbol('strapi-not-found');
 
 async function strapiGet<T>(path: string, opts?: { allow404?: boolean }): Promise<T | null>;
@@ -63,22 +70,27 @@ async function strapiGet<T>(path: string, opts: { allow404: true; distinct404: t
 // "doesn't exist / switched off" apart from "Strapi unreachable".
 async function strapiGet<T>(path: string, { allow404 = false, distinct404 = false } = {}): Promise<T | null | typeof NOT_FOUND> {
   const endpoint = `${STRAPI_URL}${path}`;
+  let res: Response;
   try {
-    const res = await fetch(endpoint, { cache: 'no-store' });
-
-    if (allow404 && res.status === 404) return distinct404 ? NOT_FOUND : null;
-
-    if (!res.ok) {
-      console.warn(`[strapi] Returned ${res.status} ${res.statusText} for ${endpoint}`);
-      return null;
-    }
-
-    const json = (await res.json()) as { data: T };
-    return json.data;
+    res = await fetch(endpoint, { next: { revalidate: REVALIDATE_SECONDS, tags: [STRAPI_CACHE_TAG] } });
   } catch (err) {
     console.warn(`[strapi] Connection to ${endpoint} failed:`, err instanceof Error ? err.message : err);
+    throw new Error(`Strapi unreachable: ${path}`);
+  }
+
+  if (allow404 && res.status === 404) return distinct404 ? NOT_FOUND : null;
+
+  if (res.status >= 500) {
+    console.warn(`[strapi] Returned ${res.status} ${res.statusText} for ${endpoint}`);
+    throw new Error(`Strapi returned ${res.status}: ${path}`);
+  }
+  if (!res.ok) {
+    console.warn(`[strapi] Returned ${res.status} ${res.statusText} for ${endpoint}`);
     return null;
   }
+
+  const json = (await res.json()) as { data: T };
+  return json.data;
 }
 
 /** Navbar, footer, intro loader and site-wide default SEO (`GET /api/global/full`). */
@@ -149,7 +161,7 @@ export interface SitemapEntry {
 /**
  * Slug + last update of every published entry shown on the website
  * ("Show on Website" / "Page Live" not switched off), for app/sitemap.js.
- * Returns null when Strapi is unreachable.
+ * Throws when Strapi is unreachable (the cached sitemap is kept).
  */
 export async function getSitemapEntries(collection: 'pages' | 'blog-posts' | 'case-studies'): Promise<SitemapEntry[] | null> {
   const entries: SitemapEntry[] = [];

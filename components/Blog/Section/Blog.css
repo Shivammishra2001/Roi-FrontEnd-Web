@@ -44,7 +44,7 @@ span.button-arrow {
     font-weight: 600;
     line-height: 1.5;
     transition: background .25s, border-color .25s, color .25s, transform .25s;
-    font-family: JetBrains Mono, monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
     }
 
     .filter-btn:hover,
@@ -193,7 +193,7 @@ span.button-arrow {
 
     .case-card-kicker {
         display: inline-block;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 1.8px;
@@ -204,7 +204,7 @@ span.button-arrow {
     }
 
     .case-card-client-title {
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-size: clamp(20px, 1.8vw, 24px);
         font-weight: 700;
         line-height: 1.25;
@@ -227,7 +227,7 @@ span.button-arrow {
     }
 
     .case-card-metric-val {
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-size: clamp(20px, 2vw, 26px);
         font-weight: 700;
         line-height: 1.15;
@@ -236,7 +236,7 @@ span.button-arrow {
     }
 
     .case-card-metric-lbl {
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-size: 10px;
         font-weight: 600;
         letter-spacing: 0.8px;
@@ -310,7 +310,7 @@ span.button-arrow {
 
         color: #262525;
 
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-weight: 500;
 
         font-size: 15px;
@@ -337,7 +337,7 @@ span.button-arrow {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     margin-bottom: 21px;
-    font-family: Anton, sans-serif;
+    font-family: var(--font-anton), sans-serif;
     font-size: clamp(22px, 1.75vw, 28px);
     font-weight: 400;
     line-height: 1.25;
@@ -378,7 +378,7 @@ span.button-arrow {
         font-size: 14px;
         line-height: 1.5;
 
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
     }
 
     .work-button .arr {
@@ -452,7 +452,7 @@ span.button-arrow {
 
         color: #111;
 
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
         font-weight: 400;
 
         font-size: 34px;
@@ -464,7 +464,7 @@ span.button-arrow {
 
         color: #777;
 
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 400;
 
         font-size: 15px;
@@ -503,7 +503,7 @@ span.button-arrow {
             background 0.2s ease,
             border-color 0.2s ease,
             color 0.2s ease;
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 600;
         font-size: 16px;
         line-height: 1;
@@ -551,7 +551,7 @@ span.button-arrow {
 
         color: #111;
 
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
 
         font-weight: 400;
 
@@ -568,7 +568,7 @@ span.button-arrow {
 
         color: #111;
 
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
         font-weight: 400;
 
         font-size: clamp(36px, 5.875vw, 75px);
@@ -581,7 +581,7 @@ span.button-arrow {
     .blog-number-description {
         margin-top: 22px;
         color: #292929;
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 300;
         font-size: clamp(16px, 1.25vw, 20px);
         line-height: 1.65;
@@ -613,7 +613,7 @@ span.button-arrow {
             color 0.25s ease,
             transform 0.25s ease;
 
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
 
         font-weight: 500;
 
@@ -1060,7 +1060,7 @@ span.button-arrow {
 
     .case-side-contnet-area span {
         color: #262525;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-weight: 500;
         font-size: 11px;
         line-height: 1.3;
@@ -1069,7 +1069,7 @@ span.button-arrow {
     }
 
     .case-side-contnet-area h5 {
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 400;
         font-style: normal;
         font-size: clamp(16px, 2vw, 17px);
@@ -1088,7 +1088,7 @@ span.button-arrow {
     border-radius: 10px;
     outline: none;
     width: 100%;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-size: 14px;
     font-style: normal;
     line-height: 120%;
@@ -1138,7 +1138,7 @@ span.button-arrow {
         box-shadow 0.3s ease,
         background 0.3s ease;
     outline: none;
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-weight: 600 !important;
     font-style: normal;
     font-size: 14px;
@@ -1190,7 +1190,7 @@ span.button-arrow {
 .intro-form-heading {
     color: #171717;
     letter-spacing: .2px;
-    font-family: Anton, sans-serif;
+    font-family: var(--font-anton), sans-serif;
     font-size: 22px;
     font-weight: 400;
     line-height: 1.4;
@@ -1211,7 +1211,7 @@ span.button-arrow {
     .case-kicker {
         margin-bottom: 8px;
         color: #262525;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-weight: 500;
         font-size: 15px;
         line-height: 1.3;
@@ -1223,7 +1223,7 @@ span.button-arrow {
     .case-content-area-box h2 {
         margin: 0px 0 9px;
         color: #171717;
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
        font-size: clamp(36px, 5vw, 57px);
         font-weight: 400;
         line-height: 1.35;
@@ -1234,7 +1234,7 @@ span.button-arrow {
     .case-content-area-box h3 {
         margin: 0px 0 8px;
         color: #171717;
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
         font-size: clamp(26px, 2.4vw, 40px);
         font-weight: 400;
         line-height: 1.4;
@@ -1245,7 +1245,7 @@ span.button-arrow {
     flex-direction: column;
     gap: 10px;
     display: flex;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-size: clamp(16px, 1.25vw, 18px);
     font-weight: 300;
     line-height: 1.65;
@@ -1350,7 +1350,7 @@ span.button-arrow {
 }
     .case-content-text p {
         color: #000;
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 300;
         font-size: clamp(16px, 1.25vw, 18px);
         line-height: 1.65;
@@ -1368,7 +1368,7 @@ span.button-arrow {
 
     .case-content-list li {
         color: #000;
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 300;
         font-size: clamp(16px, 1.25vw, 18px);
         line-height: 1.65;
@@ -1454,7 +1454,7 @@ span.button-arrow {
     letter-spacing: 1.2px;
     text-transform: uppercase;
     margin-bottom: 8px;
-    font-family: JetBrains Mono, monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
     font-size: 15px;
     font-weight: 500;
     line-height: 1.3;
@@ -1471,7 +1471,7 @@ span.button-arrow {
     .service-item {
         background: #000000;
         color: #ffffff;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 1px;
@@ -1491,7 +1491,7 @@ span.button-arrow {
     letter-spacing: 1.2px;
     text-transform: uppercase;
     margin-bottom: 8px;
-    font-family: JetBrains Mono, monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
     font-size: 15px;
     font-weight: 500;
     line-height: 1.3;
@@ -1501,7 +1501,7 @@ span.button-arrow {
     .solution-title {
         margin: 0 0 18px 0;
         color: #171717;
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
         font-size: clamp(42px, 4.8vw, 62px);
         font-weight: 400;
         line-height: 1.15;
@@ -1512,7 +1512,7 @@ span.button-arrow {
             color: #000;
     letter-spacing: 0;
     margin: 0 0 4px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-size: clamp(16px, 1.25vw, 18px);
     font-weight: 300;
     line-height: 1.65;
@@ -1530,7 +1530,7 @@ span.button-arrow {
         padding: 6px 16px;
         background: #e8e3db;
         border-radius: 20px;
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-size: 14px;
         font-weight: 500;
         color: #171717;
@@ -1611,7 +1611,7 @@ span.button-arrow {
     .objective-title {
       margin: 0 0 21px;
         color: #171717;
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
        font-size: clamp(36px, 5vw, 57px);
         font-weight: 400;
         line-height: .98;
@@ -1670,7 +1670,7 @@ span.button-arrow {
         padding-top: 3px;
         color: #f8c943;
         font-size: 22px;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-weight: 400;
         line-height: 1.4;
         letter-spacing: 1px;
@@ -1678,7 +1678,7 @@ span.button-arrow {
 
     .objective-item-content p {
         color: #000;
-        font-family: "Inter", sans-serif;
+        font-family: var(--font-inter), sans-serif;
         font-weight: 300;
         font-size: clamp(16px, 1.25vw, 18px);
         line-height: 1.65;
@@ -1801,7 +1801,7 @@ span.button-arrow {
         margin-bottom: 10px;
     text-align: center;
     color: #000;
-    font-family: "Inter", sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-weight: 300;
     font-size: clamp(16px, 1.25vw, 18px);
     line-height: 1.65;
@@ -1825,7 +1825,7 @@ span.button-arrow {
     justify-content: center;
     gap: 3px;
     color: #111;
-    font-family: "Anton", sans-serif;
+    font-family: var(--font-anton), sans-serif;
     font-weight: 400;
     line-height: 128.8%;
     letter-spacing: 0;
@@ -1841,7 +1841,7 @@ span.button-arrow {
         text-align: center;
         vertical-align: middle;
         color: #F5C24B;
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
         font-size: clamp(20px, 3vw, 22px);
     }
 
@@ -1935,7 +1935,7 @@ p.case-content-text{
         color: #000;
     letter-spacing: 0;
     margin: 0 0 4px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-size: clamp(16px, 1.25vw, 18px);
     font-weight: 300;
     line-height: 1.65;
@@ -2077,7 +2077,7 @@ p.case-content-text{
         display: block;
         margin-bottom: 2px;
         color: #262525;
-        font-family: "JetBrains Mono", monospace;
+        font-family: var(--font-jetbrains-mono), monospace;
         font-weight: 500;
         font-size: 15px;
         line-height: 1.3;
@@ -2088,7 +2088,7 @@ p.case-content-text{
 
     .case-content h3 {
         color: #1a1a1a;
-        font-family: "Anton", sans-serif;
+        font-family: var(--font-anton), sans-serif;
         font-weight: 400;
         font-size: clamp(22px, 1.75vw, 28px);
         line-height: 1.25;
@@ -2367,7 +2367,7 @@ p.case-content-text{
     color: #111;
     letter-spacing: -1px;
     margin: 0 0 45px;
-    font-family: Anton, sans-serif;
+    font-family: var(--font-anton), sans-serif;
     font-size: clamp(36px, 5vw, 71px);
     font-weight: 400;
     line-height: .98;
@@ -2432,7 +2432,7 @@ p.case-content-text{
     text-transform: uppercase;
     white-space: nowrap;
     background: none;
-    font-family: JetBrains Mono, monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
     font-size: 12px;
     font-weight: 600;
     line-height: 1.5;
@@ -2445,7 +2445,7 @@ p.case-content-text{
 
   color: #111;
 
-  font-family: "Anton", sans-serif;
+  font-family: var(--font-anton), sans-serif;
   font-size: 27px;
   font-weight: 400;
   line-height: 1;
@@ -3099,7 +3099,7 @@ p.case-content-text{
  color: #f5f3ee;
     white-space: nowrap;
     margin-bottom: 17px;
-    font-family: Anton, sans-serif;
+    font-family: var(--font-anton), sans-serif;
     font-size: clamp(36px, 5vw, 73px);
     font-style: normal;
     font-weight: 400;
@@ -3118,7 +3118,7 @@ p.case-content-text{
     background: none;
     font-size: 12px;
     font-weight: 600;
-    font-family: JetBrains Mono, monospace;
+    font-family: var(--font-jetbrains-mono), monospace;
     line-height: 1.5;
 }
 

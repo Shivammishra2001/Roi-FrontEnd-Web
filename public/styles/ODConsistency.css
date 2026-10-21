@@ -3,7 +3,7 @@
 ===================================================== */
 .discovery-heading{
   letter-spacing: -.025em;
-    font-family: Anton, sans-serif;
+    font-family: var(--font-anton), sans-serif;
     font-size: clamp(44px, 8vw, 161px);
     font-style: normal;
     font-weight: 400;
@@ -33,7 +33,7 @@ span.case-study-hero-line {
     align-items: center;
     gap: 12px;
     padding: 14px 24px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     font-size: 14px;
     font-weight: 600;
     line-height: 1.2;

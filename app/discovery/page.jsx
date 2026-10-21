@@ -4,8 +4,9 @@ import { DISCOVERY_SECTIONS } from '../../components/sections/registry/discovery
 import Discovery from '../../components/Discovery/Discovery';
 import { notFound } from 'next/navigation';
 
-// Rendered per request so edits published in Strapi show up immediately.
-export const dynamic = 'force-dynamic';
+// Pre-rendered and cached (ISR): re-built at most hourly, and right away
+// when Strapi content is saved or published (app/revalidate/route.js).
+export const revalidate = 3600;
 
 const FALLBACK_METADATA = {
   title: 'Organic Discovery · ROI Mantra',

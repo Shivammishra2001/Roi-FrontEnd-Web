@@ -13,8 +13,14 @@ import CaseNumberSection from "../CaseStudyDetail/CaseNumberSection";
 import { getCaseStudy, getCaseStudyDetailSettings, constructMetadata } from "../../../lib/strapi";
 import { toCaseStudy, caseStudyDescription } from "../../../lib/caseStudies";
 
-// Rendered per request so edits published in Strapi show up immediately.
-export const dynamic = 'force-dynamic';
+// Cached (ISR): no slugs are built ahead; each is rendered on its first
+// visit, then re-built at most hourly, and right away when Strapi content
+// is saved or published (app/revalidate/route.js).
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+    return [];
+}
 
 // Open Graph needs absolute image URLs; Strapi media are root-relative.
 const SITE_URL = (process.env.NEXT_PUBLIC_STRAPI_URL || '').replace(/\/$/, '');

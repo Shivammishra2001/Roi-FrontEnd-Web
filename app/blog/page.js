@@ -4,8 +4,9 @@ import SectionRenderer from "../../components/sections/SectionRenderer";
 import { BLOG_SECTIONS } from "../../components/sections/registry/listings";
 import { notFound } from "next/navigation";
 
-// Rendered per request: new/edited posts published in Strapi appear immediately.
-export const dynamic = "force-dynamic";
+// Pre-rendered and cached (ISR): re-built at most hourly, and right away
+// when Strapi content is saved or published (app/revalidate/route.js).
+export const revalidate = 3600;
 
 export async function generateMetadata() {
     const data = await getPageBySlug("blog");
