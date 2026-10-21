@@ -1,15 +1,22 @@
+'use client';
+
+import { useRef } from 'react';
 import Link from 'next/link';
+import useNearViewport from '../../useNearViewport';
 
 // Per-position modifier classes carry each card's colour treatment in
 // HomeCss.css; cards beyond the third reuse them in order.
 const PILLAR_CLASSES = ['three-pillars-one', 'three-pillars-pillar-two', 'three-pillars-pillar-three'];
 
 export default function ThreePillarsSection({ backgroundImage, pillars = [] }) {
-    const backgroundStyle = backgroundImage?.url ? { backgroundImage: `url("${backgroundImage.url}")` } : undefined;
+    const sectionRef = useRef(null);
+    // The background photo is fetched only when the section is about to be seen.
+    const photoNear = useNearViewport(sectionRef, '600px');
+    const backgroundStyle = photoNear && backgroundImage?.url ? { backgroundImage: `url("${backgroundImage.url}")` } : undefined;
 
     return (
         <>
-            <section id="capabilities" className="three-pillars-section-area">
+            <section id="capabilities" className="three-pillars-section-area" ref={sectionRef}>
                 {pillars.map((pillar, index) => (
                     <div
                         key={index}

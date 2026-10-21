@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { Anton, Inter, JetBrains_Mono } from 'next/font/google';
 import App from './App.js';
 import Header from '../components/Header/Header.jsx';
@@ -35,19 +36,6 @@ export default async function RootLayout({ children }) {
     return (
         <html lang="en" className={`${anton.variable} ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
             <head>
-                {/* Google tag (gtag.js) */}
-                <script async src="https://www.googletagmanager.com/gtag/js?id=G-33CXWPBZ6J" />
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-33CXWPBZ6J');
-`,
-                    }}
-                />
                 {/* Icons: loaded without blocking the first paint (a stylesheet
                     added by script doesn't hold up rendering). */}
                 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="" />
@@ -66,6 +54,18 @@ export default async function RootLayout({ children }) {
                     {children}
                     <Footer footer={footer} />
                 </App>
+                {/* Google tag (gtag.js): loaded once the page is interactive, so
+                    it doesn't compete with the first paint. */}
+                <Script src="https://www.googletagmanager.com/gtag/js?id=G-33CXWPBZ6J" strategy="afterInteractive" />
+                <Script id="google-tag" strategy="afterInteractive">
+                    {`
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-33CXWPBZ6J');
+`}
+                </Script>
             </body>
         </html>
     );

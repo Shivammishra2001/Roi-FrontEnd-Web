@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
+import useNearViewport from "../../useNearViewport";
 
 /**
  * A brand's optional link from Strapi, or null. Only site paths, #anchors,
@@ -17,6 +18,8 @@ function brandHref(link) {
 export default function BrandsSection({ headingPrefix, headingEmphasis, brandTiles = [] }) {
     const sectionRef = useRef(null);
     const trackRef = useRef(null);
+    // Tile photos are fetched only when the section is about to be seen.
+    const photosNear = useNearViewport(sectionRef, "600px");
 
     const [trackOffset, setTrackOffset] = useState(0);
     const [tilt, setTilt] = useState(1);
@@ -38,7 +41,7 @@ export default function BrandsSection({ headingPrefix, headingEmphasis, brandTil
         });
 
     const tileStyle = (t, i) => ({
-        backgroundImage: `url(${t.image})`,
+        backgroundImage: photosNear ? `url(${t.image})` : undefined,
         transform: `rotateZ(${(i % 2 === 0 ? 1 : -1) * 3 * tilt}deg)`,
     });
 

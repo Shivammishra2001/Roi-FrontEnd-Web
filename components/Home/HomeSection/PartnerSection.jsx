@@ -20,7 +20,6 @@ export default function PartnerSection({ sectionAriaLabel, partnerLogos = [] }) 
                                                     width={logo.width || 160}
                                                     height={logo.height || 64}
                                                     sizes="160px"
-                                                    priority={groupIndex === 0}
                                                 />
                                             </span>
                                         </div>

@@ -60,6 +60,8 @@ export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHre
                                             alt={blog.image?.alt || blog.title}
                                             width={500}
                                             height={320}
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                     </figure>
                                 </div>

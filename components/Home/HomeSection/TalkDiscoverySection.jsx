@@ -2,11 +2,23 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import useNearViewport from "../../useNearViewport";
 
 
 export default function TalkDiscoverySection({ backgroundVideo, title = "", bodyText, ctaLabel, ctaHref, ctaArrowGlyph }) {
   const titleRef = useRef(null);
   const sectionRef = useRef(null);
+  const videoRef = useRef(null);
+  // The background video (large) is only fetched when the section is near.
+  const videoNear = useNearViewport(sectionRef);
+  const autoplay = backgroundVideo?.autoplay !== false;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!videoNear || !video) return;
+    video.load();
+    if (autoplay) video.play().catch(() => {});
+  }, [videoNear, autoplay]);
 
   useEffect(() => {
     const titleBox = titleRef.current;
@@ -55,13 +67,14 @@ export default function TalkDiscoverySection({ backgroundVideo, title = "", body
       <div className="talk-discovery-bg-video" aria-hidden="true">
         {backgroundVideo?.url && (
           <video
-            autoPlay={backgroundVideo.autoplay !== false}
+            ref={videoRef}
             muted={backgroundVideo.muted !== false}
             loop={backgroundVideo.loop !== false}
             playsInline
+            preload="none"
             poster={backgroundVideo.poster || undefined}
           >
-            <source src={backgroundVideo.url} type="video/mp4" />
+            {videoNear && <source src={backgroundVideo.url} type="video/mp4" />}
           </video>
         )}
       </div>
