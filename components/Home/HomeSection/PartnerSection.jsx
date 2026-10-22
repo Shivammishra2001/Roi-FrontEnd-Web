@@ -1,5 +1,11 @@
 import Image from 'next/image';
+import '@/public/styles/PartnerLogos.css';
 
+/**
+ * Continuously scrolling strip of client logos (Home: Partner Logos section;
+ * Contact: Client Logos section).
+ * @param {{ sectionAriaLabel?: string, partnerLogos?: Array<{ url?: string, alt?: string, width?: number | null, height?: number | null }> }} props
+ */
 export default function PartnerSection({ sectionAriaLabel, partnerLogos = [] }) {
     const logos = partnerLogos.filter((logo) => logo?.url);
 
