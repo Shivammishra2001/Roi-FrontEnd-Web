@@ -63,12 +63,16 @@ export default function BrandsSection({ headingPrefix, headingEmphasis, brandTil
                 Math.min(1, -r.top / total)
             );
 
+            // The track starts at the left edge of the page container; at the
+            // end of the scroll its last card ends at the container's right
+            // edge (aligned with the heading), so no card is left cut off,
+            // whatever the screen width.
             const trackWidth = tr.scrollWidth;
-            const viewW = window.innerWidth;
+            const visibleWidth = tr.parentElement ? tr.parentElement.clientWidth : window.innerWidth;
 
             const maxX = Math.max(
                 0,
-                trackWidth - viewW + 80
+                trackWidth - visibleWidth
             );
 
             setTrackOffset(p * maxX);
