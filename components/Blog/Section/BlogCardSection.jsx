@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { blogCategoryName, blogImageUrl } from "../../../lib/format";
+import { blogCategoryName, blogImageUrl, blogMatchesFilter } from "../../../lib/format";
 
 
 export default function BlogCardSection({
@@ -18,10 +18,9 @@ export default function BlogCardSection({
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filteredBlogs =
-    activeFilter === "all"
-      ? blogs
-      : blogs.filter((blog) => blog.categoryKey === activeFilter);
+  // Tab matching is case/spacing/"&"-insensitive (lib/format.js).
+  const activeTab = filters.find((filter) => filter.value === activeFilter) || { value: "all" };
+  const filteredBlogs = blogs.filter((blog) => blogMatchesFilter(blog, activeTab));
 
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
 
