@@ -25,7 +25,10 @@ const BlogRelatedSection = ({ relatedBlogs = [], kicker, title, buttonLabel }) =
             speed: 750,
             loop: relatedBlogs.length > 3,
             grabCursor: true,
-            watchOverflow: false,
+            // Fewer posts than fit on screen (a small category): centre them
+            // and hide the arrows (Swiper adds .swiper-button-lock).
+            watchOverflow: true,
+            centerInsufficientSlides: true,
             autoplay: {
                 delay: 3500,
                 disableOnInteraction: false,
