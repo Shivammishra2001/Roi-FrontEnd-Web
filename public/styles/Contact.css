@@ -2032,6 +2032,56 @@ cursor: pointer;
   display: flex;
 }
 
+/* Continuous logo strip (ContactLogoSlider.jsx): cards per view and gaps
+   match the earlier slider - 5 / 4 / 3 / 2 cards. Widths are set here, so
+   the strip is laid out before any script runs. */
+.logo-marquee-viewport {
+  --logo-per-view: 5;
+  --logo-gap: 20px;
+  container-type: inline-size;
+}
+
+.logo-marquee-track {
+  display: flex;
+  align-items: stretch;
+  gap: var(--logo-gap);
+  width: max-content;
+  will-change: transform;
+}
+
+.logo-marquee-item {
+  flex: 0 0 auto;
+  display: flex;
+  width: calc((100cqw - (var(--logo-per-view) - 1) * var(--logo-gap)) / var(--logo-per-view));
+}
+
+@media (max-width: 1199px) {
+  .logo-marquee-viewport {
+    --logo-per-view: 4;
+    --logo-gap: 18px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .logo-marquee-viewport {
+    --logo-per-view: 3;
+    --logo-gap: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .logo-marquee-viewport {
+    --logo-per-view: 2;
+    --logo-gap: 14px;
+  }
+}
+
+@media (max-width: 479px) {
+  .logo-marquee-viewport {
+    --logo-gap: 12px;
+  }
+}
+
 .logo-card {
   width: 100%;
   min-height: 150px;
