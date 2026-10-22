@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -18,9 +18,16 @@ export default function LogoSlider({ logos: cmsLogos = [] }) {
 
         <Swiper
           className="logoSwiper"
-          modules={[Navigation]}
+          modules={[Navigation, Autoplay]}
           loop={true}
           speed={700}
+          // Moves on by itself every 2.5s; pauses while the pointer is over
+          // the cards, and keeps going after the arrows are used.
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           slidesPerView={5}
           spaceBetween={20}
 
