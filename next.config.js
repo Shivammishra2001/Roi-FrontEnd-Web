@@ -1,10 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        // Page CSS goes inline in the HTML instead of separate render-blocking
-        // stylesheet requests (production builds only).
-        inlineCss: true,
-    },
     images: {
         remotePatterns: [
             {
