@@ -40,14 +40,29 @@ export default function OfficeLocations({ badge, title, backgroundVideo, fallbac
                             key={activeOffice.city}
                             className="office-image-card owl-item animated owl-animated-in"
                         >
-                            <img
-                                src={activeOffice.image?.url || fallbackImage?.url}
-                                alt={activeOffice.city}
-                                onError={(event) => {
-                                    event.currentTarget.onerror = null;
-                                    if (fallbackImage?.url) event.currentTarget.src = fallbackImage.url;
-                                }}
-                            />
+                            {/* An MP4 is far lighter than the same animation as a
+                                GIF; it plays the same way (muted, looping). */}
+                            {activeOffice.image?.url && activeOffice.image.mime?.startsWith("video/") ? (
+                                <video
+                                    autoPlay
+                                    loop
+                                    muted
+                                    playsInline
+                                    preload="metadata"
+                                    aria-label={activeOffice.city}
+                                >
+                                    <source src={activeOffice.image.url} type={activeOffice.image.mime} />
+                                </video>
+                            ) : (
+                                <img
+                                    src={activeOffice.image?.url || fallbackImage?.url}
+                                    alt={activeOffice.city}
+                                    onError={(event) => {
+                                        event.currentTarget.onerror = null;
+                                        if (fallbackImage?.url) event.currentTarget.src = fallbackImage.url;
+                                    }}
+                                />
+                            )}
                         </div>
                     </div>
                     <div
