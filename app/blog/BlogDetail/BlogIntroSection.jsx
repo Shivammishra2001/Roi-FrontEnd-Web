@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatDate, blogCategoryName } from "../../../lib/format";
+import { toArticleHtml } from "../../../lib/blogContent";
 
 const EMPTY_FORM = { fullName: "", phone: "", email: "", message: "", website: "" };
 
@@ -58,23 +59,9 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
         router.push("/thank-you");
     };
 
-    const isHtml = currentBlog?.content && currentBlog.content.includes('<');
-
-    const formattedContent = isHtml ? currentBlog.content
-        .replace(/<h2(\s*|\s+[^>]*)>/gi, (match, p1) => {
-            if (/case-content-title/i.test(match)) return match;
-            if (/class=["']/i.test(match)) {
-                return match.replace(/class=["']([^"']*)["']/i, 'class="$1 case-content-title"');
-            }
-            return `<h2 class="case-content-title"${p1 ? ' ' + p1.trim() : ''}>`;
-        })
-        .replace(/<h3(\s*|\s+[^>]*)>/gi, (match, p1) => {
-            if (/case-content-title-h3/i.test(match)) return match;
-            if (/class=["']/i.test(match)) {
-                return match.replace(/class=["']([^"']*)["']/i, 'class="$1 case-content-title-h3"');
-            }
-            return `<h3 class="case-content-title-h3"${p1 ? ' ' + p1.trim() : ''}>`;
-        }) : '';
+    // Older posts keep paragraphs as bare text lines; this gives every post
+    // the same <p>/<h2>/<h3> structure (lib/blogContent.js).
+    const articleHtml = toArticleHtml(currentBlog?.content);
     return (
         <section className="case-intro-section-area">
             <div className="container">
@@ -198,35 +185,13 @@ const BlogIntroSection = ({ currentBlog, dateLabel, categoryLabel }) => {
                         <div className="case-main-content">
                             <div className="case-content-area-box">
 
-                                {isHtml ? (
+                                {articleHtml ? (
                                     <div
                                         className="case-content-text"
-                                        dangerouslySetInnerHTML={{ __html: formattedContent }}
+                                        dangerouslySetInnerHTML={{ __html: articleHtml }}
                                     />
                                 ) : (
-                                    <div>
-                                        {currentBlog?.content ? (
-                                            currentBlog.content.split('\n\n').map((block, index) => {
-                                                const trimmed = block.trim();
-                                                if (!trimmed) return null;
-                                                const isHeading = trimmed.length < 80 && !trimmed.endsWith('.') && !trimmed.endsWith(':');
-                                                if (isHeading) {
-                                                    return (
-                                                        <h2 key={index} className="case-content-title" style={{ marginTop: "32px", fontSize: "28px" }}>
-                                                            {trimmed}
-                                                        </h2>
-                                                    );
-                                                }
-                                                return (
-                                                    <p key={index} className="case-content-text">
-                                                        {trimmed}
-                                                    </p>
-                                                );
-                                            })
-                                        ) : (
-                                            <p className="case-content-text">No content available.</p>
-                                        )}
-                                    </div>
+                                    <p className="case-content-text">No content available.</p>
                                 )}
                             </div>
                         </div>

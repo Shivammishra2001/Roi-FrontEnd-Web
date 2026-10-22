@@ -3345,3 +3345,112 @@ p.case-content-text{
 
 
 
+
+/* ==========================================================================
+   Blog article body (.case-content-text): one set of typography for every
+   post, matching the paragraphs, headings and lists of the newer posts.
+   lib/blogContent.js turns older posts' bare text lines into <p>s.
+   ========================================================================== */
+.case-content-text > :first-child {
+    margin-top: 0;
+}
+
+.case-content-text p {
+    margin: 0 0 18px;
+}
+
+.case-content-text .case-content-title,
+.case-content-text h2 {
+    margin: 36px 0 12px;
+}
+
+.case-content-text .case-content-title-h3,
+.case-content-text h3 {
+    margin: 28px 0 10px;
+}
+
+.case-content-text h4 {
+    margin: 24px 0 8px;
+    color: #171717;
+    font-family: var(--font-inter), sans-serif;
+    font-size: clamp(18px, 1.4vw, 21px);
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.case-content-text ul,
+.case-content-text ol {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 0 22px;
+    padding-left: 22px;
+    color: #000;
+    font-family: var(--font-inter), sans-serif;
+    font-size: clamp(16px, 1.25vw, 18px);
+    font-weight: 300;
+    line-height: 1.65;
+}
+
+.case-content-text ul {
+    list-style: disc;
+}
+
+.case-content-text ol {
+    list-style: decimal;
+}
+
+.case-content-text li {
+    padding-left: 4px;
+}
+
+.case-content-text li > ul,
+.case-content-text li > ol {
+    margin: 10px 0 0;
+}
+
+.case-content-text li p {
+    margin: 0;
+}
+
+.case-content-text strong,
+.case-content-text b {
+    font-weight: 600;
+}
+
+.case-content-text a {
+    color: #406bf8;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.case-content-text blockquote {
+    margin: 28px 0;
+    padding: 4px 0 4px 22px;
+    border-left: 3px solid #f13e05;
+    color: #262626;
+    font-family: var(--font-inter), sans-serif;
+    font-size: clamp(17px, 1.4vw, 20px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.case-content-text blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.case-content-text img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 24px 0;
+    border-radius: 12px;
+}
+
+@media (max-width: 767px) {
+    .case-content-text .case-content-title,
+    .case-content-text h2 {
+        margin-top: 28px;
+    }
+}
