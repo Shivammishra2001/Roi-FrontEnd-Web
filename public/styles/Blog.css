@@ -2053,12 +2053,6 @@ p.case-content-text{
     }
 
 
-    /* Nothing to scroll (all related posts fit on screen): no arrows. */
-    .case-prev.swiper-button-lock,
-    .case-next.swiper-button-lock {
-        display: none;
-    }
-
     .case-prev.swiper-button-disabled,
     .case-next.swiper-button-disabled {
         opacity: .35;
@@ -2066,9 +2060,10 @@ p.case-content-text{
         cursor: not-allowed;
     }
 
+    /* Nothing to scroll (all related posts fit on screen): no arrows. */
     .case-prev.swiper-button-lock,
     .case-next.swiper-button-lock {
-        display: flex !important;
+        display: none !important;
     }
 
 
