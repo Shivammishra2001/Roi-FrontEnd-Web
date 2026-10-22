@@ -10,6 +10,7 @@ const PLATFORMS = {
   x: { icon: "fa-twitter", label: "X (Twitter)", className: "contact-social-x" },
   instagram: { icon: "fa-instagram", label: "Instagram" },
   youtube: { icon: "fa-youtube-play", label: "YouTube" },
+  whatsapp: { icon: "fa-whatsapp", label: "WhatsApp" },
 };
 
 /** Older entries have no platform: tell it from the link instead. */
@@ -18,13 +19,24 @@ function platformOf(link, url) {
   const host = url.replace(/^https?:\/\/(www\.)?/i, "").toLowerCase();
   if (host.startsWith("twitter.com") || host.startsWith("x.com")) return "x";
   if (host.startsWith("youtu")) return "youtube";
+  if (host.startsWith("wa.me") || /^(api\.|web\.)?whatsapp\.com/.test(host)) return "whatsapp";
   return Object.keys(PLATFORMS).find((p) => host.startsWith(`${p}.com`)) || null;
+}
+
+/**
+ * WhatsApp can be entered as just the number with country code
+ * ("+91 96500 95232") -> https://wa.me/919650095232.
+ */
+function whatsappUrl(value) {
+  const digits = value.replace(/[\s().+-]+/g, "");
+  return /^\d{8,15}$/.test(digits) ? `https://wa.me/${digits}` : value;
 }
 
 /** Only links with a full http(s) URL are shown. */
 function socialIcons(links) {
   return (links || []).flatMap((link) => {
-    const url = (link.url ?? link.href ?? "").trim();
+    const raw = (link.url ?? link.href ?? "").trim();
+    const url = link.platform === "whatsapp" && !/^https?:\/\//i.test(raw) ? whatsappUrl(raw) : raw;
     if (!/^https?:\/\/\S+$/i.test(url)) return [];
     const platform = PLATFORMS[platformOf(link, url)];
     const icon = platform?.icon || (/^fa-[\w-]+$/.test(link.iconName || "") ? link.iconName : "fa-link");
