@@ -51,9 +51,7 @@ export default function ThreePillarsSection({ backgroundImage, pillars = [] }) {
                                         <div className="three-pillars-body">
                                             <ul className="three-pillars-list">
                                                 {(pillar.listItems || []).map((item, itemIndex) => {
-                                                    // "Search engines" stays a dead '#' link; the other empty links fall back to /discovery.
-                                                    const keepHash = item.label === 'Search engines';
-                                                    const itemHref = (pillar.number === '01' && !keepHash && (!item.href || item.href === '#')) ? '/discovery' : (item.href || '#');
+                                                    const itemHref = item.href || '#';
                                                     return (
                                                         <li className="three-pillars-itme" key={itemIndex}>
                                                             <a
