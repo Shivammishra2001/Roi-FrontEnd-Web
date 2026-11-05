@@ -144,6 +144,15 @@
     min-height: 240px;
     max-height: none;
   }
+  /* The heading is sized to the screen width, so on phones the fixed 5px
+     downward nudge used on desktop cuts off the bottom of the letters.
+     Drop it and lift the line by a share of its own size instead. */
+  .about-heading-area {
+    transform: none !important;
+  }
+  .about-heading {
+    margin-bottom: 0.1em;
+  }
 }
 
 @media (max-width: 480px) {
