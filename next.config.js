@@ -43,6 +43,17 @@ const nextConfig = {
                 destination: '/discovery',
                 permanent: true,
             },
+            // The About page moved from /about to /about-us.
+            {
+                source: '/about',
+                destination: '/about-us',
+                permanent: true,
+            },
+            {
+                source: '/about/',
+                destination: '/about-us',
+                permanent: true,
+            },
         ];
     },
 };

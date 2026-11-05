@@ -13,7 +13,7 @@ const SITE_URL = (process.env.SITE_URL || 'https://www.roimantra.com').replace(/
 /** Pages-collection slug -> site path, with its sitemap priority and change frequency. */
 const PAGE_ROUTES = {
     home: { path: '/', priority: 1.0, changeFrequency: 'weekly' },
-    'about-us': { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
+    'about-us': { path: '/about-us', priority: 0.8, changeFrequency: 'monthly' },
     blog: { path: '/blog', priority: 0.9, changeFrequency: 'daily' },
     'case-studies': { path: '/case-studies', priority: 0.9, changeFrequency: 'weekly' },
     contact: { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
