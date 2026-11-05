@@ -1090,6 +1090,58 @@ p.stats-footer {
   transform: translate(-50%, -50%) scale(1);
 }
 
+/* Name + role over the bottom of each photo. Desktop shows them in the hover
+   badge instead; touch devices and small screens have no hover, so they get
+   this caption. */
+.team-card-caption {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 36px 10px 10px;
+  flex-direction: column;
+  gap: 2px;
+  background: linear-gradient(to top, rgba(17, 17, 17, 0.82) 0%, rgba(17, 17, 17, 0.55) 55%, rgba(17, 17, 17, 0) 100%);
+  color: #ffffff;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  pointer-events: none;
+}
+
+.team-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.team-card-role {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: #f2ad37;
+}
+
+@media (hover: none), (max-width: 1024px) {
+  .team-card-caption {
+    display: flex;
+  }
+  .team-hover-badge {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .team-card-caption {
+    padding: 28px 8px 8px;
+  }
+  .team-card-name {
+    font-size: 13px;
+  }
+  .team-card-role {
+    font-size: 11px;
+  }
+}
+
 @media (max-width: 1024px) {
   .team-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

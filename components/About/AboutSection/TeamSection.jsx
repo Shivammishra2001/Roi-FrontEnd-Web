@@ -157,6 +157,10 @@ export default function TeamSection(props) {
                                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                                         className="team-card-image"
                                     />
+                                    <div className="team-card-caption">
+                                        <span className="team-card-name">{member.name}</span>
+                                        {member.role ? <span className="team-card-role">{member.role}</span> : null}
+                                    </div>
                                 </div>
                             </div>
                         ))}
