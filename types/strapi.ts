@@ -26,6 +26,8 @@ export interface Seo {
   metaDescription: string;
   /** "Meta Keywords", comma-separated; rendered as <meta name="keywords">. */
   keywords?: string | null;
+  /** "Hide from search engines" switch; true renders robots noindex/nofollow. */
+  noIndex?: boolean | null;
   ogImage: Media | null;
 }
 

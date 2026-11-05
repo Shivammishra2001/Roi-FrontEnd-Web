@@ -236,6 +236,17 @@ export function constructMetadata(seo: Seo | null): Metadata {
     title: seo.metaTitle,
     description: seo.metaDescription,
     ...(seo.keywords?.trim() ? { keywords: seo.keywords.trim() } : {}),
+    // Only emitted when switched on in Strapi; otherwise the site default applies.
+    ...(seo.noIndex === true
+      ? {
+          robots: {
+            index: false,
+            follow: false,
+            nocache: true,
+            googleBot: { index: false, follow: false },
+          },
+        }
+      : {}),
     ...(seo.ogImage
       ? { openGraph: { images: [{ url: seo.ogImage.url, alt: seo.ogImage.alt }] } }
       : {}),
