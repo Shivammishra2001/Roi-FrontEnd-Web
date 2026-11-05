@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" fill="none">
+  <!-- Journey Curves -->
+  <!-- Solid Golden Curve (Search through AI to AD) -->
+  <path d="M 58 95 C 78 95, 92 52, 108 52 C 124 52, 146 95, 165 95" fill="none" stroke="#f5c24b" stroke-width="2.6" stroke-linecap="round"/>
+
+  <!-- Dashed Curve (AD through REV to BUY) -->
+  <path d="M 165 95 C 185 95, 204 58, 220 58 C 236 58, 256 95, 274 95" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+
+  <!-- Node 1: SEARCH -->
+  <circle cx="46" cy="95" r="14" fill="#1c1c1a" stroke="rgba(255,255,255,0.85)" stroke-width="1.8"/>
+  <text x="46" y="98" text-anchor="middle" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="700">SEARCH</text>
+
+  <!-- Node 2: AI (Crest) -->
+  <circle cx="108" cy="52" r="18" fill="rgba(245,194,75,0.12)"/>
+  <circle cx="108" cy="52" r="13" fill="#1c1c1a" stroke="#f5c24b" stroke-width="1.8"/>
+  <text x="108" y="55.5" text-anchor="middle" fill="#f5c24b" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700">AI</text>
+
+  <!-- Node 3: AD -->
+  <circle cx="165" cy="95" r="13" fill="#1c1c1a" stroke="rgba(255,255,255,0.85)" stroke-width="1.8"/>
+  <text x="165" y="98" text-anchor="middle" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700">AD</text>
+
+  <!-- Node 4: REV -->
+  <circle cx="220" cy="58" r="13" fill="#1c1c1a" stroke="rgba(255,255,255,0.85)" stroke-width="1.8"/>
+  <text x="220" y="61" text-anchor="middle" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700">REV</text>
+
+  <!-- Node 5: BUY (Glowing Gold Target) -->
+  <circle cx="274" cy="95" r="22" fill="rgba(245,194,75,0.2)"/>
+  <circle cx="274" cy="95" r="15" fill="#f5c24b" stroke="#ffffff" stroke-width="2"/>
+  <text x="274" y="98.5" text-anchor="middle" fill="#111110" font-family="'JetBrains Mono', monospace" font-size="8.5" font-weight="800">BUY</text>
+</svg>
