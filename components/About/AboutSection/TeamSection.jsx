@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { text, list, imageUrl, slugify } from './aboutData';
 
 const teamMembers = [
     {
@@ -66,7 +67,13 @@ const teamMembers = [
     },
 ];
 
-export default function TeamSection() {
+export default function TeamSection(props) {
+    const members = list(props.members, teamMembers).map((member, i) => ({
+        id: member.id || `${member.name}-${i}`,
+        name: member.name,
+        role: member.role || '',
+        img: imageUrl(member.photo || member.img, `/images/team/${slugify(member.name)}-img.png`),
+    }));
     const badgeRef = useRef(null);
 
     useEffect(() => {
@@ -125,15 +132,16 @@ export default function TeamSection() {
             <div className="srcn-container">
                 <div className="team-wrap">
                     <div className="team-container-header-area">
-                        <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>The Team</div>
+                        <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>{text(props.eyebrow, 'The Team')}</div>
                         <h2 className="team-headline">
-                            Different disciplines. Different cities.{' '}
-                            <span className="team-highlight">One obsession</span> — make the work mean something.
+                            {text(props.headingBefore, 'Different disciplines. Different cities. ')}
+                            <span className="team-highlight">{text(props.headingAccent, 'One obsession')}</span>
+                            {text(props.headingAfter, ' — make the work mean something.')}
                         </h2>
                     </div>
 
                     <div className="team-grid">
-                        {teamMembers.map((member) => (
+                        {members.map((member) => (
                             <div
                                 key={member.id}
                                 className="team-card"

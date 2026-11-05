@@ -3,9 +3,52 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { text, list, imageUrl } from "./aboutData";
 
-export default function AboutTabsSection() {
+const DEFAULT_TABS = [
+  {
+    label: "Zero Media Waste.",
+    headingBefore: "Built with Google. ",
+    headingAccent: "Pointed at the leak.",
+    headingAfter: "",
+    leadBold: "Half of most media budgets never reach a buyer.",
+    intro: "The industry has made peace with that. We haven’t.",
+    body:
+      "Zero Media Waste is our methodology, built in collaboration with Google. Precise targeting. Relevant messaging. Continuous refinement. Every rupee asked to earn its place — and if it can’t, we move it.",
+    buttonLabel: "Read more",
+    buttonHref: "/contact",
+    image: "/images/about/about-zmw-dashboard.jpg",
+    imageAlt: "Zero Media Waste Dashboard",
+  },
+  {
+    label: "Partnerships.",
+    headingBefore: "",
+    headingAccent: "Google Premier Partner",
+    headingAfter: " — one of roughly forty worldwide.",
+    subline: "Meta Business Partner.",
+    chips: ["Google Premier Partner", "Meta Business Partner"],
+    image: "/images/about/about-partnerships.jpg",
+    imageAlt: "Google and Meta Premier Partnerships",
+  },
+];
+
+const str = (v) => (typeof v === "string" ? v : "");
+
+export default function AboutTabsSection(props) {
   const [activeTab, setActiveTab] = useState(0);
+
+  const tabs = list(props.tabs, DEFAULT_TABS).map((tab, i) => {
+    const fallback = DEFAULT_TABS[i] || {};
+    return {
+      ...tab,
+      label: text(tab.label, fallback.label || `Tab ${i + 1}`),
+      src: imageUrl(tab.image, fallback.image || ""),
+      alt: text(tab.image && tab.image.alt, fallback.imageAlt || text(tab.label, "")),
+    };
+  });
+  const current = tabs[Math.min(activeTab, tabs.length - 1)];
+  const paragraphs = str(current.body).split(/\n\s*\n/).map((t) => t.trim()).filter(Boolean);
+  const chips = list(current.chips, []);
 
   return (
     <section className="about-tabs-section">
@@ -13,106 +56,86 @@ export default function AboutTabsSection() {
         <div className="about-tabs-wrap">
           <div className="about-tabs-tcard">
             <div className="about-tabs-tabs">
-              <button
-                type="button"
-                onClick={() => setActiveTab(0)}
-                style={{
-                  color: activeTab === 0 ? "var(--ink, #1A1A1A)" : "var(--tab-off, #B5B0A8)",
-                }}
-              >
-                Zero Media Waste.
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab(1)}
-                style={{
-                  color: activeTab === 1 ? "var(--ink, #1A1A1A)" : "var(--tab-off, #B5B0A8)",
-                }}
-              >
-                Partnerships.
-              </button>
+              {tabs.map((tab, i) => (
+                <button
+                  key={`${tab.label}-${i}`}
+                  type="button"
+                  onClick={() => setActiveTab(i)}
+                  style={{
+                    color: activeTab === i ? "var(--ink, #1A1A1A)" : "var(--tab-off, #B5B0A8)",
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
             <div className="about-tabs-txt" key={activeTab}>
-              {activeTab === 0 ? (
-                <>
-                  <h3 className="about-tabs-disp">
-                    Built with Google. <span className="about-tabs-acc">Pointed at the leak.</span>
-                  </h3>
-                  <p>
-                    <b style={{ color: "var(--ink, #1A1A1A)" }}>
-                      Half of most media budgets never reach a buyer.
-                    </b>{" "}
-                    The industry has made peace with that. We haven’t.
-                  </p>
-                  <p>
-                    Zero Media Waste is our methodology, built in collaboration with
-                    Google. Precise targeting. Relevant messaging. Continuous
-                    refinement. Every rupee asked to earn its place — and if it
-                    can’t, we move it.
-                  </p>
-                  <div>
-                    <Link href="/contact" className="about-tabs-btn">
-                      Read more 
-                      <span className="about-tabs-arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h3 className="about-tabs-disp">
-                    <span className="about-tabs-acc">Google Premier Partner</span> — one of roughly forty worldwide.
-                  </h3>
-                  <p style={{ color: "var(--ink, #1A1A1A)", fontSize: "22px", fontWeight: 500 }}>
-                    Meta Business Partner.
-                  </p>
-                  <div className="about-tabs-chips">
-                    <span className="about-tabs-chip">Google Premier Partner</span>
-                    <span className="about-tabs-chip">Meta Business Partner</span>
-                  </div>
-                </>
+              <h3 className="about-tabs-disp">
+                {str(current.headingBefore)}
+                <span className="about-tabs-acc">{str(current.headingAccent)}</span>
+                {str(current.headingAfter)}
+              </h3>
+              {(text(current.leadBold) || text(current.intro)) && (
+                <p>
+                  {text(current.leadBold) && (
+                    <b style={{ color: "var(--ink, #1A1A1A)" }}>{current.leadBold}</b>
+                  )}
+                  {text(current.leadBold) && text(current.intro) ? " " : ""}
+                  {str(current.intro)}
+                </p>
+              )}
+              {paragraphs.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+              {text(current.subline) && (
+                <p style={{ color: "var(--ink, #1A1A1A)", fontSize: "22px", fontWeight: 500 }}>
+                  {current.subline}
+                </p>
+              )}
+              {chips.length > 0 && (
+                <div className="about-tabs-chips">
+                  {chips.map((chip, i) => (
+                    <span className="about-tabs-chip" key={i}>
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {text(current.buttonLabel) && (
+                <div>
+                  <Link href={text(current.buttonHref, "/contact")} className="about-tabs-btn">
+                    {current.buttonLabel}{" "}
+                    <span className="about-tabs-arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                  </Link>
+                </div>
               )}
             </div>
             <div className="about-tabs-pic">
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  opacity: activeTab === 0 ? 1 : 0,
-                  transition: "opacity .5s ease",
-                  pointerEvents: activeTab === 0 ? "auto" : "none",
-                }}
-              >
-                <div className="about-tabs-tab-pic-inner">
-                  <Image
-                    src="/images/about/about-zmw-dashboard.jpg"
-                    alt="Zero Media Waste Dashboard"
-                    fill
-                    sizes="(max-width: 900px) 100vw, 35vw"
-                    className="tab-image"
-                    priority
-                  />
+              {tabs.map((tab, i) => (
+                <div
+                  key={`${tab.label}-pic-${i}`}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    opacity: activeTab === i ? 1 : 0,
+                    transition: "opacity .5s ease",
+                    pointerEvents: activeTab === i ? "auto" : "none",
+                  }}
+                >
+                  <div className="about-tabs-tab-pic-inner">
+                    {tab.src && (
+                      <Image
+                        src={tab.src}
+                        alt={tab.alt}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 35vw"
+                        className="tab-image"
+                        priority={i === 0}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  opacity: activeTab === 1 ? 1 : 0,
-                  transition: "opacity .5s ease",
-                  pointerEvents: activeTab === 1 ? "auto" : "none",
-                }}
-              >
-                <div className="about-tabs-tab-pic-inner">
-                  <Image
-                    src="/images/about/about-partnerships.jpg"
-                    alt="Google and Meta Premier Partnerships"
-                    fill
-                    sizes="(max-width: 900px) 100vw, 35vw"
-                    className="tab-image"
-                  />
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

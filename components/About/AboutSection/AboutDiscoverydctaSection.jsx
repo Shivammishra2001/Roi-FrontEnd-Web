@@ -1,11 +1,12 @@
 "use client";
 
 import { useInView } from "@/hooks/useInView";
+import { text } from "./aboutData";
 
-export default function DiscoverydctaSection() {
+export default function DiscoverydctaSection(props) {
     const [ref, on] = useInView(0.25);
 
-    const words = "Twenty-six years. One obsession.".split(" ");
+    const words = text(props.title, "Twenty-six years. One obsession.").split(" ");
 
     return (
         <section id="cta" ref={ref} className="od-cta-section-area">
@@ -27,9 +28,9 @@ export default function DiscoverydctaSection() {
                     </h2>
 
                     <p className="od-cta-description">
-                       Still asking what the next surface is.
+                       {text(props.description, "Still asking what the next surface is.")}
                     </p>
-                    <div className="talk-discovery-btn-wrap"><a className="talk-discovery-btn" href="/contact"><span>Start a conversation </span> <span className="arr"><i className="fa fa-long-arrow-right"></i></span></a></div>
+                    <div className="talk-discovery-btn-wrap"><a className="talk-discovery-btn" href={text(props.buttonHref, "/contact")}><span>{text(props.buttonLabel, "Start a conversation")} </span> <span className="arr"><i className="fa fa-long-arrow-right"></i></span></a></div>
 
                 </div>
             </div>

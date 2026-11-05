@@ -2,8 +2,9 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { text, list, imageUrl } from "./aboutData";
 
-const PILLARS_DATA = [
+const DEFAULT_PILLARS = [
   {
     nav: "One job",
     num: "01 / 04",
@@ -46,7 +47,20 @@ const PILLARS_DATA = [
   },
 ];
 
-export default function AboutPillarsSection() {
+export default function AboutPillarsSection(props) {
+  const PILLARS_DATA = list(props.items, DEFAULT_PILLARS).map((item, i, all) => {
+    const fallback = DEFAULT_PILLARS[i] || {};
+    return {
+      nav: text(item.nav, fallback.nav || `Pillar ${i + 1}`),
+      num: text(item.number ?? item.num, fallback.num || `${String(i + 1).padStart(2, "0")} / ${String(all.length).padStart(2, "0")}`),
+      acc: text(item.accent ?? item.acc, fallback.acc || ""),
+      rest: typeof (item.rest ?? null) === "string" ? item.rest : fallback.rest || "",
+      desc: text(item.description ?? item.desc, fallback.desc || ""),
+      slotId: fallback.slotId || `about-pillar-${i + 1}`,
+      placeholder: fallback.placeholder || `${String(i + 1).padStart(2, "0")} · object study`,
+      image: imageUrl(item.image, fallback.image || ""),
+    };
+  });
   const ref = useRef(null);
   const [p, setP] = useState(0);
   const [cur, setCur] = useState(0);
@@ -126,7 +140,7 @@ export default function AboutPillarsSection() {
             <span className="arr">
               <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
             </span>
-            What We Hold True
+            {text(props.eyebrow, "What We Hold True")}
           </div>
           <div className="pillars-list">
             {PILLARS_DATA.map((item, i) => (

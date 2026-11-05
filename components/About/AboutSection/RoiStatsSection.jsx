@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { text, list } from './aboutData';
 
 const stats = [
     {
@@ -87,14 +88,20 @@ function AnimatedCounter({ value, prefix = '', suffix = '' }) {
     );
 }
 
-export default function RoiStatsSection() {
+export default function RoiStatsSection(props) {
+    const items = list(props.items, stats).map((stat) => ({
+        ...stat,
+        value: Number.isFinite(Number(stat.value)) ? Number(stat.value) : 0,
+        prefix: stat.prefix || '',
+        suffix: stat.suffix || '',
+    }));
     return (
         <section className="stats-section">
             <div className="srcn-container">
-                <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>IN NUMBERS</div>
+                <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>{text(props.eyebrow, 'IN NUMBERS')}</div>
                 <div className="stats-grid">
-                    {stats.map((stat) => (
-                        <div className="stats-item" key={stat.label}>
+                    {items.map((stat, i) => (
+                        <div className="stats-item" key={`${stat.label}-${i}`}>
                             <AnimatedCounter
                                 value={stat.value}
                                 prefix={stat.prefix}
@@ -105,7 +112,7 @@ export default function RoiStatsSection() {
                     ))}
                 </div>
                 <p className="stats-footer">
-                    Six delivery centres. Two headquarters. One standard.
+                    {text(props.footer, 'Six delivery centres. Two headquarters. One standard.')}
                 </p>
             </div>
         </section>

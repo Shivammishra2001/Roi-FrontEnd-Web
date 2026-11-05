@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { text, imageUrl } from './aboutData';
 
 const DEFAULT_OFFICES = [
   {
@@ -108,7 +109,7 @@ export default function AboutofficesData(props) {
             <span className="arr">
               <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
             </span>
-            Offices
+            {text(props?.eyebrow, 'Offices')}
           </div>
         </div>
 
@@ -118,8 +119,8 @@ export default function AboutofficesData(props) {
               key={office.id || office.city}
               id={office.id || `about-office-${office.city}`}
               city={office.city}
-              tz={office.tz || office.timeZone}
-              image={office.image || (office.city.includes('Dallas') ? '/images/about/about-office-dallas.jpg' : '/images/about/about-office-delhi.jpg')}
+              tz={office.timezone || office.tz || office.timeZone || (office.city.includes('Dallas') ? 'America/Chicago' : 'Asia/Kolkata')}
+              image={imageUrl(office.photo || office.image, office.city.includes('Dallas') ? '/images/about/about-office-dallas.webp' : '/images/about/about-office-delhi.webp')}
               placeholder={office.placeholder}
             />
           ))}
