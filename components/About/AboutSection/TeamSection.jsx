@@ -75,6 +75,7 @@ export default function TeamSection(props) {
         img: imageUrl(member.photo || member.img, `/images/team/${slugify(member.name)}-img.png`),
     }));
     const badgeRef = useRef(null);
+    const hideTimer = useRef(null);
 
     useEffect(() => {
         const badge = badgeRef.current || document.getElementById('hoverBadge');
@@ -91,7 +92,10 @@ export default function TeamSection(props) {
             currentY += (mouseY - currentY) * 0.15;
 
             if (badge) {
-                badge.style.left = `${currentX}px`;
+                // Keep the badge fully on screen (matters on narrow phones).
+                const half = badge.offsetWidth / 2 + 8;
+                const x = Math.max(half, Math.min(window.innerWidth - half, currentX));
+                badge.style.left = `${x}px`;
                 badge.style.top = `${currentY}px`;
             }
 
@@ -99,15 +103,40 @@ export default function TeamSection(props) {
         }
         animationFrameId = requestAnimationFrame(animateBadge);
 
+        const hide = () => {
+            clearTimeout(hideTimer.current);
+            badge.classList.remove('active');
+        };
+
         const handleMouseMove = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         };
 
+        // Touch screens have no hover: a tap on a photo shows the same badge
+        // (above the finger), and it goes away on a tap elsewhere, on scroll,
+        // or after a few seconds.
+        const handleTouchStart = (e) => {
+            const touch = e.touches[0];
+            const card = touch && e.target instanceof Element ? e.target.closest('.team-card') : null;
+            if (!card) return hide();
+            mouseX = currentX = touch.clientX;
+            mouseY = currentY = touch.clientY;
+            badge.textContent = card.getAttribute('data-title') || '';
+            badge.classList.add('touch', 'active');
+            clearTimeout(hideTimer.current);
+            hideTimer.current = setTimeout(hide, 3000);
+        };
+
         window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        window.addEventListener('scroll', hide, { passive: true });
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('scroll', hide);
+            clearTimeout(hideTimer.current);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
@@ -116,6 +145,7 @@ export default function TeamSection(props) {
         const badge = badgeRef.current || document.getElementById('hoverBadge');
         if (badge) {
             badge.textContent = title;
+            badge.classList.remove('touch');
             badge.classList.add('active');
         }
     };
@@ -157,10 +187,6 @@ export default function TeamSection(props) {
                                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                                         className="team-card-image"
                                     />
-                                    <div className="team-card-caption">
-                                        <span className="team-card-name">{member.name}</span>
-                                        {member.role ? <span className="team-card-role">{member.role}</span> : null}
-                                    </div>
                                 </div>
                             </div>
                         ))}
