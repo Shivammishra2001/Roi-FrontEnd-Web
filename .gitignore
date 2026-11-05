@@ -16,3 +16,8 @@ npm-debug.log*
 *.log
 .DS_Store
 Thumbs.db
+
+# Other build output / TypeScript cache
+build/
+dist/
+*.tsbuildinfo
