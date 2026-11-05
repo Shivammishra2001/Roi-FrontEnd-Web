@@ -736,7 +736,9 @@
     inset: clamp(24px, 5vw, 36px) clamp(18px, 5vw, 32px) clamp(20px, 4vw, 28px) clamp(18px, 5vw, 32px) !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    /* top-aligned: space-between pushed the paragraph to the bottom of the
+       tall card and left a big blank gap under the heading */
+    justify-content: flex-start !important;
     box-sizing: border-box !important;
     overflow-y: auto !important;
     scrollbar-width: none !important;
@@ -774,8 +776,8 @@
     font-size: clamp(15px, 3.6vw, 18px) !important;
     line-height: 1.55 !important;
     color: #555555 !important;
-    margin: auto 0 0 0 !important;
-    padding-top: 18px !important;
+    margin: clamp(12px, 3vw, 18px) 0 0 0 !important;
+    padding-top: 0 !important;
   }
 
   .pillars-mobile-controls {
