@@ -37,10 +37,23 @@ export default function BlogCardSection({
 
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
 
-  const PAGE_CHUNK_SIZE = 10;
-  const currentChunk = Math.floor((currentPage - 1) / PAGE_CHUNK_SIZE);
-  const startPage = currentChunk * PAGE_CHUNK_SIZE + 1;
-  const endPage = Math.min(startPage + PAGE_CHUNK_SIZE - 1, totalPages);
+  // Sliding window: show at most 5 page buttons, centred on the current page.
+  // <=5 pages → show all; otherwise clamp the window to [1, totalPages] so the
+  // start and end never run past the real page range.
+  const MAX_VISIBLE_PAGES = 5;
+  let startPage;
+  let endPage;
+  if (totalPages <= MAX_VISIBLE_PAGES) {
+    startPage = 1;
+    endPage = totalPages;
+  } else {
+    startPage = Math.max(1, currentPage - Math.floor(MAX_VISIBLE_PAGES / 2));
+    endPage = startPage + MAX_VISIBLE_PAGES - 1;
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage = endPage - MAX_VISIBLE_PAGES + 1;
+    }
+  }
   const visiblePages = Array.from(
     { length: Math.max(0, endPage - startPage + 1) },
     (_, index) => startPage + index
@@ -136,7 +149,7 @@ export default function BlogCardSection({
                   <button
                     type="button"
                     className="page-btn page-ellipsis"
-                    aria-label="Previous 10 pages"
+                    aria-label="Previous pages"
                     onClick={() => setCurrentPage(startPage - 1)}
                   >
                     ...
@@ -158,7 +171,7 @@ export default function BlogCardSection({
                   <button
                     type="button"
                     className="page-btn page-ellipsis"
-                    aria-label="Next 10 pages"
+                    aria-label="Next pages"
                     onClick={() => setCurrentPage(endPage + 1)}
                   >
                     ...
