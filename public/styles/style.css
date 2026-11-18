@@ -29,7 +29,11 @@
   .blog-detail-back {
       cursor: pointer !important;
   }
-
+.btn-primary-erro-btn {
+    color: #090909;
+    background: #ffc20e;
+    border-color: #ffc20e;
+}
   .contact-hero-section,
   .office-section {
       color: #fff;
@@ -3204,4 +3208,96 @@ letter-spacing: -.025em;
     opacity: 1;
     transform: none;
   }
+}
+
+
+
+/* =====================================================
+   OD CONSISTENCY SECTION
+===================================================== */
+.discovery-heading{
+  letter-spacing: -.025em;
+    font-family: var(--font-anton), sans-serif;
+    font-size: clamp(44px, 8vw, 161px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 114%;
+
+}
+span.case-study-hero-line {
+    color: #f5c24b;
+}
+.error-code {
+    margin-top: 18px;
+    color: #ffc20e;
+    font-family: "Anton", Impact, sans-serif;
+    font-size: clamp(140px, 19vw, 230px);
+    font-weight: 400;
+    line-height: .88;
+    letter-spacing: -2px;
+}
+
+.error-description {
+    color: #bcbcbc;
+    margin: 22px 0;
+    font-family: Inter, sans-serif;
+    font-size: clamp(16px, 1.25vw, 20px);
+    font-weight: 300;
+    line-height: 1.65;
+}
+.discovery-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 56px;
+    align-items: center;
+}
+
+
+.discovery-row-btn {
+ color: #fff;
+    white-space: nowrap;
+    background-color: #111;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: all .3s;
+    display: inline-flex;
+}
+
+.discovery-row-btn:hover {
+    background-color: #f5b82e;
+    color: #181818;
+    transform: translateY(-2px);
+    border-color: #111;
+    
+}
+
+
+.discovery-row-btn:focus,
+.discovery-row-btn:active {
+    outline: none;
+    box-shadow: none;
+}
+
+
+@media (max-width: 576px) {
+    .discovery-row {
+        gap: 12px;
+        margin-top: 32px;
+    }
+
+    .discovery-row-btn {
+        padding: 12px 20px;
+        font-size: 13px;
+        gap: 8px;
+    }
 }

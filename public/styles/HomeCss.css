@@ -18,9 +18,10 @@
 
  .hero-container {
      flex-direction: column;
+     justify-content: space-between;
      min-height: 100vh;
      margin: 0 auto;
-    padding: 175px 0 17px;
+     padding: 175px 0 26px;
      display: flex;
      position: relative;
  }
@@ -198,10 +199,20 @@ line-height: 114%;
 
 
 
+ .hero-bottom-bar {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     width: 100%;
+     margin-top: auto;
+     padding-top: 40px;
+     position: relative;
+     z-index: 2;
+     gap: 16px;
+ }
+
  .hero-info,
  .hero-scroll {
-     position: absolute;
-     bottom: 26px;
      color: #a3a3a3;
      font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
      font-weight: 400;
@@ -211,19 +222,19 @@ line-height: 114%;
      letter-spacing: 0.22em;
      text-transform: uppercase;
      transition: opacity 700ms ease, transform 800ms cubic-bezier(.2, .7, .2, 1);
-
  }
 
  .hero-info {
-     right: 0px;
+     text-align: right;
+     margin-left: auto;
  }
 
  .hero-scroll {
-     left: 0px;
      letter-spacing: 0.22em;
      display: inline-flex;
      align-items: center;
      gap: 8px;
+     flex-shrink: 0;
  }
 
  .hero-scroll i {
@@ -333,8 +344,8 @@ line-height: 114%;
      height: auto;
      object-fit: contain;
      display: block;
-     filter: grayscale(100%);
-     opacity: 0.72;
+     /* filter: grayscale(100%);
+     opacity: 0.72; */
      transition: 0.35s;
  }
 
@@ -1179,7 +1190,11 @@ line-height: 114%;
 
     .hero-container {
         min-height: calc(100vh - 80px);
-        padding: 105px 0 55px;
+        padding: 105px 0 35px;
+    }
+
+    .hero-bottom-bar {
+        padding-top: 32px;
     }
 
     .heading {
@@ -1217,7 +1232,13 @@ line-height: 114%;
 
     .hero-container {
         min-height: auto;
-        padding: 95px 0 45px;
+        padding: 95px 0 30px;
+    }
+
+    .hero-bottom-bar {
+        padding-top: 28px;
+        gap: 16px;
+        flex-wrap: wrap;
     }
 
     .sub-tilte-heading {
@@ -1276,7 +1297,7 @@ line-height: 114%;
 
     .hero-container {
         min-height: auto;
-        padding: 110px 0 40px;
+        padding: 110px 0 35px;
     }
 
     .sub-tilte-heading {
@@ -1296,20 +1317,27 @@ line-height: 114%;
         margin-top: 18px;
     }
 
+    .hero-bottom-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 0;
+    }
+
+    .hero-scroll {
+        display: none;
+    }
+
     .hero-info {
-        position: relative;
-        right: auto;
-        bottom: auto;
-        margin-top: 26px;
+        text-align: left;
+        margin-left: 0;
+        margin-top: 0;
         font-size: 11px;
         line-height: 1.6;
         letter-spacing: 0.1em;
         max-width: 100%;
         word-break: normal;
-    }
-
-    .hero-scroll {
-        display: none;
     }
 
     .pin-section {
@@ -1367,18 +1395,97 @@ line-height: 114%;
         padding: 45px 0;
     }
 
+    /* Three Pillars Section - Full View Stacking on Phone */
     .three-pillars-stack-card {
-        min-height: auto;
-        padding: 45px 0 55px;
+        position: sticky;
+        top: 0px;
+        min-height: 100vh;
+        min-height: 100dvh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 50px 0;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        overflow: hidden;
     }
 
     .three-pillars-row {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .three-pillars-number {
+        font-family: var(--font-anton), 'Anton', Impact, sans-serif;
+        font-size: clamp(54px, 14vw, 84px);
+        line-height: 1;
+        letter-spacing: 2px;
+    }
+
+    .three-pillars-tag {
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        margin-bottom: 6px;
+    }
+
+    .three-pillars-title {
+        font-family: var(--font-anton), 'Anton', Impact, sans-serif;
+        font-size: clamp(28px, 7vw, 42px);
+        line-height: 1.12;
+        letter-spacing: -0.015em;
+        max-width: 100%;
+        margin-bottom: 14px;
+    }
+
+    .three-pillars-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px 14px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .three-pillars-itme {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .three-pillars-itme::before {
+        content: "•";
+        font-size: 14px;
+        opacity: 0.6;
+        line-height: 1;
+    }
+
+    .three-pillars-itme::after {
+        display: none;
     }
 
     .three-pillars-link {
-        font-size: 14px; 
+        font-size: 14.5px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .three-pillars-one .three-pillars-link {
+        color: #4a5d45;
+    }
+
+    .three-pillars-pillar-two .three-pillars-link {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .three-pillars-pillar-three .three-pillars-link {
+        color: #4e554a;
     }
    
 }
@@ -1401,8 +1508,11 @@ line-height: 114%;
         font-size: 11px;
     }
 
-    .hero-info {
+    .hero-bottom-bar {
         margin-top: 20px;
+    }
+
+    .hero-info {
         font-size: 10px;
         letter-spacing: 0.06em;
     }
@@ -1420,7 +1530,44 @@ line-height: 114%;
     }
 
     .three-pillars-stack-card {
-        padding: 35px 0 45px;
+        padding: 40px 0;
     }
 
+    .three-pillars-number {
+        font-size: clamp(48px, 16vw, 70px);
+    }
+
+    .three-pillars-title {
+        font-size: clamp(26px, 8vw, 36px);
+        margin-bottom: 12px;
+    }
+.three-pillars-content {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+    .three-pillars-list {
+                gap: 13px;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .three-pillars-link {
+        font-size: 13.5px;
+    }
+
+}
+
+.creative-future-card {
+    min-height: 180px;
+}
+
+.creative-future-footer-note {
+    margin: clamp(28px, 3.5vw, 44px) 0 0;
+    font-family: var(--font-inter), Arial, sans-serif;
+    font-size: clamp(16px, 1.3vw, 19px);
+    font-weight: 400;
+    line-height: 1.6;
+    color: #657487;
 }

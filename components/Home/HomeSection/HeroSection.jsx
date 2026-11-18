@@ -119,15 +119,22 @@ export default function HeroSection({
                                     </a>
                                 ))}
                             </div>
-                            <div className="hero-info reveal-up" style={{ animationDelay: '1500ms' }}>
-                                {infoStrip}
-                            </div>
-                            {scrollCueText && (
-                                <div className="hero-scroll reveal-up" style={{ animationDelay: '1500ms' }}>
-                                    <span> {scrollCueText}</span>
-                                </div>
-                            )}
                         </div>
+
+                        {(scrollCueText || infoStrip) && (
+                            <div className="hero-bottom-bar">
+                                {scrollCueText ? (
+                                    <div className="hero-scroll reveal-up" style={{ animationDelay: '1500ms' }}>
+                                        <span> {scrollCueText}</span>
+                                    </div>
+                                ) : <div />}
+                                {infoStrip && (
+                                    <div className="hero-info reveal-up" style={{ animationDelay: '1500ms' }}>
+                                        {infoStrip}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                 </div>

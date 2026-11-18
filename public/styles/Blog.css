@@ -478,12 +478,10 @@ span.button-arrow {
 
     .pagination {
         display: none;
-
+        flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-
         gap: 6px;
-
         margin-top: 32px;
     }
 

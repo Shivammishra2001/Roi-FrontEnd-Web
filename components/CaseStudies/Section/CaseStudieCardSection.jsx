@@ -54,6 +54,15 @@ export default function CaseStudieCardSection({ caseStudies = [] }) {
 
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
 
+  const PAGE_CHUNK_SIZE = 10;
+  const currentChunk = Math.floor((currentPage - 1) / PAGE_CHUNK_SIZE);
+  const startPage = currentChunk * PAGE_CHUNK_SIZE + 1;
+  const endPage = Math.min(startPage + PAGE_CHUNK_SIZE - 1, totalPages);
+  const visiblePages = Array.from(
+    { length: Math.max(0, endPage - startPage + 1) },
+    (_, index) => startPage + index
+  );
+
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentBlogs = filteredBlogs.slice(
     startIndex,
@@ -181,18 +190,26 @@ export default function CaseStudieCardSection({ caseStudies = [] }) {
               <div className="pagination show" id="pagination" style={{ display: "flex" }}>
                 <button
                   type="button"
-                  className="page-btn"
+                  className="page-btn prev-btn"
                   disabled={currentPage === 1}
+                  aria-label="Previous page"
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
                 >
                  <i className="fa fa-long-arrow-left"></i>
                 </button>
-                {Array.from(
-                  { length: totalPages },
-                  (_, index) => index + 1
-                ).map((page) => (
+                {startPage > 1 && (
+                  <button
+                    type="button"
+                    className="page-btn page-ellipsis"
+                    aria-label="Previous 10 pages"
+                    onClick={() => setCurrentPage(startPage - 1)}
+                  >
+                    ...
+                  </button>
+                )}
+                {visiblePages.map((page) => (
                   <button
                     type="button"
                     key={page}
@@ -204,10 +221,21 @@ export default function CaseStudieCardSection({ caseStudies = [] }) {
                     {page}
                   </button>
                 ))}
+                {endPage < totalPages && (
+                  <button
+                    type="button"
+                    className="page-btn page-ellipsis"
+                    aria-label="Next 10 pages"
+                    onClick={() => setCurrentPage(endPage + 1)}
+                  >
+                    ...
+                  </button>
+                )}
                 <button
                   type="button"
-                  className="page-btn"
+                  className="page-btn next-btn"
                   disabled={currentPage === totalPages}
+                  aria-label="Next page"
                   onClick={() =>
                     setCurrentPage((prev) =>
                       Math.min(prev + 1, totalPages)

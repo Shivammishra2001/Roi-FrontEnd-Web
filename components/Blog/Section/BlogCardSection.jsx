@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { blogCategoryName, blogImageUrl, blogMatchesFilter } from "../../../lib/format";
 
@@ -17,12 +17,34 @@ export default function BlogCardSection({
   const ITEMS_PER_PAGE = itemsPerPage || 6;
   const [activeFilter, setActiveFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const cardGridRef = useRef(null);
+  const previousPageRef = useRef(currentPage);
+
+  useEffect(() => {
+    if (previousPageRef.current === currentPage) {
+      return;
+    }
+    previousPageRef.current = currentPage;
+    cardGridRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [currentPage]);
 
   // Tab matching is case/spacing/"&"-insensitive (lib/format.js).
   const activeTab = filters.find((filter) => filter.value === activeFilter) || { value: "all" };
   const filteredBlogs = blogs.filter((blog) => blogMatchesFilter(blog, activeTab));
 
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
+
+  const PAGE_CHUNK_SIZE = 10;
+  const currentChunk = Math.floor((currentPage - 1) / PAGE_CHUNK_SIZE);
+  const startPage = currentChunk * PAGE_CHUNK_SIZE + 1;
+  const endPage = Math.min(startPage + PAGE_CHUNK_SIZE - 1, totalPages);
+  const visiblePages = Array.from(
+    { length: Math.max(0, endPage - startPage + 1) },
+    (_, index) => startPage + index
+  );
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentBlogs = filteredBlogs.slice(
@@ -55,7 +77,7 @@ export default function BlogCardSection({
               ))}
             </div>
             {currentBlogs.length > 0 ? (
-              <div className="blog-card-grid">
+              <div ref={cardGridRef} className="blog-card-grid">
                 {currentBlogs.map((blog) => (
                   <article
                     className="blog-card-col show"
@@ -101,18 +123,26 @@ export default function BlogCardSection({
               <div className="pagination show" id="pagination" style={{ display: "flex" }}>
                 <button
                   type="button"
-                  className="page-btn"
+                  className="page-btn prev-btn"
                   disabled={currentPage === 1}
+                  aria-label="Previous page"
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
                 >
                   <i className="fa fa-long-arrow-left"></i>
                 </button>
-                {Array.from(
-                  { length: totalPages },
-                  (_, index) => index + 1
-                ).map((page) => (
+                {startPage > 1 && (
+                  <button
+                    type="button"
+                    className="page-btn page-ellipsis"
+                    aria-label="Previous 10 pages"
+                    onClick={() => setCurrentPage(startPage - 1)}
+                  >
+                    ...
+                  </button>
+                )}
+                {visiblePages.map((page) => (
                   <button
                     type="button"
                     key={page}
@@ -124,10 +154,21 @@ export default function BlogCardSection({
                     {page}
                   </button>
                 ))}
+                {endPage < totalPages && (
+                  <button
+                    type="button"
+                    className="page-btn page-ellipsis"
+                    aria-label="Next 10 pages"
+                    onClick={() => setCurrentPage(endPage + 1)}
+                  >
+                    ...
+                  </button>
+                )}
                 <button
                   type="button"
-                  className="page-btn"
+                  className="page-btn next-btn"
                   disabled={currentPage === totalPages}
+                  aria-label="Next page"
                   onClick={() =>
                     setCurrentPage((prev) =>
                       Math.min(prev + 1, totalPages)
