@@ -30,6 +30,27 @@ export default function AboutTabsSection(props) {
     ? t1.chips
     : [{ text: "Google Premier Partner" }, { text: "Meta Business Partner" }];
 
+  // Right-side media: render at the image's natural aspect ratio so the card
+  // hugs it with no white letterbox. Dimensions come from Strapi media metadata
+  // when present, else the built-in 1092x1440 fallbacks.
+  const t0Img = t0?.image;
+  const t1Img = t1?.image;
+  const tabsMedia = [
+    {
+      src: imageUrl(t0Img, "/images/about/about-zmw-dashboard.jpg"),
+      alt: "Zero Media Waste Dashboard",
+      width: t0Img?.width || 1092,
+      height: t0Img?.height || 1440,
+    },
+    {
+      src: imageUrl(t1Img, "/images/about/about-partnerships.jpg"),
+      alt: "Google and Meta Premier Partnerships",
+      width: t1Img?.width || 1092,
+      height: t1Img?.height || 1440,
+    },
+  ];
+  const activeMedia = tabsMedia[activeTab] || tabsMedia[0];
+
   return (
     <section className="about-tabs-section">
       <div className="srcn-container">
@@ -101,44 +122,18 @@ export default function AboutTabsSection(props) {
                 )}
               </div>
 
-              {/* RIGHT: Image */}
+              {/* RIGHT: Image — hugs its natural aspect ratio, no letterbox */}
               <div className="about-tabs-pic">
-                <div
-                  className="about-tabs-pic-slide"
-                  style={{
-                    opacity: activeTab === 0 ? 1 : 0,
-                    pointerEvents: activeTab === 0 ? "auto" : "none",
-                  }}
-                >
-                  <div className="about-tabs-tab-pic-inner">
-                    <Image
-                      src={imageUrl(t0?.image, "/images/about/about-zmw-dashboard.jpg")}
-                      alt="Zero Media Waste Dashboard"
-                      fill
-                      sizes="(max-width: 900px) 100vw, 45vw"
-                      className="tab-image"
-                      priority
-                    />
-                  </div>
-                </div>
-
-                <div
-                  className="about-tabs-pic-slide"
-                  style={{
-                    opacity: activeTab === 1 ? 1 : 0,
-                    pointerEvents: activeTab === 1 ? "auto" : "none",
-                  }}
-                >
-                  <div className="about-tabs-tab-pic-inner">
-                    <Image
-                      src={imageUrl(t1?.image, "/images/about/about-partnerships.jpg")}
-                      alt="Google and Meta Premier Partnerships"
-                      fill
-                      sizes="(max-width: 900px) 100vw, 45vw"
-                      className="tab-image"
-                    />
-                  </div>
-                </div>
+                <Image
+                  key={activeTab}
+                  src={activeMedia.src}
+                  alt={activeMedia.alt}
+                  width={activeMedia.width}
+                  height={activeMedia.height}
+                  sizes="(max-width: 900px) 100vw, 45vw"
+                  className="about-tabs-img"
+                  priority={activeTab === 0}
+                />
               </div>
             </div>
           </div>
