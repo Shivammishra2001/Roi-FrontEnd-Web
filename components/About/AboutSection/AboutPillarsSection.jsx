@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { text, imageUrl } from "./aboutData";
 
 const PILLARS_DATA = [
   {
@@ -50,14 +51,31 @@ const PILLARS_DATA = [
   },
 ];
 
-export default function AboutPillarsSection() {
+export default function AboutPillarsSection(props) {
+  // Overlay Strapi content onto the built-in structure: text + image come from
+  // Strapi when present, otherwise the local fallback. Design-only fields
+  // (glowColor, slotId, placeholder) always come from PILLARS_DATA.
+  const strapiItems = Array.isArray(props?.items) ? props.items : [];
+  const pillars = PILLARS_DATA.map((d, i) => {
+    const s = strapiItems[i] || {};
+    return {
+      ...d,
+      nav: text(s.nav, d.nav),
+      num: text(s.number, d.num),
+      acc: text(s.accent, d.acc),
+      rest: text(s.rest, d.rest),
+      desc: text(s.description, d.desc),
+      image: imageUrl(s.image, d.image),
+    };
+  });
+
   const ref = useRef(null);
   const [p, setP] = useState(0);
   const [cur, setCur] = useState(0);
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
 
-  const N = PILLARS_DATA.length;
+  const N = pillars.length;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,7 +151,7 @@ export default function AboutPillarsSection() {
             What We Hold True
           </div>
           <div className="pillars-list">
-            {PILLARS_DATA.map((item, i) => (
+            {pillars.map((item, i) => (
               <button
                 key={item.nav}
                 type="button"
@@ -151,7 +169,7 @@ export default function AboutPillarsSection() {
         </div>
 
         <div className="pillars-ph-dark">
-          {PILLARS_DATA.map((item, i) => (
+          {pillars.map((item, i) => (
             <div
               key={item.slotId}
               className={`v ${i === cur ? "active" : ""}`}
@@ -216,7 +234,7 @@ export default function AboutPillarsSection() {
         </div>
 
         <div className="pillars_pl-right">
-          {PILLARS_DATA.map((item, i) => (
+          {pillars.map((item, i) => (
             <div
               key={item.nav}
               className={`item ${i === cur ? "active" : ""}`}

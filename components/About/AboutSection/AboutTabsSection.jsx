@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { imageUrl } from "./aboutData";
 
 export default function AboutTabsSection(props) {
   const [activeTab, setActiveTab] = useState(0);
@@ -111,7 +112,7 @@ export default function AboutTabsSection(props) {
                 >
                   <div className="about-tabs-tab-pic-inner">
                     <Image
-                      src="/images/about/about-zmw-dashboard.jpg"
+                      src={imageUrl(t0?.image, "/images/about/about-zmw-dashboard.jpg")}
                       alt="Zero Media Waste Dashboard"
                       fill
                       sizes="(max-width: 900px) 100vw, 45vw"
@@ -130,7 +131,7 @@ export default function AboutTabsSection(props) {
                 >
                   <div className="about-tabs-tab-pic-inner">
                     <Image
-                      src="/images/about/about-partnerships.jpg"
+                      src={imageUrl(t1?.image, "/images/about/about-partnerships.jpg")}
                       alt="Google and Meta Premier Partnerships"
                       fill
                       sizes="(max-width: 900px) 100vw, 45vw"

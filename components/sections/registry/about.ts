@@ -24,6 +24,7 @@ export const ABOUT_SECTIONS: SectionRegistry = {
   'sections.about-zmw': AboutTabsSection,
   'sections.about-partnerships': AboutTabsSection,
   'sections.tabs': AboutTabsSection,
+  'sections.about-team': TeamSection,
   'sections.about-teamSection': TeamSection,
   'sections.about-AboutofficesData': AboutofficesData,
   'sections.about-offices': AboutofficesData,

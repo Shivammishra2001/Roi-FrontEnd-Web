@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { imageUrl } from './aboutData';
 
 function FitText({ children, className, baseline = true, as: Component = 'h2' }) {
   const ref = useRef(null);
@@ -61,7 +62,7 @@ export default function AboutHero({
     <section className="about-hero-section">
       <div className="about-banner-img">
         <Image
-          src={image}
+          src={imageUrl(image, '/images/about/about-hero-eames.png')}
           alt="Hero · For brands, by veterans"
           fill
           priority

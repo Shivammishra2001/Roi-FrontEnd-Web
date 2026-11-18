@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { text, imageUrl } from './aboutData';
 
 const teamMembers = [
     {
@@ -66,7 +67,20 @@ const teamMembers = [
     },
 ];
 
-export default function TeamSection() {
+export default function TeamSection(props) {
+    // Strapi members (name/role/photo) when present, else the built-in list.
+    // Each photo falls back to the local image at the same position.
+    const strapiMembers = Array.isArray(props?.members) ? props.members : [];
+    const members = (strapiMembers.length ? strapiMembers : teamMembers).map((m, i) => {
+        const fb = teamMembers[i] || {};
+        return {
+            id: m.id ?? i + 1,
+            name: text(m.name, fb.name),
+            role: text(m.role, fb.role),
+            img: imageUrl(m.photo ?? m.img, fb.img),
+        };
+    });
+
     const badgeRef = useRef(null);
 
     useEffect(() => {
@@ -133,7 +147,7 @@ export default function TeamSection() {
                     </div>
 
                     <div className="team-grid">
-                        {teamMembers.map((member) => (
+                        {members.map((member) => (
                             <div
                                 key={member.id}
                                 className="team-card"
