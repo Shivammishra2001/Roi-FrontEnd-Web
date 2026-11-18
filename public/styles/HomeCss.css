@@ -333,8 +333,8 @@ line-height: 114%;
      height: auto;
      object-fit: contain;
      display: block;
-     filter: grayscale(100%);
-     opacity: 0.72;
+     filter: none;
+     opacity: 1;
      transition: 0.35s;
  }
 
@@ -1377,8 +1377,19 @@ line-height: 114%;
         gap: 12px;
     }
 
+    .three-pillars-list {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        gap: 10px 0;
+    }
+
+    .three-pillars-itme {
+        width: 100%;
+    }
+
     .three-pillars-link {
-        font-size: 14px; 
+        font-size: 14px;
     }
    
 }
