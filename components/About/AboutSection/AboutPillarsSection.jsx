@@ -2,9 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { text, list, imageUrl } from "./aboutData";
 
-const DEFAULT_PILLARS = [
+const PILLARS_DATA = [
   {
     nav: "One job",
     num: "01 / 04",
@@ -13,7 +12,8 @@ const DEFAULT_PILLARS = [
     desc: "Organic, paid, AI — a buyer doesn’t know the difference. Neither should the team working for them.",
     slotId: "about-pillar-1",
     placeholder: "01 · object study · One job",
-    image: "/images/study-01-one-job.jpg",
+    image: "/images/about/one-job-img.webp",
+    glowColor: "rgba(245, 122, 60, 0.50)",
   },
   {
     nav: "Cadence",
@@ -23,7 +23,8 @@ const DEFAULT_PILLARS = [
     desc: "The loudest brand doesn’t win. The most present one does. Every week, every surface, every year.",
     slotId: "about-pillar-2",
     placeholder: "02 · object study · Cadence",
-    image: "/images/study-02-cadence.jpg",
+    image: "/images/about/cadence-img.webp",
+    glowColor: "rgba(245, 194, 75, 0.45)",
   },
   {
     nav: "Spend",
@@ -33,7 +34,8 @@ const DEFAULT_PILLARS = [
     desc: "Every rupee traced. Not reported — traced. If it can’t tell us what it bought, it shouldn’t have been spent.",
     slotId: "about-pillar-3",
     placeholder: "03 · object study · Spend",
-    image: "/images/study-03-spend.jpg",
+    image: "/images/about/spend-img.webp",
+    glowColor: "rgba(239, 100, 50, 0.45)",
   },
   {
     nav: "Behaviour",
@@ -43,24 +45,12 @@ const DEFAULT_PILLARS = [
     desc: "We don’t optimise for views. We optimise for the moment someone changes their mind.",
     slotId: "about-pillar-4",
     placeholder: "04 · object study · Behaviour",
-    image: "/images/study-04-behaviour.jpg",
+    image: "/images/about/behaviour-img.webp",
+    glowColor: "rgba(245, 170, 60, 0.45)",
   },
 ];
 
-export default function AboutPillarsSection(props) {
-  const PILLARS_DATA = list(props.items, DEFAULT_PILLARS).map((item, i, all) => {
-    const fallback = DEFAULT_PILLARS[i] || {};
-    return {
-      nav: text(item.nav, fallback.nav || `Pillar ${i + 1}`),
-      num: text(item.number ?? item.num, fallback.num || `${String(i + 1).padStart(2, "0")} / ${String(all.length).padStart(2, "0")}`),
-      acc: text(item.accent ?? item.acc, fallback.acc || ""),
-      rest: typeof (item.rest ?? null) === "string" ? item.rest : fallback.rest || "",
-      desc: text(item.description ?? item.desc, fallback.desc || ""),
-      slotId: fallback.slotId || `about-pillar-${i + 1}`,
-      placeholder: fallback.placeholder || `${String(i + 1).padStart(2, "0")} · object study`,
-      image: imageUrl(item.image, fallback.image || ""),
-    };
-  });
+export default function AboutPillarsSection() {
   const ref = useRef(null);
   const [p, setP] = useState(0);
   const [cur, setCur] = useState(0);
@@ -140,7 +130,7 @@ export default function AboutPillarsSection(props) {
             <span className="arr">
               <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
             </span>
-            {text(props.eyebrow, "What We Hold True")}
+            What We Hold True
           </div>
           <div className="pillars-list">
             {PILLARS_DATA.map((item, i) => (
@@ -175,6 +165,12 @@ export default function AboutPillarsSection(props) {
               }}
             >
               <div className="pillar-image-container">
+                <div
+                  className="pillar-light-glow"
+                  style={{
+                    background: `radial-gradient(circle, ${item.glowColor || 'rgba(245, 122, 60, 0.45)'} 0%, rgba(245, 120, 50, 0.15) 45%, transparent 70%)`
+                  }}
+                />
                 {item.image ? (
                   <Image
                     src={item.image}

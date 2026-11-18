@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { text, list, imageUrl, slugify } from './aboutData';
 
 const teamMembers = [
     {
@@ -67,15 +66,8 @@ const teamMembers = [
     },
 ];
 
-export default function TeamSection(props) {
-    const members = list(props.members, teamMembers).map((member, i) => ({
-        id: member.id || `${member.name}-${i}`,
-        name: member.name,
-        role: member.role || '',
-        img: imageUrl(member.photo || member.img, `/images/team/${slugify(member.name)}-img.png`),
-    }));
+export default function TeamSection() {
     const badgeRef = useRef(null);
-    const hideTimer = useRef(null);
 
     useEffect(() => {
         const badge = badgeRef.current || document.getElementById('hoverBadge');
@@ -92,10 +84,7 @@ export default function TeamSection(props) {
             currentY += (mouseY - currentY) * 0.15;
 
             if (badge) {
-                // Keep the badge fully on screen (matters on narrow phones).
-                const half = badge.offsetWidth / 2 + 8;
-                const x = Math.max(half, Math.min(window.innerWidth - half, currentX));
-                badge.style.left = `${x}px`;
+                badge.style.left = `${currentX}px`;
                 badge.style.top = `${currentY}px`;
             }
 
@@ -103,40 +92,15 @@ export default function TeamSection(props) {
         }
         animationFrameId = requestAnimationFrame(animateBadge);
 
-        const hide = () => {
-            clearTimeout(hideTimer.current);
-            badge.classList.remove('active');
-        };
-
         const handleMouseMove = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         };
 
-        // Touch screens have no hover: a tap on a photo shows the same badge
-        // (above the finger), and it goes away on a tap elsewhere, on scroll,
-        // or after a few seconds.
-        const handleTouchStart = (e) => {
-            const touch = e.touches[0];
-            const card = touch && e.target instanceof Element ? e.target.closest('.team-card') : null;
-            if (!card) return hide();
-            mouseX = currentX = touch.clientX;
-            mouseY = currentY = touch.clientY;
-            badge.textContent = card.getAttribute('data-title') || '';
-            badge.classList.add('touch', 'active');
-            clearTimeout(hideTimer.current);
-            hideTimer.current = setTimeout(hide, 3000);
-        };
-
         window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('touchstart', handleTouchStart, { passive: true });
-        window.addEventListener('scroll', hide, { passive: true });
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('touchstart', handleTouchStart);
-            window.removeEventListener('scroll', hide);
-            clearTimeout(hideTimer.current);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
@@ -145,7 +109,6 @@ export default function TeamSection(props) {
         const badge = badgeRef.current || document.getElementById('hoverBadge');
         if (badge) {
             badge.textContent = title;
-            badge.classList.remove('touch');
             badge.classList.add('active');
         }
     };
@@ -162,16 +125,15 @@ export default function TeamSection(props) {
             <div className="srcn-container">
                 <div className="team-wrap">
                     <div className="team-container-header-area">
-                        <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>{text(props.eyebrow, 'The Team')}</div>
+                        <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>The Team</div>
                         <h2 className="team-headline">
-                            {text(props.headingBefore, 'Different disciplines. Different cities. ')}
-                            <span className="team-highlight">{text(props.headingAccent, 'One obsession')}</span>
-                            {text(props.headingAfter, ' — make the work mean something.')}
+                            Different disciplines. Different cities.{' '}
+                            <span className="team-highlight">One obsession</span> — make the work mean something.
                         </h2>
                     </div>
 
                     <div className="team-grid">
-                        {members.map((member) => (
+                        {teamMembers.map((member) => (
                             <div
                                 key={member.id}
                                 className="team-card"

@@ -2,7 +2,6 @@
 
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { text, imageUrl } from './aboutData';
 
 function FitText({ children, className, baseline = true, as: Component = 'h2' }) {
   const ref = useRef(null);
@@ -54,9 +53,10 @@ function FitText({ children, className, baseline = true, as: Component = 'h2' })
   );
 }
 
-export default function AboutHero({ title: titleProp, image: imageProp }) {
-  const title = text(titleProp, 'For brands, by veterans.');
-  const image = imageUrl(imageProp, '/images/about/about-hero-eames.png');
+export default function AboutHero({
+  title = 'For brands, by veterans.',
+  image = '/images/about/about-hero-eames.png',
+}) {
   return (
     <section className="about-hero-section">
       <div className="about-banner-img">

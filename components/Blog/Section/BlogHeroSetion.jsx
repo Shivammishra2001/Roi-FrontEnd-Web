@@ -26,7 +26,7 @@ export default function BlogHeroSetion({ badge, title, description, backgroundVi
                     <div className="hero-small-subtitle contact-hero-badge">
                         {badge}
                     </div>
-                    <h1 className="blog-hero-title contact-hero-title">
+                    <h1 className="discovery-heading">
                         {title}
                     </h1>
                     <p className="blog-hero-description ">

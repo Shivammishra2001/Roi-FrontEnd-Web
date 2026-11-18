@@ -26,7 +26,7 @@ export default function CaseStudieHero() {
                     <div className="hero-small-subtitle contact-hero-badge">
                        Case Studies
                     </div>
-                    <h1 className="blog-hero-title contact-hero-title">
+                    <h1 className="discovery-heading">
                         Work that moved the number.
                     </h1>
                     <p className="blog-hero-description ">
