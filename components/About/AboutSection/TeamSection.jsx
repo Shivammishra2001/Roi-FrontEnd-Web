@@ -164,6 +164,10 @@ export default function TeamSection(props) {
                                         className="team-card-image"
                                     />
                                 </div>
+                                <div className="team-card-label">
+                                    <span className="team-card-name">{member.name}</span>
+                                    <span className="team-card-role">{member.role}</span>
+                                </div>
                             </div>
                         ))}
                     </div>

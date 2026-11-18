@@ -144,6 +144,16 @@
     min-height: 240px;
     max-height: none;
   }
+
+  /* Keep the headline off the bottom edge so descenders/baseline aren't clipped. */
+  .about-heading-area {
+    transform: translateY(0) !important;
+    padding-bottom: clamp(8px, 2.6vw, 16px);
+  }
+
+  .about-heading {
+    line-height: 1.02;
+  }
 }
 
 @media (max-width: 480px) {
@@ -573,8 +583,9 @@
   object-fit: contain !important;
   max-width: 100%;
   max-height: 100%;
+  transform: scale(0.84);
   border-radius: 6px;
-  filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 24px rgba(245, 122, 60, 0.22));
+  filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 36px rgba(245, 122, 60, 0.34));
   position: relative;
   z-index: 1;
 }
@@ -776,8 +787,9 @@
     object-fit: contain !important;
     max-width: 100% !important;
     max-height: 100% !important;
+    transform: scale(0.84) !important;
     border-radius: 8px !important;
-    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 16px rgba(245, 122, 60, 0.22)) !important;
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 22px rgba(245, 122, 60, 0.32)) !important;
     position: relative !important;
     z-index: 1 !important;
   }
@@ -1324,6 +1336,49 @@ p.stats-footer {
 .team-hover-badge.active {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+
+/* Per-card name/role label: hidden on desktop (the hover badge handles it),
+   always visible on tablet/mobile where hover doesn't work on touch. */
+.team-card-label {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .team-hover-badge {
+    display: none !important;
+  }
+
+  .team-card-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 30px 12px 10px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.42) 48%, rgba(0, 0, 0, 0) 100%);
+    border-radius: 0 0 6px 6px;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .team-card-name {
+    color: #ffffff;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  .team-card-role {
+    color: rgba(255, 255, 255, 0.82);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.25;
+  }
 }
 
 @media (max-width: 1024px) {
