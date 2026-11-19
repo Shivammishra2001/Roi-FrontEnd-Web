@@ -21,7 +21,7 @@ export default function OurHistory() {
                             <div className="history-story-box">
                                 <div className="history-story">
                                     <p>
-                                        ROI Mantra began inside i2k2 Networks in 1999 — one of India's
+                                        ROI Mantra began inside i2k2 Networks in 1999 - one of India's
                                         first cloud hosting and data centre companies. We ran servers.
                                         Then we built the websites that lived on them. Then we taught
                                         search engines to find those websites.
