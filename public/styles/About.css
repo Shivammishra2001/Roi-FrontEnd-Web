@@ -1354,6 +1354,8 @@ p.stats-footer {
   z-index: 1;
   /* Clip the name/role pill strictly to this card. */
   overflow: hidden;
+  /* Keep vertical page scrolling smooth over the cards on touch. */
+  touch-action: pan-y;
 }
 
 .team-card:hover {

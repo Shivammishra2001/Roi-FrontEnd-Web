@@ -83,9 +83,9 @@ export default function TeamSection(props) {
         };
     });
 
-    // Move the hovered/touched card's pill to the pointer, clamped so it stays
-    // fully inside that card (never escapes its top/bottom/edges). DOM-direct so
-    // pointermove doesn't re-render React.
+    // Move a card's pill to the pointer, clamped so it stays fully inside that
+    // card (never escapes its top/bottom/edges). DOM-direct so it doesn't
+    // re-render React.
     const positionPill = (e) => {
         const card = e.currentTarget;
         const pill = card.querySelector('.team-card-badge');
@@ -100,25 +100,59 @@ export default function TeamSection(props) {
         pill.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     };
 
-    const activateCard = (e) => {
+    const clearActiveCards = () => {
+        document
+            .querySelectorAll('.team-card.is-active')
+            .forEach((card) => card.classList.remove('is-active'));
+    };
+
+    // Mouse only: cursor-following hover. Enter/move position the pill; leaving
+    // the card hides it immediately.
+    const handlePointerEnter = (e) => {
+        if (e.pointerType !== 'mouse') return;
         e.currentTarget.classList.add('is-active');
         positionPill(e);
     };
-
-    const deactivateCard = (e) => {
+    const handlePointerMove = (e) => {
+        if (e.pointerType !== 'mouse') return;
+        positionPill(e);
+    };
+    const handlePointerLeave = (e) => {
+        // Only mouse hides on leave. Touch MUST NOT clear here — that fires right
+        // after touchend and is exactly why the pill used to flash and vanish.
+        if (e.pointerType !== 'mouse') return;
         e.currentTarget.classList.remove('is-active');
     };
 
-    // Safety net: never let a pill stay visible once the user scrolls (matters
-    // most on touch, where pointerleave may not fire reliably).
+    // Touch / pen: a real tap (pointerup fires for a tap; a scroll fires
+    // pointercancel instead) toggles the pill and keeps it visible. Re-tapping
+    // the same card toggles off; tapping another card switches.
+    const handlePointerUp = (e) => {
+        if (e.pointerType === 'mouse') return;
+        const card = e.currentTarget;
+        const wasActive = card.classList.contains('is-active');
+        clearActiveCards();
+        if (!wasActive) {
+            card.classList.add('is-active');
+            positionPill(e);
+        }
+    };
+
+    // Dismiss a touch-pinned pill when the user taps outside the team grid or
+    // scrolls the page.
     useEffect(() => {
-        const clearActive = () => {
-            document
-                .querySelectorAll('.team-card.is-active')
-                .forEach((card) => card.classList.remove('is-active'));
+        const onDocPointerDown = (e) => {
+            if (!e.target.closest || !e.target.closest('.team-card')) {
+                clearActiveCards();
+            }
         };
-        window.addEventListener('scroll', clearActive, { passive: true });
-        return () => window.removeEventListener('scroll', clearActive);
+        const onScroll = () => clearActiveCards();
+        document.addEventListener('pointerdown', onDocPointerDown);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => {
+            document.removeEventListener('pointerdown', onDocPointerDown);
+            window.removeEventListener('scroll', onScroll);
+        };
     }, []);
 
     return (
@@ -138,10 +172,10 @@ export default function TeamSection(props) {
                             <div
                                 key={member.id}
                                 className="team-card"
-                                onPointerEnter={activateCard}
-                                onPointerMove={positionPill}
-                                onPointerLeave={deactivateCard}
-                                onPointerCancel={deactivateCard}
+                                onPointerEnter={handlePointerEnter}
+                                onPointerMove={handlePointerMove}
+                                onPointerLeave={handlePointerLeave}
+                                onPointerUp={handlePointerUp}
                             >
                                 <div className="team-card-pic">
                                     <Image
