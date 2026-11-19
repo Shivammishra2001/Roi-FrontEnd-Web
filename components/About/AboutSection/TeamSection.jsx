@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { text, imageUrl } from './aboutData';
+
+const PILL_EDGE = 8; // px the pill keeps from each card edge
 
 const teamMembers = [
     {
@@ -81,6 +83,44 @@ export default function TeamSection(props) {
         };
     });
 
+    // Move the hovered/touched card's pill to the pointer, clamped so it stays
+    // fully inside that card (never escapes its top/bottom/edges). DOM-direct so
+    // pointermove doesn't re-render React.
+    const positionPill = (e) => {
+        const card = e.currentTarget;
+        const pill = card.querySelector('.team-card-badge');
+        if (!pill) return;
+        const rect = card.getBoundingClientRect();
+        const pw = pill.offsetWidth;
+        const ph = pill.offsetHeight;
+        let x = e.clientX - rect.left - pw / 2;
+        let y = e.clientY - rect.top - ph / 2;
+        x = Math.max(PILL_EDGE, Math.min(x, rect.width - pw - PILL_EDGE));
+        y = Math.max(PILL_EDGE, Math.min(y, rect.height - ph - PILL_EDGE));
+        pill.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+
+    const activateCard = (e) => {
+        e.currentTarget.classList.add('is-active');
+        positionPill(e);
+    };
+
+    const deactivateCard = (e) => {
+        e.currentTarget.classList.remove('is-active');
+    };
+
+    // Safety net: never let a pill stay visible once the user scrolls (matters
+    // most on touch, where pointerleave may not fire reliably).
+    useEffect(() => {
+        const clearActive = () => {
+            document
+                .querySelectorAll('.team-card.is-active')
+                .forEach((card) => card.classList.remove('is-active'));
+        };
+        window.addEventListener('scroll', clearActive, { passive: true });
+        return () => window.removeEventListener('scroll', clearActive);
+    }, []);
+
     return (
         <section className="team-section-area">
             <div className="srcn-container">
@@ -95,7 +135,14 @@ export default function TeamSection(props) {
 
                     <div className="team-grid">
                         {members.map((member) => (
-                            <div key={member.id} className="team-card">
+                            <div
+                                key={member.id}
+                                className="team-card"
+                                onPointerEnter={activateCard}
+                                onPointerMove={positionPill}
+                                onPointerLeave={deactivateCard}
+                                onPointerCancel={deactivateCard}
+                            >
                                 <div className="team-card-pic">
                                     <Image
                                         src={member.img}
@@ -105,10 +152,9 @@ export default function TeamSection(props) {
                                         className="team-card-image"
                                     />
                                 </div>
-                                {/* Name/role pill lives INSIDE the card, so it can
-                                    never float over the page or leak into other
-                                    sections. Hover-revealed on pointer devices,
-                                    always anchored in-card on touch (see About.css). */}
+                                {/* Pill follows the pointer but is clamped inside
+                                    this card (position:relative + overflow:hidden),
+                                    so it can never leak into other sections. */}
                                 <div className="team-card-badge">
                                     {member.name} — {member.role}
                                 </div>
