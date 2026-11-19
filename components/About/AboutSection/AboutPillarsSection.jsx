@@ -75,6 +75,16 @@ export default function AboutPillarsSection(props) {
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
 
+  // --- Scroll-linked 3D motion for the center object ---
+  // Latest scroll progress (0..1), read by the rAF loop without waiting on a
+  // React re-render. cardRefs holds each pillar's .pillar-3d layer.
+  const progressRef = useRef(0);
+  const cardRefs = useRef([]);
+  // Decaying impulse that produces a crisp flip/spin on active-step changes.
+  const flipRef = useRef(0);
+  const flipDirRef = useRef(1);
+  const prevCurRef = useRef(0);
+
   const N = pillars.length;
 
   useEffect(() => {
@@ -88,6 +98,7 @@ export default function AboutPillarsSection(props) {
       if (totalScrollable <= 0) return;
       const progress = Math.max(0, Math.min(1, (stickyOffset - r.top) / totalScrollable));
       setP(progress);
+      progressRef.current = progress;
       const step = Math.min(N - 1, Math.floor(progress * N));
       setCur(step);
     };
@@ -100,6 +111,62 @@ export default function AboutPillarsSection(props) {
       window.removeEventListener("resize", handleScroll);
     };
   }, [N]);
+
+  // Fire a flip impulse whenever the active pillar changes (tab click or scroll
+  // crossing a step). Direction follows whether we moved forward or back.
+  useEffect(() => {
+    flipDirRef.current = cur >= prevCurRef.current ? 1 : -1;
+    prevCurRef.current = cur;
+    flipRef.current = 1; // energy; decays to 0 in the rAF loop below
+  }, [cur]);
+
+  // Persistent rAF loop: spring-smooths the scroll-linked 3D pose and writes it
+  // straight to the DOM (no per-frame React re-render). GPU-composited transform
+  // only. Skipped entirely when the OS asks to reduce motion — the CSS then
+  // clears any transform so the object sits still and centered.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let raf = 0;
+    const s = { ry: 0, rx: 0, rz: 0, sc: 1 }; // smoothed current values
+
+    const tick = () => {
+      const prog = progressRef.current; // 0..1 through the section
+
+      // Scroll-linked targets.
+      const tRy = -18 + 36 * prog; // rotateY: -18deg -> +18deg
+      const tRx = 12 - 24 * prog; //  rotateX: +12deg -> -12deg
+      const tRz = -6 + 12 * prog; //  rotateZ:  -6deg -> +6deg
+      // Depth "breathing": 0.96 -> 1.04 (mid) -> 0.98.
+      const tSc = prog <= 0.5 ? 0.96 + 0.16 * prog : 1.04 - 0.12 * (prog - 0.5);
+
+      // Decaying flip impulse on step change (spin + subtle scale pop).
+      const flip = flipRef.current;
+      flipRef.current = flip * 0.88;
+      const flipRy = flip * 32 * flipDirRef.current;
+      const flipSc = flip * 0.04;
+
+      // Spring-style inertia toward the targets.
+      s.ry += (tRy + flipRy - s.ry) * 0.12;
+      s.rx += (tRx - s.rx) * 0.12;
+      s.rz += (tRz - s.rz) * 0.12;
+      s.sc += (tSc + flipSc - s.sc) * 0.14;
+
+      const transform =
+        `rotateX(${s.rx.toFixed(2)}deg) rotateY(${s.ry.toFixed(2)}deg) ` +
+        `rotateZ(${s.rz.toFixed(2)}deg) scale(${s.sc.toFixed(3)})`;
+
+      for (let i = 0; i < cardRefs.current.length; i++) {
+        const el = cardRefs.current[i];
+        if (el) el.style.transform = transform;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const jump = (i) => {
     const clampedIndex = Math.max(0, Math.min(N - 1, i));
@@ -182,6 +249,12 @@ export default function AboutPillarsSection(props) {
                 pointerEvents: i === cur ? "auto" : "none",
               }}
             >
+              <div
+                className="pillar-3d"
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
+              >
               <div className="pillar-image-container">
                 <div
                   className="pillar-light-glow"
@@ -228,6 +301,7 @@ export default function AboutPillarsSection(props) {
                     </div>
                   </image-slot>
                 )}
+              </div>
               </div>
             </div>
           ))}
