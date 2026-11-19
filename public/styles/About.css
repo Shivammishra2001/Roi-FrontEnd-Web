@@ -1038,6 +1038,15 @@ p.stats-footer {
   }
 }
 
+@media (max-width: 767px) {
+  /* Stats cards hug their content on mobile instead of a fixed 220px floor, so
+     there's no blank vertical whitespace under each stat. Scoped to the About
+     stats section so the shared Home cards keep their desktop sizing. */
+  .stats-section .creative-future-card {
+    min-height: 100%;
+  }
+}
+
 /* ==========================================================================
    6. TABS SECTION (ZERO MEDIA WASTE & PARTNERSHIPS)
    ========================================================================== */
@@ -1343,6 +1352,8 @@ p.stats-footer {
   cursor: pointer;
   transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
   z-index: 1;
+  /* Clip the name/role pill strictly to this card. */
+  overflow: hidden;
 }
 
 .team-card:hover {
@@ -1368,29 +1379,52 @@ p.stats-footer {
   transform: scale(1.03);
 }
 
-.team-hover-badge {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Per-card name/role pill, positioned strictly inside its own card. Replaces
+   the old viewport-fixed cursor-following badge that got stuck floating over
+   the page (and into the Offices section) on touch devices. */
+.team-card-badge {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
   background-color: #f2ad37;
   color: #111111;
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 12.5px;
   font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 999px;
+  line-height: 1.3;
+  text-align: center;
+  padding: 7px 12px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
   pointer-events: none;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.85);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  z-index: 99999;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+  transform: translateY(8px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
-.team-hover-badge.active {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+/* Pointer devices: reveal on hover, clamped inside the card. */
+@media (hover: hover) {
+  .team-card:hover .team-card-badge {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Touch / small screens: pill stays cleanly anchored at the bottom inside each
+   card — it is never cursor-driven, so it can never get stuck or bleed out. */
+@media (hover: none), (max-width: 767px) {
+  .team-card-badge {
+    opacity: 1;
+    transform: none;
+    font-size: 11px;
+    padding: 6px 10px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+  }
 }
 
 @media (max-width: 1024px) {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { text, imageUrl } from './aboutData';
 
@@ -81,59 +81,6 @@ export default function TeamSection(props) {
         };
     });
 
-    const badgeRef = useRef(null);
-
-    useEffect(() => {
-        const badge = badgeRef.current || document.getElementById('hoverBadge');
-        if (!badge) return;
-
-        let mouseX = 0;
-        let mouseY = 0;
-        let currentX = 0;
-        let currentY = 0;
-        let animationFrameId;
-
-        function animateBadge() {
-            currentX += (mouseX - currentX) * 0.15;
-            currentY += (mouseY - currentY) * 0.15;
-
-            if (badge) {
-                badge.style.left = `${currentX}px`;
-                badge.style.top = `${currentY}px`;
-            }
-
-            animationFrameId = requestAnimationFrame(animateBadge);
-        }
-        animationFrameId = requestAnimationFrame(animateBadge);
-
-        const handleMouseMove = (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        };
-
-        window.addEventListener('mousemove', handleMouseMove);
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            cancelAnimationFrame(animationFrameId);
-        };
-    }, []);
-
-    const handleMouseEnter = (title) => {
-        const badge = badgeRef.current || document.getElementById('hoverBadge');
-        if (badge) {
-            badge.textContent = title;
-            badge.classList.add('active');
-        }
-    };
-
-    const handleMouseLeave = () => {
-        const badge = badgeRef.current || document.getElementById('hoverBadge');
-        if (badge) {
-            badge.classList.remove('active');
-        }
-    };
-
     return (
         <section className="team-section-area">
             <div className="srcn-container">
@@ -148,13 +95,7 @@ export default function TeamSection(props) {
 
                     <div className="team-grid">
                         {members.map((member) => (
-                            <div
-                                key={member.id}
-                                className="team-card"
-                                data-title={`${member.name} — ${member.role}`}
-                                onMouseEnter={() => handleMouseEnter(`${member.name} — ${member.role}`)}
-                                onMouseLeave={handleMouseLeave}
-                            >
+                            <div key={member.id} className="team-card">
                                 <div className="team-card-pic">
                                     <Image
                                         src={member.img}
@@ -164,14 +105,16 @@ export default function TeamSection(props) {
                                         className="team-card-image"
                                     />
                                 </div>
+                                {/* Name/role pill lives INSIDE the card, so it can
+                                    never float over the page or leak into other
+                                    sections. Hover-revealed on pointer devices,
+                                    always anchored in-card on touch (see About.css). */}
+                                <div className="team-card-badge">
+                                    {member.name} — {member.role}
+                                </div>
                             </div>
                         ))}
                     </div>
-                    <div
-                        id="hoverBadge"
-                        ref={badgeRef}
-                        className="team-hover-badge"
-                    />
                 </div>
             </div>
         </section>
