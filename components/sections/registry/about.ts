@@ -19,6 +19,7 @@ export const ABOUT_SECTIONS: SectionRegistry = {
   'sections.about-pillars': AboutPillarsSection,
   'sections.about-hold-true': AboutPillarsSection,
   'sections.pillars': AboutPillarsSection,
+  'sections.about-stats': RoiStatsSection,
   'sections.about-StatsSection': RoiStatsSection,
   'sections.about-tabs': AboutTabsSection,
   'sections.about-zmw': AboutTabsSection,
