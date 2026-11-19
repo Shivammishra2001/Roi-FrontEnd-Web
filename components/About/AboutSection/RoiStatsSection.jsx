@@ -6,12 +6,19 @@ import { useEffect, useRef, useState } from 'react';
 // (colored top accent bars + condensed Anton typography come from the global
 // .creative-future-* rules in style.css; the per-column accent colours are set
 // by .creative-future-col:nth-child(n) --line-color: teal / rose / coral / amber).
-const stats = [
+//
+// Live values come from Strapi (sections.about-stats: { eyebrow, items[], footer },
+// each item { value, prefix, suffix, label }). These are only the fallback used
+// when the CMS data is genuinely absent.
+const FALLBACK_STATS = [
   { value: 250, prefix: '', suffix: '+', label: 'People' },
   { value: 2000, prefix: '', suffix: '+', label: 'Brands' },
   { value: 600, prefix: '₹', suffix: ' Cr+', label: 'Revenue generated' },
   { value: 1500, prefix: '', suffix: '+', label: 'Websites shipped' },
 ];
+
+const DEFAULT_EYEBROW = 'IN NUMBERS';
+const DEFAULT_FOOTER = 'Six delivery centres. Two headquarters. One standard.';
 
 function AnimatedCounter({ value, prefix = '', suffix = '' }) {
   const [count, setCount] = useState(0);
@@ -70,7 +77,24 @@ function AnimatedCounter({ value, prefix = '', suffix = '' }) {
   );
 }
 
-export default function RoiStatsSection() {
+// Strapi passes the whole `sections.about-stats` entry as props (SectionRenderer
+// spreads it). Map it to the cards; fall back to the built-ins only when a field
+// is genuinely missing so the section never renders empty.
+export default function RoiStatsSection(props) {
+  const rawItems =
+    Array.isArray(props?.items) && props.items.length ? props.items : FALLBACK_STATS;
+  const items = rawItems.map((it) => ({
+    value: Number(it?.value) || 0,
+    prefix: typeof it?.prefix === 'string' ? it.prefix : '',
+    suffix: typeof it?.suffix === 'string' ? it.suffix : '',
+    label: typeof it?.label === 'string' ? it.label : '',
+  }));
+
+  const eyebrow =
+    typeof props?.eyebrow === 'string' && props.eyebrow.trim() ? props.eyebrow : DEFAULT_EYEBROW;
+  const footer =
+    typeof props?.footer === 'string' && props.footer.trim() ? props.footer : DEFAULT_FOOTER;
+
   return (
     <section className="stats-section creative-future-section-area">
       <div className="srcn-container">
@@ -78,7 +102,7 @@ export default function RoiStatsSection() {
           <span className="arr">
             <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
           </span>
-          IN NUMBERS
+          {eyebrow}
         </div>
 
         <div
@@ -86,8 +110,8 @@ export default function RoiStatsSection() {
           style={{ marginTop: 'clamp(24px, 3.5vw, 40px)' }}
         >
           <div className="creative-future-grid">
-            {stats.map((stat) => (
-              <div className="creative-future-col" key={stat.label}>
+            {items.map((stat, index) => (
+              <div className="creative-future-col" key={index}>
                 <div className="creative-future-card">
                   <div className="creative-future-card-inner">
                     <div className="creative-future-content">
@@ -111,7 +135,7 @@ export default function RoiStatsSection() {
           className="stats-footer-text"
           style={{ margin: 'clamp(28px, 3.5vw, 44px) 0 0', color: '#657487' }}
         >
-          Six delivery centres. Two headquarters. One standard.
+          {footer}
         </p>
       </div>
     </section>
