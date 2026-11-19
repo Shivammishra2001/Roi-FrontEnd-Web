@@ -329,6 +329,13 @@
   color: #EFB227;
 }
 
+/* Heading only: drop the gold accent ("Not executions.") onto its own second
+   line under "We think in ecosystems." at every width. Scoped to .ethos-heading
+   so the closing line's accent (which has its own <br/>) is untouched. */
+.ethos-heading .ethos-acc-sub {
+  display: block;
+}
+
 /* Middle Grid: Left Image (filling the gap) + Right Body Content */
 .ethos-middle-grid {
   display: grid;
