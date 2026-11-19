@@ -1389,18 +1389,21 @@ p.stats-footer {
   top: 0;
   left: 0;
   z-index: 3;
+  width: max-content;
   max-width: calc(100% - 16px);
   background-color: #f2ad37;
   color: #111111;
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 7px 14px;
-  border-radius: 999px;
+  line-height: 1.25;
+  text-align: center;
+  /* Full name + role, wrapped cleanly onto multiple lines — never truncated. */
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  padding: 6px 12px;
+  border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
   pointer-events: none;
   opacity: 0;
@@ -1415,8 +1418,8 @@ p.stats-footer {
 
 @media (max-width: 767px) {
   .team-card-badge {
-    font-size: 11px;
-    padding: 6px 11px;
+    font-size: 10.5px;
+    padding: 5px 10px;
     max-width: calc(100% - 12px);
   }
 }
