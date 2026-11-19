@@ -12,7 +12,7 @@ export default function WordRevealCta({ title, description, buttonLabel, buttonH
     // Drop empty tokens from stray double-spaces so they don't become empty
     // word spans (uneven gaps). `.od-cta-title` is a column flex, so the words
     // must sit inside one `.od-cta-line` (a flex-wrap row) to flow horizontally
-    // and wrap naturally — without it each word becomes its own column row.
+    // and wrap naturally - without it each word becomes its own column row.
     const words = text(title, defaults.title).split(" ").filter(Boolean);
 
     return (

@@ -9,7 +9,7 @@ import type { Section } from '../../types/strapi';
  * would leak e.g. Contact.css onto /blog and change its layout.
  *
  * The registry necessarily erases each component's specific prop type
- * (they're heterogeneous, keyed by a runtime string) — the one deliberate `any`.
+ * (they're heterogeneous, keyed by a runtime string) - the one deliberate `any`.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SectionRegistry = Record<string, ComponentType<any>>;

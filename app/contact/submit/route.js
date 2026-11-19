@@ -1,5 +1,5 @@
 /**
- * POST /contact/submit — contact-form leads from the Contact page and the
+ * POST /contact/submit - contact-form leads from the Contact page and the
  * blog post sidebar. Saves the lead in Strapi (Contact Form Submissions),
  * then emails it (lib/contactLead.js).
  *

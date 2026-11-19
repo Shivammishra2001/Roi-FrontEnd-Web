@@ -1,5 +1,5 @@
 /**
- * POST /revalidate — clears the cached pages so Strapi edits show up on the
+ * POST /revalidate - clears the cached pages so Strapi edits show up on the
  * next page load. Called by the Strapi backend whenever content is saved,
  * published, unpublished or deleted (src/index.ts there), with the shared
  * secret from REVALIDATE_SECRET in the `x-revalidate-secret` header.

@@ -10,7 +10,7 @@ const GOLD = "239, 178, 39"; //  #EFB227
 const HILITE = "247, 201, 72"; // #F7C948
 
 /**
- * A procedurally drawn golden silk wave — no video, no pixel-keying, so there
+ * A procedurally drawn golden silk wave - no video, no pixel-keying, so there
  * are no compression artifacts, no rectangular edge, and the colour is exactly
  * #EFB227 at any resolution. Three soft, blurred sine ribbons drift in and out
  * of phase on a Retina-scaled, fully transparent canvas, so the wave floats
@@ -18,7 +18,7 @@ const HILITE = "247, 201, 72"; // #F7C948
  *
  * Motion is a slow, meditative undulation at ~60fps. prefers-reduced-motion
  * paints a single still frame. The canvas is transparent, so nothing but the
- * glow is ever drawn — the page shows through everywhere else.
+ * glow is ever drawn - the page shows through everywhere else.
  */
 function EthosWave() {
   const canvasRef = useRef(null);
@@ -133,9 +133,9 @@ export default function AboutEthosSection(props) {
   const paragraphs = props?.paragraphs?.length
     ? props.paragraphs.map((p) => (typeof p === "string" ? p : p?.text || ""))
     : [
-        "A decision is never one moment. It’s a quiet accumulation — a Reel glimpsed at midnight, a Reddit thread read over coffee, an AI answer at a desk, a review scanned on the drive home, an ad half-remembered from a week ago. By the time your buyer “chooses,” they’ve already chosen a hundred times.",
+        "A decision is never one moment. It’s a quiet accumulation - a Reel glimpsed at midnight, a Reddit thread read over coffee, an AI answer at a desk, a review scanned on the drive home, an ad half-remembered from a week ago. By the time your buyer “chooses,” they’ve already chosen a hundred times.",
         "No single surface earns that choice. The brand woven across all of them does.",
-        "So we don’t build campaigns. We build climates. Architectures of presence — organic, paid, AI — breathing in rhythm, lending each other weight, slowly rearranging the shape of a decision before it’s made.",
+        "So we don’t build campaigns. We build climates. Architectures of presence - organic, paid, AI - breathing in rhythm, lending each other weight, slowly rearranging the shape of a decision before it’s made.",
       ];
 
   const closeMain = props?.closeMain || "The ad was never the point.";
@@ -143,7 +143,7 @@ export default function AboutEthosSection(props) {
 
   // The default visual is the procedural gold silk wave (no asset). A CMS entry
   // may still override it with a real still image; a video/the old MP4 is
-  // ignored — the wave replaces it.
+  // ignored - the wave replaces it.
   const imageSrc =
     props?.image?.url ||
     props?.image?.src ||

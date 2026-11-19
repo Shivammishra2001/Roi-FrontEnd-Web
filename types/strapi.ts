@@ -1,6 +1,6 @@
 /**
  * Typed shape of GET /api/home-page/full, generated from FRONTEND_CONTRACT.md.
- * No `any` anywhere — SectionRenderer's registry is the one deliberate
+ * No `any` anywhere - SectionRenderer's registry is the one deliberate
  * exception (see components/sections/SectionRenderer.tsx) since it must hold
  * components of differing prop shapes in one map.
  */
@@ -285,7 +285,7 @@ export interface ContactNextStep {
   description: string;
 }
 
-/** Typed shape of GET /api/contact-page (Strapi's raw response, unflattened — this content type has no media/relations needing a serializer). */
+/** Typed shape of GET /api/contact-page (Strapi's raw response, unflattened - this content type has no media/relations needing a serializer). */
 export interface ContactPageData {
   title: string;
   seo: Seo | null;
@@ -299,7 +299,7 @@ export interface ContactPageData {
 }
 
 /**
- * Typed shape of GET /api/pages/slug/:slug — the unified Pages collection
+ * Typed shape of GET /api/pages/slug/:slug - the unified Pages collection
  * (Home/About/Contact all as one Collection Type). One shape covers every
  * page: `sections` is Home's dynamic zone, the hero/infoCard/stats/nextSteps
  * fields are Contact's, and any page not using a given field just gets

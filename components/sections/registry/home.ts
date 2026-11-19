@@ -1,5 +1,5 @@
 // Section components used by the Home page. Kept per page so each route
-// bundles only its own components (and the CSS they import) — exactly
+// bundles only its own components (and the CSS they import) - exactly
 // what the page loaded before it was CMS-driven.
 import Hero from '../../Home/HomeSection/HeroSection';
 import PartnerSection from '../../Home/HomeSection/PartnerSection';

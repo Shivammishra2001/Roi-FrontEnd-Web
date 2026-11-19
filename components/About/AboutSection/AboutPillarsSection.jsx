@@ -10,7 +10,7 @@ const PILLARS_DATA = [
     num: "01 / 04",
     acc: "One job.",
     rest: " Three surfaces.",
-    desc: "Organic, paid, AI — a buyer doesn’t know the difference. Neither should the team working for them.",
+    desc: "Organic, paid, AI - a buyer doesn’t know the difference. Neither should the team working for them.",
     slotId: "about-pillar-1",
     placeholder: "01 · object study · One job",
     image: "/images/about/one-job-img.webp",
@@ -32,7 +32,7 @@ const PILLARS_DATA = [
     num: "03 / 04",
     acc: "Spend",
     rest: " has to confess.",
-    desc: "Every rupee traced. Not reported — traced. If it can’t tell us what it bought, it shouldn’t have been spent.",
+    desc: "Every rupee traced. Not reported - traced. If it can’t tell us what it bought, it shouldn’t have been spent.",
     slotId: "about-pillar-3",
     placeholder: "03 · object study · Spend",
     image: "/images/about/spend-img.webp",
@@ -122,7 +122,7 @@ export default function AboutPillarsSection(props) {
 
   // Persistent rAF loop: spring-smooths the scroll-linked 3D pose and writes it
   // straight to the DOM (no per-frame React re-render). GPU-composited transform
-  // only. Skipped entirely when the OS asks to reduce motion — the CSS then
+  // only. Skipped entirely when the OS asks to reduce motion - the CSS then
   // clears any transform so the object sits still and centered.
   useEffect(() => {
     if (typeof window === "undefined") return;

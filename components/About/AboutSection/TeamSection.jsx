@@ -118,7 +118,7 @@ export default function TeamSection(props) {
         positionPill(e);
     };
     const handlePointerLeave = (e) => {
-        // Only mouse hides on leave. Touch MUST NOT clear here — that fires right
+        // Only mouse hides on leave. Touch MUST NOT clear here - that fires right
         // after touchend and is exactly why the pill used to flash and vanish.
         if (e.pointerType !== 'mouse') return;
         e.currentTarget.classList.remove('is-active');
@@ -163,7 +163,7 @@ export default function TeamSection(props) {
                         <div className="stats-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>The Team</div>
                         <h2 className="team-headline">
                             Different disciplines. Different cities.{' '}
-                            <span className="team-highlight">One obsession</span> — make the work mean something.
+                            <span className="team-highlight">One obsession</span> - make the work mean something.
                         </h2>
                     </div>
 
@@ -190,7 +190,7 @@ export default function TeamSection(props) {
                                     this card (position:relative + overflow:hidden),
                                     so it can never leak into other sections. */}
                                 <div className="team-card-badge">
-                                    {member.name} — {member.role}
+                                    {member.name} - {member.role}
                                 </div>
                             </div>
                         ))}

@@ -105,7 +105,7 @@ export async function getGlobal(): Promise<Global> {
  * page's dynamic zone, rendered in order by SectionRenderer.
  *
  * Returns null when the page doesn't exist, isn't published, or has its
- * "Page Live" switch (isActive) off — Strapi 404s all three; callers then
+ * "Page Live" switch (isActive) off - Strapi 404s all three; callers then
  * render notFound(). If Strapi is unreachable it returns an empty page
  * instead, so an outage never turns the site into 404s.
  */
@@ -139,7 +139,7 @@ export async function getBlogPost(slug: string): Promise<BlogPostDetail | null> 
 
 /**
  * Every published case study for the /case-studies cards, in List Order
- * (`GET /api/case-studies`, core REST, raw — map with lib/caseStudies.js).
+ * (`GET /api/case-studies`, core REST, raw - map with lib/caseStudies.js).
  */
 export async function getCaseStudies(): Promise<unknown[]> {
   const query = new URLSearchParams({

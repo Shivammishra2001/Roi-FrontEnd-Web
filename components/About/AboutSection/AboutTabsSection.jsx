@@ -19,12 +19,12 @@ export default function AboutTabsSection(props) {
   const t0HeadingAfter = t0?.headingAfter ?? "";
   const t0LeadBold = t0?.leadBold ?? "Half of most media budgets never reach a buyer.";
   const t0Intro = t0?.intro ?? "The industry has made peace with that. We haven’t.";
-  const t0Body = t0?.body ?? "Zero Media Waste is our methodology, built in collaboration with Google. Precise targeting. Relevant messaging. Continuous refinement. Every rupee asked to earn its place — and if it can’t, we move it.";
+  const t0Body = t0?.body ?? "Zero Media Waste is our methodology, built in collaboration with Google. Precise targeting. Relevant messaging. Continuous refinement. Every rupee asked to earn its place - and if it can’t, we move it.";
   const t0BtnLabel = t0?.buttonLabel || "Read more";
   const t0BtnHref = t0?.buttonHref || "/contact";
 
   const t1HeadingAccent = t1?.headingAccent ?? "Google Premier Partner";
-  const t1HeadingAfter = t1?.headingAfter ?? " — one of roughly forty worldwide.";
+  const t1HeadingAfter = t1?.headingAfter ?? " - one of roughly forty worldwide.";
   const t1Subline = t1?.subline ?? "Meta Business Partner.";
   const t1Chips = t1?.chips?.length
     ? t1.chips
@@ -122,7 +122,7 @@ export default function AboutTabsSection(props) {
                 )}
               </div>
 
-              {/* RIGHT: Image — hugs its natural aspect ratio, no letterbox */}
+              {/* RIGHT: Image - hugs its natural aspect ratio, no letterbox */}
               <div className="about-tabs-pic">
                 <Image
                   key={activeTab}

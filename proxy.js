@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
  * Fail-safe by design: the rules are held in memory and refreshed in the
  * background, so a request never waits on Strapi once the first load is
  * done. If Strapi is slow, down or returns nothing, the request simply
- * continues (NextResponse.next()) — a redirect is never worth a broken page.
+ * continues (NextResponse.next()) - a redirect is never worth a broken page.
  */
 
 const STRAPI_URL = (

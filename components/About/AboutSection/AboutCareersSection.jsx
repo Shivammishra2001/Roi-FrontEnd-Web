@@ -5,12 +5,12 @@ import Link from "next/link";
 
 const CAREER_ROLES = [
   {
-    title: "Business Development Executive — Delhi NCR",
+    title: "Business Development Executive - Delhi NCR",
     meta: "Enterprise outbound · pipeline · ₹1 Cr+ ARR deals",
     applyHref: "/contact",
   },
   {
-    title: "AI Discovery Strategist — Delhi NCR / Remote",
+    title: "AI Discovery Strategist - Delhi NCR / Remote",
     meta: "AEO · GEO · entity optimisation · frontier work",
     applyHref: "/contact",
   },

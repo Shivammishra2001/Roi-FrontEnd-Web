@@ -13,7 +13,7 @@ const DEFAULT_STEPS = [
   {
     number: "02",
     title: "Research",
-    description: "Keywords, buyer questions, Reel topics, Reddit threads, competitor gaps, AI prompt coverage. Not three research exercises for three teams — one map that feeds everything downstream.",
+    description: "Keywords, buyer questions, Reel topics, Reddit threads, competitor gaps, AI prompt coverage. Not three research exercises for three teams - one map that feeds everything downstream.",
   },
   {
     number: "03",
@@ -28,7 +28,7 @@ const DEFAULT_STEPS = [
   {
     number: "05",
     title: "Visibility",
-    description: "Rank on search. Cited in AI answers. Pulled into reviews. Surfaced in feeds. The outcome of distribution done right — the brand showing up wherever a buyer is looking, over and over.",
+    description: "Rank on search. Cited in AI answers. Pulled into reviews. Surfaced in feeds. The outcome of distribution done right - the brand showing up wherever a buyer is looking, over and over.",
   },
 ];
 

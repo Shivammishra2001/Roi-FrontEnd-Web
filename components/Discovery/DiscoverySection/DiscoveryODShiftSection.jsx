@@ -72,7 +72,7 @@ export default function ODShift({ eyebrow, heading, headingHighlight, listLabel,
                             </p>
 
                             <p className="ODShift-paragraph">
-                                {text(paragraph, "Not because volume is the point. Because that's how buyers actually find you now — in fragments, across platforms, before they ever type your name.")}
+                                {text(paragraph, "Not because volume is the point. Because that's how buyers actually find you now - in fragments, across platforms, before they ever type your name.")}
                             </p>
 
                             <p className="ODShift-highlight">
