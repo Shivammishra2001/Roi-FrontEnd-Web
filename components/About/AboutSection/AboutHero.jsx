@@ -71,7 +71,7 @@ export default function AboutHero({
         />
       </div>
       <div className="about-heading-area">
-        <FitText className="about-heading" baseline>
+        <FitText className="about-heading" baseline as="h1">
           {title}
         </FitText>
       </div>
