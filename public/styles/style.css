@@ -3280,16 +3280,26 @@ letter-spacing: -.025em;
    OD CONSISTENCY SECTION
 ===================================================== */
 .discovery-heading{
-  letter-spacing: -.025em;
+  letter-spacing: -0.02em;
     font-family: var(--font-anton), sans-serif;
-    font-size: clamp(44px, 8vw, 161px);
+    font-size: clamp(2.5rem, 5.2vw, 5.25rem);
     font-style: normal;
     font-weight: 400;
-    line-height: 114%;
-
+    line-height: 1.02;
+    white-space: normal;
 }
+
+/* Desktop: keep each phrase on its own single line (two clean lines total);
+   wrap naturally on tablet/mobile. */
+@media (min-width: 1024px) {
+    .discovery-heading {
+        white-space: nowrap;
+    }
+}
+
 span.case-study-hero-line {
     color: #f5c24b;
+    display: block;
 }
 .error-code {
     margin-top: 18px;
