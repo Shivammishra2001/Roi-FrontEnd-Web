@@ -210,17 +210,16 @@ line-height: 114%;
 
  .hero-info,
  .hero-scroll {
-     position: static;
-     color: #a3a3a3;
-     font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-     font-weight: 400;
      font-style: normal;
-     font-size: 11px;
-     line-height: 16.5px;
-     letter-spacing: 0.22em;
+     transition: opacity .7s, transform .8s cubic-bezier(.2, .7, .2, 1);
+     position: static;
+     color: #bdbdbd;
      text-transform: uppercase;
-     transition: opacity 700ms ease, transform 800ms cubic-bezier(.2, .7, .2, 1);
-
+     font-family: var(--font-jetbrains-mono), monospace;
+     margin-bottom: 10px;
+     font-size: 13px;
+     font-weight: 400;
+     line-height: 1.27;
  }
 
  /* In-flow at the base of the hero; margin-top:auto pins it to the bottom on
