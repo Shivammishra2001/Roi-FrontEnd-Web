@@ -371,19 +371,6 @@ body {
     .navbar-scrolled .toggle-btn span {
         background: #111;
     }
-
-    /* Mobile browsers often skip backdrop-filter, so the 0.88 translucent bar
-       let section headings/logos bleed through while scrolling. Lay an opaque
-       fill behind the bar on the mobile layout. A pseudo-element is a distinct
-       box the CSS minifier cannot fold away (a plain background-color override
-       on .navbar-scrolled was being dropped from the home page's CSS chunk). */
-    .navbar.navbar-scrolled::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: #f4f1ec;
-        z-index: -1;
-    }
 }
 
 @media(max-width:767px) {

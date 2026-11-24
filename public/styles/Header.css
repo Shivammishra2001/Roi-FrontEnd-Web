@@ -372,6 +372,17 @@ body {
     .navbar-scrolled .toggle-btn span {
         background: #111;
     }
+
+    /* Mobile browsers often skip backdrop-filter, so the 0.88 translucent bar
+       let section headings/logos bleed through while scrolling. Lay an opaque
+       fill behind the bar on the mobile layout so nothing shows through. */
+    .navbar.navbar-scrolled::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #f4f1ec;
+        z-index: -1;
+    }
 }
 
 @media(max-width:767px) {
