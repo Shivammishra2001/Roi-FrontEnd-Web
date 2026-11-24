@@ -10,17 +10,29 @@ export default function TheShift({ eyebrow, heading, shiftRows = [] }) {
     const el = sectionRef.current;
     if (!el) return;
 
-    const onScroll = () => {
+    const update = () => {
       const r = el.getBoundingClientRect();
-      const total = r.height - window.innerHeight;
-      const p = Math.max(0, Math.min(1, -r.top / total));
+      const vh = window.innerHeight;
+      const total = r.height - vh;
+      // Desktop/tablet: the section is taller than the viewport and pins, so
+      // progress tracks how far we have scrolled through the pinned track.
+      // Mobile: the section is unpinned (CSS sets height:auto) and shorter than
+      // the viewport, so reveal the rows as the section scrolls up into view.
+      const p =
+        total > 0
+          ? Math.max(0, Math.min(1, -r.top / total))
+          : Math.max(0, Math.min(1, (vh - r.top) / (vh * 0.9)));
       setProgress(p);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   const ROWS = shiftRows.map((row) => ({ n: row.number, verb: row.verb }));

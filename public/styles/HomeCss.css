@@ -1312,16 +1312,57 @@ line-height: 114%;
         display: none;
     }
 
+    /* THE SHIFT + Brands: on phones the desktop scroll-pin centres short
+       content in a full-height sticky stage, leaving large blank bands above
+       the eyebrow and below the last row. Unpin so the sections flow naturally
+       with crisp top/bottom padding. */
     .pin-section {
-        height: 110vh;
+        height: auto;
     }
 
     .brands-pin-section {
-        height: 125vh;
+        height: auto;
     }
 
     .pin-stage {
-        padding: 24px 0;
+        position: static;
+        height: auto;
+        display: block;
+        overflow: visible;
+        padding: 44px 0;
+    }
+
+    /* THE SHIFT: the 45vh reserve under the rows is desktop-only; it is pure
+       dead space once the section is unpinned. */
+    .content {
+        min-height: 0;
+    }
+
+    /* Brands: replace the pinned, tilted, scroll-driven track with a clean
+       horizontal swipe strip. */
+    .brands-pin-section .tilt-stage {
+        perspective: none;
+    }
+
+    .brands-pin-section .tilt-row {
+        transform: none !important;
+    }
+
+    .brands-pin-section .work-track {
+        transform: none !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 6px;
+    }
+
+    .brands-pin-section .work-tile {
+        transform: none !important;
+        scroll-snap-align: start;
+    }
+
+    .common-wrapper-top-box {
+        margin-bottom: 36px;
     }
 
     .heading {
