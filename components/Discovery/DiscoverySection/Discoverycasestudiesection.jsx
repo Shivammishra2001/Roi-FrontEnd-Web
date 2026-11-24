@@ -104,13 +104,25 @@ export default function CaseStudiesPage({ eyebrow, heading, buttonLabel, buttonH
                         {caseStudies.map((study, index) => (
                             <a
                                 href={text(study.href, "#")}
-                                className="case-studies-card"
+                                className={`case-studies-card${study.backgroundImage?.url ? " has-bg" : ""}`}
                                 key={index}
                                 style={{
                                     transitionDelay: `${index * 120}ms`,
                                 }}
                                 aria-label={`Read the ${study.title} case study`}
                             >
+                                {study.backgroundImage?.url && (
+                                    <>
+                                        <img
+                                            className="case-studies-card-bg"
+                                            src={study.backgroundImage.url}
+                                            alt={study.backgroundImage.alt || ""}
+                                            loading="lazy"
+                                            aria-hidden="true"
+                                        />
+                                        <span className="case-studies-card-scrim" aria-hidden="true"></span>
+                                    </>
+                                )}
                                 <div className="case-studies-card-top">
                                     <span>{study.category}</span>
 

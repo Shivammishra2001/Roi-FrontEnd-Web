@@ -3072,6 +3072,53 @@ letter-spacing: -.025em;
   transform: translate(5px, -5px);
 }
 
+/* ===== The Work card: optional background image + readability scrim =====
+   Rendered only when a card has backgroundImage; otherwise the solid
+   --cs-black fallback is kept. Content sits above both layers (z-index 2). */
+.case-studies-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 400ms ease;
+}
+
+.case-studies-card.has-bg:hover .case-studies-card-bg {
+  transform: scale(1.04);
+}
+
+.case-studies-card-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      rgba(10, 10, 10, 0.45) 0%,
+      rgba(10, 10, 10, 0.72) 55%,
+      rgba(10, 10, 10, 0.92) 100%);
+}
+
+.case-studies-card-top,
+.case-studies-card-content {
+  z-index: 2;
+}
+
+/* Over a photo: drop the yellow hover-sweep (hidden behind the image anyway)
+   and keep text light instead of switching to black. */
+.case-studies-card.has-bg::before {
+  display: none;
+}
+
+.case-studies-card.has-bg:hover .case-studies-card-top,
+.case-studies-card.has-bg:hover .case-studies-card-number,
+.case-studies-card.has-bg:hover .case-studies-card-title,
+.case-studies-card.has-bg:hover .case-studies-card-description,
+.case-studies-card.has-bg:hover .case-studies-card-arrow {
+  color: #fff;
+}
+
 .case-studies-button:focus-visible,
 .case-studies-card:focus-visible {
   outline: 3px solid #c28b00;
