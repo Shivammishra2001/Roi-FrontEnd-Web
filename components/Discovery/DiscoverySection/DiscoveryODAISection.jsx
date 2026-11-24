@@ -19,8 +19,9 @@ export default function DiscoveryODAISection({ eyebrow, heading, headingHighligh
 
                         <h2 className="odai-title">
                             {text(heading, "AI didn't kill organic.")}
+                            <br />
                             <span className="odai-highlight">
-                                {" "}{text(headingHighlight, "It raised the bar.")}
+                                {text(headingHighlight, "It raised the bar.")}
                             </span>
                         </h2>
                     </div>

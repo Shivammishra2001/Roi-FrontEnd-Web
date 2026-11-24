@@ -18,7 +18,8 @@ export default function DiscoveryODConsistencySection({ eyebrow, heading, headin
           <div className=" discovery-how-label case-studies-eyebrow"><span className="arr"><i className="fa fa-long-arrow-right" aria-hidden="true"></i></span>{text(eyebrow, "Consistency is the Compounding Asset")}</div>
 
           <h2 className="ODConsistency-heading">
-            {text(heading, "Organic doesn't reward the brand that shows up loudest.")}{" "}
+            {text(heading, "Organic doesn't reward the brand that shows up loudest.")}
+            <br />
             <span>
               {text(headingHighlight, "It rewards the one that shows up every week, on every surface, for years.")}
             </span>

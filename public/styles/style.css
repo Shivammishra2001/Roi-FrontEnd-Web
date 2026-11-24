@@ -2519,53 +2519,66 @@ letter-spacing: -.015em;
 
 
 
+  /* Values mirror the reference ODAI (Organic Discovery.html). */
   .odai-section {
       width: 100%;
-      background-color: #191919;
+      background-color: #1a1a1a; /* ink */
       color: #ffffff;
-      padding: 128px 0;
+      padding: 96px 0; /* py-24 */
       overflow: hidden;
   }
 
+  /* max-w-[1440px] px-6 md:px-10, grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 */
   .odai-container {
-      padding: 0 40px;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px; /* px-6 */
       display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: 32px;
-      row-gap: 48px;
+      grid-template-columns: 1fr;
+      gap: 48px; /* gap-12 */
+      align-items: start;
   }
 
-  .odai-heading {
-      grid-column: span 7;
+  /* Eyebrow (dark): scoped so the shared .discovery-how-label stays untouched */
+  .odai-section .discovery-how-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-jetbrains-mono), monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #a3a3a3; /* mute */
+      margin-bottom: 32px; /* mb-8 */
   }
 
+  /* Heading: font-display leading-[0.95] clamp(44px,5vw,84px) */
   .odai-title {
-     opacity: 1;
-    transition: opacity .8s, transform .9s cubic-bezier(.2, .7, .2, 1);
-    transform: translateY(0);
-    letter-spacing: -.025em;
-    font-family: var(--font-anton), Impact, sans-serif;
-    font-size: clamp(40px, 5.5vw, 88px);
-    font-weight: 400;
-    line-height: 1.02;
-    transition: opacity .8s, transform .8s;
-    transform: translateY(45px);
-
+      margin: 0;
+      font-family: var(--font-anton), Impact, sans-serif;
+      font-size: clamp(44px, 5vw, 84px);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      color: #fff;
   }
 
+  /* "It raised the bar." = yellow text (no box) */
   .odai-highlight {
       display: inline;
-      color: #f5c542;
+      color: #f5c24b; /* yellow */
   }
 
+  /* Right column: text-[18px] md:text-[20px] leading-snug text-mute max-w-md */
   .odai-content {
-      grid-column: 9 / span 4;
-      align-self: end;
-      color: #a5a5a5;
-      font-family: inherit;
+      color: #a3a3a3; /* mute */
+      font-family: var(--font-inter), system-ui, sans-serif;
       font-size: 18px;
       font-weight: 400;
-      line-height: 1.75;
+      line-height: 1.375; /* leading-snug */
+      max-width: 28rem; /* max-w-md */
   }
 
   .odai-content p {
@@ -2573,18 +2586,57 @@ letter-spacing: -.015em;
   }
 
   .odai-content .odai-secondary-text {
-      margin-top: 24px;
+      margin-top: 24px; /* mt-6 */
       color: #ffffff;
   }
 
+  /* CTA pill (dark) — scoped so Hero's .discovery-row-btn stays untouched */
+  .odai-section .discovery-row {
+      margin-top: 40px; /* mt-10 */
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+  }
+
+  .odai-section .discovery-row-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 999px;
+      border: 1.5px solid #fff;
+      background: transparent;
+      color: #fff;
+      font-family: var(--font-inter), system-ui, sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.2;
+      text-decoration: none;
+      transition: background 0.28s cubic-bezier(.34, 1.56, .64, 1), color 0.28s ease, transform 0.32s cubic-bezier(.2, .7, .2, 1);
+  }
+
+  .odai-section .discovery-row-btn:hover {
+      background: #fff;
+      color: #1a1a1a;
+      border-color: #fff;
+      transform: none;
+  }
+
+  .odai-section .discovery-row-btn .arr {
+      transition: transform 0.32s cubic-bezier(.2, .7, .2, 1);
+  }
+
+  .odai-section .discovery-row-btn:hover .arr {
+      transform: translate(2px, -2px);
+  }
+
+  /* Entrance reveal */
   .odai-heading,
   .odai-content {
       opacity: 0;
       transform: translateY(35px);
-
-      transition:
-          opacity 0.8s ease,
-          transform 0.8s ease;
+      transition: opacity 0.8s ease, transform 0.8s ease;
   }
 
   .odai-content {
@@ -2597,96 +2649,28 @@ letter-spacing: -.015em;
       transform: translateY(0);
   }
 
-  @media (max-width: 1024px) {
-      .odai-section {
-          padding: 100px 0;
-      }
-
-      .odai-container {
-          grid-template-columns: repeat(8, minmax(0, 1fr));
-gap: 71px 47px;
-          padding: 0 32px;
-      }
-
-      .odai-heading {
-          grid-column: 1 / -1;
-      }
-
-      .odai-title {
-          max-width: 900px;
-          font-size: clamp(52px, 8vw, 90px);
-      }
-
-      .odai-content {
-          grid-column: 1 / -1;
-          font-size: 17px;
-      }
+  @media (min-width: 768px) {
+      .odai-section { padding: 128px 0; } /* md:py-32 */
+      .odai-container { padding: 0 40px; } /* md:px-10 */
+      .odai-content { font-size: 20px; } /* md:text-[20px] */
   }
 
-  @media (max-width: 767px) {
-      .odai-section {
-          padding: 76px 0;
-      }
-
+  @media (min-width: 1024px) {
       .odai-container {
-          display: grid;
-          grid-template-columns: 1fr;
-          padding: 0 22px;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          gap: 40px; /* lg:gap-10 */
       }
-
-      .odai-heading,
+      .odai-heading { grid-column: 1 / span 6; } /* lg:col-span-6 */
       .odai-content {
-          grid-column: 1 / -1;
-      }
-
-      .odai-eyebrow {
-          gap: 9px;
-          margin-bottom: 24px;
-          font-size: 10px;
-          letter-spacing: 1.5px;
-      }
-
-
-      .odai-title {
-          font-size: clamp(44px, 11vw, 68px);
-          line-height: 0.98;
-          letter-spacing: -0.045em;
-      }
-
-      .odai-content {
-          font-size: 16px;
-          line-height: 1.75;
-      }
-
-      .odai-content .odai-secondary-text {
-          margin-top: 20px;
-      }
-
-      .odai-button {
-          margin-top: 28px;
-          padding: 13px 21px;
-          font-size: 13px;
-      }
-  }
-
-  @media (max-width: 380px) {
-
-      .odai-title {
-          font-size: 42px;
+          grid-column: 8 / span 5; /* lg:col-span-5 lg:col-start-8 */
+          padding-top: 52px; /* lg:pt-[52px] */
       }
   }
 
   @media (prefers-reduced-motion: reduce) {
-
-      .odai-heading,
-      .odai-content,
-      .odai-button,
-      .odai-arrow {
-          transition: none;
-      }
-
       .odai-heading,
       .odai-content {
+          transition: none;
           transform: none;
       }
   }
@@ -2694,89 +2678,105 @@ gap: 71px 47px;
   /* =====================================================
    OD CONSISTENCY SECTION
 ===================================================== */
+  /* Values mirror the reference ODConsistency (Organic Discovery.html). */
   .ODConsistency {
       width: 100%;
-      padding: 128px 0;
-      background: #000;
+      padding: 96px 0; /* py-24 */
+      background: #1a1a1a; /* ink */
       color: #fff;
-      border-top: 1px solid #e8dec7;
+      border-top: 1px solid rgba(255, 255, 255, 0.10); /* border-white/10 */
       overflow: hidden;
   }
 
+  /* max-w-[1440px] px-6 md:px-10 */
+  .ODConsistency .srcn-container {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px; /* px-6 */
+  }
 
-  .ODConsistency .case-kicker {
+  /* Eyebrow (dark): scoped so the shared .discovery-how-label stays untouched */
+  .ODConsistency .discovery-how-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 28px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-family: var(--font-jetbrains-mono), monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #77736c;
+      color: #a3a3a3; /* mute */
+      margin-bottom: 32px; /* mb-8 */
   }
 
+  /* Heading: font-display leading-[0.95] max-w-5xl clamp(40px,5vw,84px) */
   .ODConsistency-heading {
-  margin: 0 0 64px;
-    letter-spacing: -.025em;
-    color: #fff;
-    font-family: var(--font-anton), Impact, sans-serif;
-    font-size: clamp(40px, 5.5vw, 88px);
-    font-weight: 400;
-    line-height: 1.02;
-
+      margin: 0;
+      max-width: 64rem; /* max-w-5xl */
+      font-family: var(--font-anton), Impact, sans-serif;
+      font-size: clamp(40px, 5vw, 84px);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      color: #fff;
   }
 
   .ODConsistency-heading span {
-   color: #ebba35;
+      color: #f5c24b; /* yellow */
   }
 
+  /* Supporting body + closing line stack (single column, per reference flow) */
   .ODConsistency-content {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      column-gap: 60px;
-      row-gap: 32px;
-      align-items: start;
-      border-top: 1px solid rgba(25, 25, 25, 0.12);
-      padding-top: 48px;
+      display: flex;
+      flex-direction: column;
   }
 
   .ODConsistency-description {
-      color: #a9a7a4;
-    max-width: 580px;
-    margin: 0;
-    font-size: clamp(16px, 1.5vw, 21px);
-    line-height: 1.65;
-    font-weight: 400;
+      margin: 0;
+      max-width: 44rem;
+      color: #a3a3a3; /* mute */
+      font-family: var(--font-inter), system-ui, sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      font-weight: 400;
+  }
+
+  /* Closing line: mt-12 md:mt-16 pt-8 border-t border-white/15 */
+  .ODConsistency-highlight {
+      margin-top: 48px; /* mt-12 */
+      padding-top: 32px; /* pt-8 */
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .ODConsistency-highlight-right {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
   }
 
   .ODConsistency-subtitle {
-      margin: 0 0 12px 0;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      margin: 0 0 16px 0;
+      font-family: var(--font-jetbrains-mono), monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #8c867a;
+      color: #a3a3a3; /* mute */
   }
 
+  /* "Not campaigns. Cadence." font-display leading-none clamp(28px,2.8vw,46px) */
   .ODConsistency-tagline {
       margin: 0;
-      font-family: var(--font-display, var(--font-anton), Impact, sans-serif);
-      font-size: clamp(36px, 4.5vw, 68px);
+      font-family: var(--font-anton), Impact, sans-serif;
+      font-size: clamp(28px, 2.8vw, 46px);
       font-weight: 400;
-      line-height: 1;
-      letter-spacing: -0.02em;
+      line-height: 1; /* leading-none */
+      letter-spacing: -0.025em;
       color: #fff;
   }
 
   .ODConsistency-tagline span {
-      color: #f5b82e;
+      color: #f5c24b; /* yellow */
   }
 
   .ODConsistency-heading,
@@ -2796,27 +2796,11 @@ gap: 71px 47px;
       transform: translateY(0);
   }
 
-  @media (max-width: 1024px) {
-      .ODConsistency {
-          padding: 96px 0;
-      }
-
-      .ODConsistency-content {
-          grid-template-columns: 1fr;
-          gap: 40px;
-      }
-  }
-
-  @media (max-width: 768px) {
-      .ODConsistency {
-          padding: 72px 0;
-      }
-
-
-
-      .ODConsistency-heading {
-          margin-bottom: 40px;
-      }
+  @media (min-width: 768px) {
+      .ODConsistency { padding: 128px 0; } /* md:py-32 */
+      .ODConsistency .srcn-container { padding: 0 40px; } /* md:px-10 */
+      .ODConsistency-description { font-size: 20px; }
+      .ODConsistency-highlight { margin-top: 64px; } /* md:mt-16 */
   }
 
 
