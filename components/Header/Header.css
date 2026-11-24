@@ -373,13 +373,16 @@ body {
     }
 
     /* Mobile browsers often skip backdrop-filter, so the 0.88 translucent bar
-       let section headings/logos bleed through while scrolling. Make the
-       scrolled bar fully opaque on the mobile layout (opaque bg hides the base
-       blur anyway). The compound .navbar.navbar-scrolled selector (higher
-       specificity) also stops the CSS minifier from folding this away against
-       the translucent base rule. */
-    .navbar.navbar-scrolled {
-        background-color: #f4f1ec !important;
+       let section headings/logos bleed through while scrolling. Lay an opaque
+       fill behind the bar on the mobile layout. A pseudo-element is a distinct
+       box the CSS minifier cannot fold away (a plain background-color override
+       on .navbar-scrolled was being dropped from the home page's CSS chunk). */
+    .navbar.navbar-scrolled::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #f4f1ec;
+        z-index: -1;
     }
 }
 
