@@ -7,17 +7,21 @@ import "@/public/styles/ODShift.css";
 const DEFAULT_ITEMS = [
     "A GMB review.",
     "A Reddit thread.",
-    "A LinkedIn post.",
     "A YouTube Short.",
-    "An article someone else wrote.",
-    "A ChatGPT answer that cited your blog.",
+    "A ChatGPT answer.",
 ];
 
 // Strapi `sections.discovery-shift`; blank fields fall back to the built-in copy.
-export default function ODShift({ eyebrow, heading, headingHighlight, listLabel, listItems, intro, paragraph, highlight }) {
+export default function ODShift({ eyebrow, heading, headingHighlight, listLabel, listItems, intro }) {
     const [ref, on] = useInView(0.15);
 
     const OUT = list(listItems, DEFAULT_ITEMS);
+
+    // The highlighted word ("ecosystem.") lives in its own field. The CMS lead
+    // line ends at "It's" and omits the article, so render "It's an ecosystem."
+    // Appending only when the line ends at "It's" keeps editable copy intact.
+    const lead = text(heading, "Organic isn't a channel anymore. It's an").trim();
+    const leadLine = /it['’]s$/i.test(lead) ? `${lead} an` : lead;
 
     return (
         <section
@@ -25,23 +29,29 @@ export default function ODShift({ eyebrow, heading, headingHighlight, listLabel,
             className={`ODShift ${on ? "ODShift-visible" : ""}`}>
             <div className="srcn-container">
                 <div className="ODShift-container">
-                    <div className="case-kicker">
-                        <span className="arr">
-                            <i
-                                className="fa fa-long-arrow-right"
-                                aria-hidden="true"
-                            ></i>
-                        </span>
-                        {text(eyebrow, "The Shift")}
-                    </div>
-                    <h2 className="ODShift-heading">
-                        {text(heading, "Organic isn't a channel anymore. It's")}{" "}
-                        <span className="ODShift-mark">
-                            {text(headingHighlight, "ecosystem.")}
-                        </span>
-                    </h2>
-                    <div className="ODShift-content">
-                        <div className="ODShift-list-column">
+                    <div className="ODShift-grid">
+                        {/* Left: eyebrow + stacked headline */}
+                        <div className="ODShift-lead">
+                            <div className="case-kicker">
+                                <span className="arr">
+                                    <i
+                                        className="fa fa-long-arrow-right"
+                                        aria-hidden="true"
+                                    ></i>
+                                </span>
+                                {text(eyebrow, "The Shift")}
+                            </div>
+
+                            <h2 className="ODShift-heading">
+                                {leadLine}{" "}
+                                <span className="ODShift-mark">
+                                    {text(headingHighlight, "ecosystem.")}
+                                </span>
+                            </h2>
+                        </div>
+
+                        {/* Right: list + single caption */}
+                        <div className="ODShift-content">
                             <div className="ODShift-list-label">
                                 {text(listLabel, "A buyer finds you through")}
                             </div>
@@ -65,26 +75,14 @@ export default function ODShift({ eyebrow, heading, headingHighlight, listLabel,
                                     </div>
                                 ))}
                             </div>
-                        </div>
-                        <div className="ODShift-description">
-                            <p className="ODShift-intro">
-                                {text(intro, "A single YouTube explainer becomes four Reels, two blog articles, a backlink campaign, a Reddit answer, and a GMB post.")}
-                            </p>
 
-                            <p className="ODShift-paragraph">
-                                {text(paragraph, "Not because volume is the point. Because that's how buyers actually find you now - in fragments, across platforms, before they ever type your name.")}
-                            </p>
-
-                            <p className="ODShift-highlight">
-                                {text(highlight, "We build the ecosystem that connects it all.")}
+                            <p className="ODShift-caption">
+                                {text(intro, "In fragments, across platforms, before they ever type your name.")}
                             </p>
                         </div>
-
                     </div>
                 </div>
             </div>
         </section>
-
-
     );
 }
