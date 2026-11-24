@@ -374,11 +374,12 @@ body {
 
     /* Mobile browsers often skip backdrop-filter, so the 0.88 translucent bar
        let section headings/logos bleed through while scrolling. Use a solid
-       bar on the mobile layout. */
+       bar on the mobile layout. !important keeps the CSS minifier from
+       dropping this as "redundant" against the translucent base rule. */
     .navbar-scrolled {
-        background-color: #f4f1ec;
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
+        background-color: #f4f1ec !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
     }
 }
 
