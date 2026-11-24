@@ -2096,12 +2096,16 @@ letter-spacing: -.015em;
 
   /* ===================================================== BOTTOM STATEMENT ===================================================== */
   /* ===================================================== PLAYBOOKS STATEMENT ===================================================== */
+  /* Mirrors the reference ODRunAsOne: bg paper, border-t line, py-32 md:py-48,
+     min-h-[75vh] flex items-center; max-w-[1100px] centered; Anton clamp(56,9vw,150). */
   .od-playbooks-statement {
       width: 100%;
-      padding: clamp(5rem, 8vw, 8rem) 1.5rem;
-      background: #f8f6f1;
-      border-top: 1px solid rgba(20, 20, 20, 0.12);
-      border-bottom: 1px solid rgba(20, 20, 20, 0.12);
+      padding: 128px 0; /* py-32 */
+      background: #f4f1ec;
+      border-top: 1px solid rgba(26, 26, 26, 0.10); /* border-line */
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
       opacity: 0;
       transform: translateY(28px);
       transition: opacity 0.8s ease, transform 0.8s ease;
@@ -2113,27 +2117,39 @@ letter-spacing: -.015em;
   }
 
   .od-playbooks-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px; /* px-6 */
       text-align: center;
   }
 
   .od-playbooks-line1,
   .od-playbooks-line2 {
+      margin: 0;
       font-family: var(--font-anton), Impact, sans-serif;
-      font-size: clamp(3rem, 5.5vw, 5rem);
-      line-height: 1;
-      letter-spacing: -0.02em;
-      color: #141414;
+      font-size: clamp(56px, 9vw, 150px);
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      color: #1a1a1a;
   }
 
-  /* Line 2 sits in a solid yellow badge */
   .od-playbooks-line2 {
+      margin-top: 12px; /* mt-3 */
+  }
+
+  /* Line 2 word sits in a solid yellow badge */
+  .od-playbooks-mark {
       display: inline-block;
-      background-color: #f6bd41;
-      padding: 0.04em 0.22em 0.1em;
+      background: #f5c24b;
+      color: #1a1a1a;
+      padding: 0 0.16em;
+  }
+
+  @media (min-width: 768px) {
+      .od-playbooks-statement { padding: 192px 0; } /* md:py-48 */
+      .od-playbooks-inner { padding: 0 40px; } /* md:px-10 */
+      .od-playbooks-line2 { margin-top: 16px; } /* md:mt-4 */
   }
 
   /* ===================================================== TABLET ===================================================== */
@@ -2200,10 +2216,6 @@ letter-spacing: -.015em;
           content: "•";
           display: inline-block;
           margin-right: 8px;
-      }
-
-      .od-playbooks-statement {
-          padding: 4.5rem 1.25rem;
       }
   }
 

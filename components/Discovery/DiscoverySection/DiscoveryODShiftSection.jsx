@@ -19,9 +19,12 @@ export default function ODShift({ eyebrow, heading, headingHighlight, listLabel,
 
     // The highlighted word ("ecosystem.") lives in its own field. The CMS lead
     // line ends at "It's" and omits the article, so render "It's an ecosystem."
-    // Appending only when the line ends at "It's" keeps editable copy intact.
-    const lead = text(heading, "Organic isn't a channel anymore. It's an").trim();
-    const leadLine = /it['’]s$/i.test(lead) ? `${lead} an` : lead;
+    // The reference breaks the line before "It's" (…anymore.<br>It's an …).
+    const lead = text(heading, "Organic isn't a channel anymore. It's").trim();
+    const withArticle = /it['’]s$/i.test(lead) ? `${lead} an` : lead;
+    const headMatch = withArticle.match(/^(.*\.)\s+(it['’]s.*)$/i);
+    const headLine1 = headMatch ? headMatch[1] : withArticle;
+    const headLine2 = headMatch ? headMatch[2] : "";
 
     return (
         <section
@@ -43,7 +46,15 @@ export default function ODShift({ eyebrow, heading, headingHighlight, listLabel,
                             </div>
 
                             <h2 className="ODShift-heading">
-                                {leadLine}{" "}
+                                {headLine2 ? (
+                                    <>
+                                        {headLine1}
+                                        <br />
+                                        {headLine2}{" "}
+                                    </>
+                                ) : (
+                                    <>{headLine1}{" "}</>
+                                )}
                                 <span className="ODShift-mark">
                                     {text(headingHighlight, "ecosystem.")}
                                 </span>

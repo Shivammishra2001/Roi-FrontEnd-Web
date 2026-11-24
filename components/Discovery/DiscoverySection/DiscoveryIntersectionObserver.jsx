@@ -164,12 +164,14 @@ export default function Surfaces({ eyebrow, heading, surfaces: cmsSurfaces, foot
           Strapi fields (footerText / footerHighlight) with code defaults. */}
       <section className="od-playbooks-statement">
         <div className="od-playbooks-inner">
-          <span className="od-playbooks-line1">
+          <p className="od-playbooks-line1">
             {text(footerText, "Six playbooks.")}
-          </span>
-          <span className="od-playbooks-line2">
-            {text(footerHighlight, "Run as one.")}
-          </span>
+          </p>
+          <p className="od-playbooks-line2">
+            <span className="od-playbooks-mark">
+              {text(footerHighlight, "Run as one.")}
+            </span>
+          </p>
         </div>
       </section>
     </>

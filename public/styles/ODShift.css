@@ -1,22 +1,60 @@
 /* =====================================================
    OD SHIFT SECTION  (discovery · "The Shift")
-   Two-column split: lead headline (left) / list (right)
+   Values mirror the reference (Organic Discovery.html):
+   bg paper #F4F1EC, ink #1A1A1A, mute2 #6B6B6B, yellow #F5C24B.
 ===================================================== */
 .ODShift {
   width: 100%;
-  padding: 96px 0;
-  background: #f8f6f1;
-  color: #191919;
-  border-top: 1px solid #e8dec7;
+  background: #f4f1ec;
+  color: #1a1a1a;
+  padding: 96px 0; /* py-24 */
   overflow: hidden;
 }
 
-/* ---- Split grid: 45% / 55% ---- */
+@media (min-width: 768px) {
+  .ODShift {
+    padding: 128px 0; /* md:py-32 */
+  }
+}
+
+/* Container → max-w-[1440px] px-6 md:px-10 (overrides the shared srcn-container) */
+.ODShift .srcn-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px; /* px-6 */
+}
+
+@media (min-width: 768px) {
+  .ODShift .srcn-container {
+    padding: 0 40px; /* md:px-10 */
+  }
+}
+
+.ODShift-container {
+  width: 100%;
+}
+
+/* grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-start */
 .ODShift-grid {
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
+  grid-template-columns: 1fr;
+  gap: 56px; /* gap-14 */
   align-items: start;
-  gap: 5rem;
+}
+
+@media (min-width: 1024px) {
+  .ODShift-grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 40px; /* lg:gap-10 */
+  }
+  .ODShift-lead {
+    grid-column: 1 / span 5; /* lg:col-span-5 */
+  }
+  .ODShift-content {
+    grid-column: 7 / span 6; /* lg:col-span-6 lg:col-start-7 */
+    padding-top: 52px; /* lg:pt-[52px] */
+  }
 }
 
 /* ---- Left column ---- */
@@ -25,78 +63,74 @@
   flex-direction: column;
 }
 
+/* Eyebrow: font-mono text-[11px] uppercase tracking-[0.22em] mb-8 text-mute2 */
 .ODShift .case-kicker {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 24px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  margin-bottom: 32px;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #666;
+  color: #6b6b6b;
 }
 
+/* Headline: font-display leading-[0.95] clamp(44px,5vw,84px) */
 .ODShift-heading {
   margin: 0;
-  /* ~512px keeps "Organic isn't a" on line 1 while forcing "an" to its own
-     line at the 1440 display size — the exact 5-line rhythm (Anton's metrics
-     need slightly more than the ~470px in the brief). */
-  max-width: 32rem;
   font-family: var(--font-anton), Impact, sans-serif;
-  font-size: clamp(3.25rem, 6.2vw, 5.75rem);
-  font-weight: 700;
-  line-height: 0.94;
-  letter-spacing: -0.02em;
-  color: #141414;
+  font-size: clamp(44px, 5vw, 84px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: #1a1a1a;
 }
 
-/* Highlighted word: dark text on a solid yellow box, same size as the head */
+/* Mark: inline-block, #F5C24B bg, ink text, padding 0 0.16em */
 .ODShift-mark {
   display: inline-block;
-  background-color: #f6bd41;
-  color: #141414;
-  padding: 0.02em 0.18em 0.08em;
-  line-height: 1;
+  background: #f5c24b;
+  color: #1a1a1a;
+  padding: 0 0.16em;
 }
 
 /* ---- Right column: label + list + caption ---- */
 .ODShift-content {
   display: flex;
   flex-direction: column;
-  padding-top: 6px;
 }
 
+/* A buyer finds you through: font-mono text-[11px] uppercase tracking-[0.22em] mb-5 text-mute2 */
 .ODShift-list-label {
-  color: #666;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 18px;
   font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
   font-weight: 400;
-  line-height: 1.27;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+  margin-bottom: 20px; /* mb-5 */
 }
 
+/* List wrapper: border-b border-ink */
 .ODShift-list {
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #1a1a1a;
 }
 
+/* Row: flex items-baseline gap-6 py-5 border-t border-ink */
 .ODShift-list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 20px 0;
+  border-top: 1px solid #1a1a1a;
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.6s, transform 0.6s;
-  transition-delay: calc(var(--item-index, 0) * 80ms);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.15rem 0;
-  border-top: 1px solid #222;
-}
-
-.ODShift-list-item:last-child {
-  border-bottom: 1px solid #222;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  transition-delay: calc(var(--item-index, 0) * 90ms);
 }
 
 .ODShift-visible .ODShift-list-item {
@@ -104,34 +138,42 @@
   transform: translateY(0);
 }
 
+/* Number: font-mono text-[11px] text-mute2 w-6 shrink-0 */
 .ODShift-number {
-  color: #666;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 11px;
+  color: #6b6b6b;
+  width: 24px;
   flex-shrink: 0;
-  width: 2.25rem;
-  font-family: monospace;
-  font-size: 12px;
 }
 
+/* Title: font-display leading-none clamp(28px,2.8vw,44px) */
 .ODShift-item-text {
   font-family: var(--font-anton), Impact, sans-serif;
-  letter-spacing: -0.01em;
-  font-size: clamp(1.65rem, 2.7vw, 2.4rem);
-  font-weight: 500;
-  color: #141414;
-  line-height: 1.1;
+  font-size: clamp(28px, 2.8vw, 44px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: #1a1a1a;
 }
 
-/* Single muted caption under item 04 */
+/* Caption: mt-8 text-[18px] md:text-[20px] leading-snug text-mute2 max-w-md */
 .ODShift-caption {
-  margin: 1.5rem 0 0;
-  max-width: 44ch;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #555;
-  font-weight: 300;
+  margin: 32px 0 0;
+  font-size: 18px;
+  line-height: 1.375;
+  color: #6b6b6b;
+  max-width: 28rem; /* max-w-md */
+  font-weight: 400;
 }
 
-/* ---- Entrance animations ---- */
+@media (min-width: 768px) {
+  .ODShift-caption {
+    font-size: 20px;
+  }
+}
+
+/* ---- Entrance animations (heading + right column) ---- */
 .ODShift-heading,
 .ODShift-content {
   opacity: 0;
@@ -143,39 +185,4 @@
 .ODShift-visible .ODShift-content {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* ---- Tablet / mobile: stack to one column ---- */
-@media (max-width: 1024px) {
-  .ODShift {
-    padding: 72px 0;
-  }
-
-  .ODShift-grid {
-    grid-template-columns: 1fr;
-    gap: 2.75rem;
-  }
-
-  .ODShift-heading {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .ODShift {
-    padding: 56px 0;
-  }
-
-  .ODShift-container {
-    padding: 0 24px;
-  }
-
-  .ODShift-grid {
-    gap: 2.25rem;
-  }
-
-  .ODShift-heading {
-    max-width: 100%;
-    line-height: 1.0;
-  }
 }
