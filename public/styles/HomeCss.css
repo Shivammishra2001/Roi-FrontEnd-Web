@@ -18,11 +18,21 @@
 
  .hero-container {
      flex-direction: column;
-     min-height: 100vh;
+     min-height: 100svh;
      margin: 0 auto;
-    padding: 175px 0 17px;
+    padding: calc(var(--navbar-height, 80px) + 2.5rem) 0 1.75rem;
      display: flex;
      position: relative;
+ }
+
+ /* Fill the hero so the bottom stats strip can sit at the base (margin-top:auto)
+    on tall viewports and flow cleanly below the buttons on short ones. */
+ .hero-section-area-rapper {
+     display: flex;
+     flex-direction: column;
+     flex: 1 1 auto;
+     min-height: 0;
+     width: 100%;
  }
 
  .hero-section-area::before {
@@ -200,8 +210,7 @@ line-height: 114%;
 
  .hero-info,
  .hero-scroll {
-     position: absolute;
-     bottom: 26px;
+     position: static;
      color: #a3a3a3;
      font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
      font-weight: 400;
@@ -214,12 +223,16 @@ line-height: 114%;
 
  }
 
+ /* In-flow at the base of the hero; margin-top:auto pins it to the bottom on
+    tall viewports, padding-top guarantees a 2rem gap below the CTA buttons so
+    they never overlap the stats strip on short viewports. */
  .hero-info {
-     right: 0px;
+     margin-top: auto;
+     padding-top: 2rem;
  }
 
  .hero-scroll {
-     left: 0px;
+     margin-top: 1rem;
      letter-spacing: 0.22em;
      display: inline-flex;
      align-items: center;
@@ -1168,6 +1181,30 @@ line-height: 114%;
     font-size: clamp(40px, 6.5vw, 110px);
     line-height: 120%;
     color: #1A1A1A;
+}
+
+/* Short viewports (e.g. 1300x587 laptops): the 100vh sticky stage centres the
+   tall "Search isn't one box anymore." block and clips its top edge under the
+   overflow:hidden mask. Unpin THE SHIFT only (not Brands) on short heights so
+   the heading sits cleanly below the logo strip with real top padding and
+   nothing is sliced off. The reveal JS already handles the unpinned case. */
+@media (max-height: 760px) {
+    .pin-section:not(.brands-pin-section) {
+        height: auto;
+    }
+
+    .pin-section:not(.brands-pin-section) .pin-stage {
+        position: static;
+        height: auto;
+        min-height: 0;
+        display: block;
+        overflow: visible;
+        padding: 5rem 0 4rem;
+    }
+
+    .pin-section:not(.brands-pin-section) .content {
+        min-height: 0;
+    }
 }
 
 
