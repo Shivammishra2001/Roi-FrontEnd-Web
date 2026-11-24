@@ -658,9 +658,9 @@
       }
   }
 
-  /* Blog grid: 3 cols >=1024, 2 cols 640-1023, 1 col <640 (overrides the
+  /* Blog grid: 3 cols >=1200, 2 cols 640-1199, 1 col <640 (overrides the
      991/768 rules above at their overlapping widths). */
-  @media (max-width: 1023px) {
+  @media (max-width: 1199px) {
       .blog-grid {
           grid-template-columns: repeat(2, 1fr);
       }
