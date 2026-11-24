@@ -237,15 +237,15 @@
       color: inherit;
   }
 
-  /* Blog banners are 1200x630 landscape with embedded text — box the thumb to
-     that exact ratio and use object-fit:contain so the whole graphic is always
-     visible (zero crop) on every breakpoint; #FDF2B8 fills any letterbox. */
+  /* Balanced 16:10 thumb filled edge-to-edge with object-fit:cover, so both
+     wide text-banners and narrower/square photos render cleanly with no
+     sidebars. Neutral surface shows only while the image loads. */
   .blog-card-img {
       overflow: hidden;
       position: relative;
       width: 100%;
-      aspect-ratio: 1200 / 630;
-      background-color: #fdf2b8;
+      aspect-ratio: 16 / 10;
+      background-color: #f4f4f2;
   }
 
   .blog-card-img figure {
@@ -262,7 +262,8 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center;
       transition: transform 0.35s ease;
   }
 

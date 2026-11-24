@@ -266,23 +266,24 @@ span.button-arrow {
            IMAGE
         ========================================================= */
 
-    /* Blog banners are 1200x630 landscape with edge text — box the thumb to
-       that ratio and object-fit:contain so the whole graphic is always visible
-       (zero crop) at every width; #FDF2B8 fills any letterbox. */
+    /* Balanced 16:10 thumb filled edge-to-edge with object-fit:cover, so both
+       wide text-banners and narrower/square photos render cleanly with no
+       sidebars. Neutral surface shows only while the image loads. */
     .work-image {
         width: 100%;
-        aspect-ratio: 1200 / 630;
+        aspect-ratio: 16 / 10;
 
         overflow: hidden;
 
-        background-color: #fdf2b8;
+        background-color: #f4f4f2;
     }
 
     .work-image img {
         width: 100%;
         height: 100%;
 
-        object-fit: contain;
+        object-fit: cover;
+        object-position: center;
 
         transition:
             transform 0.5s ease;
