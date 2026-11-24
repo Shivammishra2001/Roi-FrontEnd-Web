@@ -2095,47 +2095,45 @@ letter-spacing: -.015em;
   }
 
   /* ===================================================== BOTTOM STATEMENT ===================================================== */
-  .od-surfaces-footer {
-      margin-top: 56px;
-      font-family: var(--font-anton), "Arial Narrow", sans-serif;
-      font-size: clamp(28px, 3.2vw, 52px);
-      font-weight: 400;
-      line-height: 0.98;
-      letter-spacing: -0.015em;
-      color: #0b0b0b;
+  /* ===================================================== PLAYBOOKS STATEMENT ===================================================== */
+  .od-playbooks-statement {
+      width: 100%;
+      padding: clamp(5rem, 8vw, 8rem) 1.5rem;
+      background: #f8f6f1;
+      border-top: 1px solid rgba(20, 20, 20, 0.12);
+      border-bottom: 1px solid rgba(20, 20, 20, 0.12);
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(28px);
       transition: opacity 0.8s ease, transform 0.8s ease;
   }
 
-  .od-surfaces-footer.is-visible {
+  .od-playbooks-statement.is-visible {
       opacity: 1;
       transform: translateY(0);
   }
 
-  /* ===================================================== HIGHLIGHT ===================================================== */
-  .od-surfaces-highlight {
-      position: relative;
+  .od-playbooks-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      text-align: center;
+  }
+
+  .od-playbooks-line1,
+  .od-playbooks-line2 {
+      font-family: var(--font-anton), Impact, sans-serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #141414;
+  }
+
+  /* Line 2 sits in a solid yellow badge */
+  .od-playbooks-line2 {
       display: inline-block;
-      color: #0b0b0b;
-  }
-
-  .od-surfaces-highlight::after {
-    content: "";
-    z-index: -1;
-    transform-origin: 0;
-    background: #f5c24b;
-    height: 1.12em;
-    transition: transform .7s .25s;
-    position: absolute;
-    bottom: 0.02em;
-    left: 0;
-    right: 0;
-    transform: scaleX(0);
-  }
-
-  .od-surfaces-footer.is-visible .od-surfaces-highlight::after {
-      transform: scaleX(1);
+      background-color: #f6bd41;
+      padding: 0.04em 0.22em 0.1em;
   }
 
   /* ===================================================== TABLET ===================================================== */
@@ -2204,10 +2202,8 @@ letter-spacing: -.015em;
           margin-right: 8px;
       }
 
-      .od-surfaces-footer {
-          margin-top: 40px;
-          font-size: clamp(29px, 8vw, 42px);
-          line-height: 1;
+      .od-playbooks-statement {
+          padding: 4.5rem 1.25rem;
       }
   }
 

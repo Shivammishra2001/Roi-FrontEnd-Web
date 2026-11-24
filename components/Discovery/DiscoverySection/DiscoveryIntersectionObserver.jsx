@@ -50,7 +50,7 @@ export default function Surfaces({ eyebrow, heading, surfaces: cmsSurfaces, foot
     const section = document.querySelector("#od-surfaces");
     const heading = document.querySelector(".od-surfaces-heading");
     const rows = document.querySelectorAll(".od-surfaces-row");
-    const footer = document.querySelector(".od-surfaces-footer");
+    const statement = document.querySelector(".od-playbooks-statement");
 
     if (!section) return;
 
@@ -76,8 +76,8 @@ export default function Surfaces({ eyebrow, heading, surfaces: cmsSurfaces, foot
       observer.observe(row);
     });
 
-    if (footer) {
-      observer.observe(footer);
+    if (statement) {
+      observer.observe(statement);
     }
 
     const sectionObserver = new IntersectionObserver(
@@ -94,7 +94,7 @@ export default function Surfaces({ eyebrow, heading, surfaces: cmsSurfaces, foot
               row.classList.remove("is-visible");
             });
 
-            footer?.classList.remove("is-visible");
+            statement?.classList.remove("is-visible");
             */
           }
         });
@@ -156,13 +156,20 @@ export default function Surfaces({ eyebrow, heading, surfaces: cmsSurfaces, foot
             ))}
 
           </div>
-          <p className="od-surfaces-footer">
-            {text(footerText, "Each one looks like a separate playbook.")}{" "}
-            <span className="od-surfaces-highlight">
-              {text(footerHighlight, "We run them as one.")}
-            </span>
-          </p>
         </div>
+        </div>
+      </section>
+
+      {/* Centered statement below the 01–06 list. Copy comes from the same
+          Strapi fields (footerText / footerHighlight) with code defaults. */}
+      <section className="od-playbooks-statement">
+        <div className="od-playbooks-inner">
+          <span className="od-playbooks-line1">
+            {text(footerText, "Six playbooks.")}
+          </span>
+          <span className="od-playbooks-line2">
+            {text(footerHighlight, "Run as one.")}
+          </span>
         </div>
       </section>
     </>
