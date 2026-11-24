@@ -156,14 +156,14 @@ line-height: 114%;
  }
 
  .hero-subtitle {
-     color: var(--mute);
-     font-family: var(--font-jetbrains-mono);
-     font-weight: 300;
-     font-style: normal;
+     color: #bdbdbd;
+     letter-spacing: 1.8px;
+     text-transform: uppercase;
+     font-family: var(--font-jetbrains-mono), monospace;
+     margin-bottom: 10px;
      font-size: 13px;
-     line-height: 33px;
-     letter-spacing: 0;
-     vertical-align: middle;
+     font-weight: 400;
+     line-height: 1.27;
  }
 
  .hero-buttons {
@@ -229,7 +229,14 @@ line-height: 114%;
  .hero-info {
      margin-top: auto;
      padding-top: 2rem;
+     color: #bdbdbd;
+     letter-spacing: 1.8px;
+     text-transform: uppercase;
+     font-family: var(--font-jetbrains-mono), monospace;
+     margin-bottom: 10px;
      font-size: 13px;
+     font-weight: 400;
+     line-height: 1.27;
  }
 
  .hero-scroll {
@@ -1327,7 +1334,6 @@ line-height: 114%;
 
     .hero-subtitle {
         font-size: 13px;
-        line-height: 24px;
     }
 
     .hero-buttons {
@@ -1340,8 +1346,6 @@ line-height: 114%;
         bottom: auto;
         margin-top: 26px;
         font-size: 13px;
-        line-height: 1.6;
-        letter-spacing: 0.1em;
         max-width: 100%;
         word-break: normal;
     }
@@ -1494,7 +1498,6 @@ line-height: 114%;
     .hero-info {
         margin-top: 20px;
         font-size: 13px;
-        letter-spacing: 0.06em;
     }
 
     .work-look-banner {
