@@ -33,7 +33,7 @@ export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHre
     }, [blogs.length]);
 
     return (
-        <section className="blog-section-area" ref={sectionRef}>
+        <section id="our-blog" className="blog-section-area" ref={sectionRef}>
             <div className="srcn-container">
                 <div className="blog-subtitle Believe-subtitle">
                     <span>{eyebrow}</span>
@@ -58,8 +58,9 @@ export default function BlogSection({ eyebrow, heading, viewAllLabel, viewAllHre
                                         <img
                                             src={blogImageUrl(blog)}
                                             alt={blog.image?.alt || blog.title}
-                                            width={500}
-                                            height={320}
+                                            width={1200}
+                                            height={630}
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                             loading="lazy"
                                             decoding="async"
                                         />

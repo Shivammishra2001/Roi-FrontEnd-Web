@@ -237,14 +237,20 @@
       color: inherit;
   }
 
+  /* Blog banners are 1200x630 landscape with embedded text — box the thumb to
+     that exact ratio and use object-fit:contain so the whole graphic is always
+     visible (zero crop) on every breakpoint; #FDF2B8 fills any letterbox. */
   .blog-card-img {
       overflow: hidden;
       position: relative;
-      height: 330px;
+      width: 100%;
+      aspect-ratio: 1200 / 630;
+      background-color: #fdf2b8;
   }
 
   .blog-card-img figure {
       margin: 0;
+      width: 100%;
       height: 100%;
   }
 
@@ -256,7 +262,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
       transition: transform 0.35s ease;
   }
 
@@ -647,12 +653,23 @@
   }
 
   @media (max-width: 768px) {
-      .blog-grid {
-          grid-template-columns: 1fr;
-      }
-
       .blog-card-title {
           font-size: 18px;
+      }
+  }
+
+  /* Blog grid: 3 cols >=1024, 2 cols 640-1023, 1 col <640 (overrides the
+     991/768 rules above at their overlapping widths). */
+  @media (max-width: 1023px) {
+      .blog-grid {
+          grid-template-columns: repeat(2, 1fr);
+      }
+  }
+
+  @media (max-width: 639px) {
+      .blog-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
       }
   }
 
