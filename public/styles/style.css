@@ -3282,7 +3282,7 @@ letter-spacing: -.025em;
 .discovery-heading{
   letter-spacing: -.025em;
     font-family: var(--font-anton), sans-serif;
-    font-size: clamp(44px, 8vw, 161px);
+    font-size: clamp(44px, 7vw, 140px);
     font-style: normal;
     font-weight: 400;
     line-height: 114%;
