@@ -23,17 +23,14 @@
 .globe-header {
   position: relative;
   z-index: 1;
-  width: 100%;
-  margin: 0 0 2rem;
-  padding-top: 0;
-  text-align: left;
+  margin-bottom: 3rem;
+  text-align: center;
 }
 
 .globe-title {
   margin: 0;
-  font-size: clamp(1.75rem, 2.8vw, 3rem);
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
   line-height: 1;
-  white-space: nowrap;
 }
 
 .accent-yellow {
@@ -45,24 +42,20 @@
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
-  align-items: start;
+  align-items: center;
   gap: 3rem;
 }
 
 .globe-column {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
   min-width: 0;
-  margin-top: 0;
-  padding-top: 0;
 }
 
 .globe-wrapper {
   position: relative;
   display: grid;
   place-items: center;
-  align-self: flex-start;
   width: min(100%, 36rem);
   aspect-ratio: 1;
 }
@@ -105,9 +98,6 @@
 .globe-location-sidebar {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  margin-top: 0;
-  padding-top: 0;
 }
 
 .globe-office-card {
@@ -145,23 +135,14 @@
   text-decoration: none;
 }
 
-@media (max-width: 1023.98px) {
+@media (max-width: 767px) {
   .globe-section {
     padding: 5rem 0;
   }
 
   .globe-main-layout {
     grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .globe-title {
-    white-space: normal;
-    font-size: clamp(1.9rem, 6vw, 2.6rem);
-  }
-
-  .globe-wrapper {
-    align-self: center;
+    gap: 1rem;
   }
 
   .globe-office-card {

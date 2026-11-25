@@ -606,8 +606,10 @@
 .globe-header {
   position: relative;
   z-index: 1;
-  margin-bottom: 3rem;
-  text-align: center;
+  width: 100%;
+  margin: 0 0 2rem;
+  padding-top: 0;
+  text-align: left;
 }
 
 .globe-title {
@@ -617,6 +619,7 @@
   line-height: .95;
   text-align: start;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 
@@ -632,9 +635,12 @@
 .globe-column {
   max-width: 710px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   width: 53%;
+  margin-top: 0;
+  padding-top: 0;
   position: sticky;
   top: 85px;
 }
@@ -858,7 +864,7 @@
   color: #fff;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1023.98px) {
   .globe-main-layout {
     flex-direction: column;
     gap: 2.5rem;
@@ -868,8 +874,17 @@
   .globe-column {
     width: 100%;
     max-width: 100%;
+    align-items: center;
     position: static;
     top: auto;
+  }
+
+  .globe-header {
+    text-align: center;
+  }
+
+  .globe-title {
+    white-space: normal;
   }
 
   .globe-location-sidebar {
