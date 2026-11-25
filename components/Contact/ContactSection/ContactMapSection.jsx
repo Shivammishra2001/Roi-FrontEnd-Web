@@ -260,7 +260,7 @@ export default function ContactMapSection({ titlePrefix, titleAccent, cities = [
 
             timeline
                 .from('.globe-header', { y: 35, opacity: 0, duration: 0.8 })
-                .from('.globe-column', { scale: 0.9, opacity: 0, duration: 1, ease: 'power4.out' }, '-=0.4');
+                .from('.globe-wrapper', { scale: 0.9, opacity: 0, duration: 1, ease: 'power4.out' }, '-=0.4');
         }, sectionRef);
 
         return () => {
@@ -287,12 +287,11 @@ export default function ContactMapSection({ titlePrefix, titleAccent, cities = [
         <section ref={sectionRef} className="globe-section">
             <div className="globe-ambient-glow" aria-hidden="true" />
             <div className="srcn-container">
-                <div className="globe-header">
-                    <h2 className="globe-title">{titlePrefix} <span className="accent-yellow">{titleAccent}</span></h2>
-                </div>
-
                 <div className="globe-main-layout">
                     <div className="globe-column">
+                        <div className="globe-header">
+                            <h2 className="globe-title">{titlePrefix} <span className="accent-yellow">{titleAccent}</span></h2>
+                        </div>
                         <div ref={cardRef} className="globe-wrapper">
                             <canvas ref={canvasRef} className="globe-canvas" />
                             {CITIES.map((city) => (
