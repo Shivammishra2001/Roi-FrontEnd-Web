@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { text, list } from "@/lib/cms";
+import { text, list, filled } from "@/lib/cms";
 
 const DEFAULT_SURFACES = [
   {
@@ -160,20 +160,22 @@ export default function Surfaces({ eyebrow, heading, surfaces: cmsSurfaces, foot
         </div>
       </section>
 
-      {/* Centered statement below the 01–06 list. Copy comes from the same
-          Strapi fields (footerText / footerHighlight) with code defaults. */}
-      <section className="od-playbooks-statement">
-        <div className="od-playbooks-inner">
-          <p className="od-playbooks-line1">
-            {text(footerText, "Six playbooks.")}
-          </p>
-          <p className="od-playbooks-line2">
-            <span className="od-playbooks-mark">
-              {text(footerHighlight, "Run as one.")}
-            </span>
-          </p>
-        </div>
-      </section>
+      {/* Centered statement below the 01–06 list. Copy is CMS-driven
+          (footerText / footerHighlight); the block is hidden when both blank. */}
+      {(filled(footerText) || filled(footerHighlight)) && (
+        <section className="od-playbooks-statement">
+          <div className="od-playbooks-inner">
+            {filled(footerText) && (
+              <p className="od-playbooks-line1">{text(footerText)}</p>
+            )}
+            {filled(footerHighlight) && (
+              <p className="od-playbooks-line2">
+                <span className="od-playbooks-mark">{text(footerHighlight)}</span>
+              </p>
+            )}
+          </div>
+        </section>
+      )}
     </>
   );
 }
