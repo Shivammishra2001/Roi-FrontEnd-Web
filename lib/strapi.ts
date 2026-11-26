@@ -20,7 +20,7 @@ const FALLBACK_GLOBAL: Global = {
     ctaHref: '/contact',
     ctaArrowGlyph: '→',
     primaryNavItems: [
-      { label: 'Discovery', href: '/discovery', isExternal: false, hasSubmenu: false },
+      { label: 'Discovery', href: '/organic-discovery', isExternal: false, hasSubmenu: false },
       { label: 'Case Studies', href: '/case-studies', isExternal: false, hasSubmenu: false },
       { label: 'Careers', href: '#', isExternal: false, hasSubmenu: false },
       { label: 'Blog', href: '/blog', isExternal: false, hasSubmenu: false },

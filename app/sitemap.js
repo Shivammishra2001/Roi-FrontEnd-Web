@@ -17,7 +17,7 @@ const PAGE_ROUTES = {
     blog: { path: '/blog', priority: 0.9, changeFrequency: 'daily' },
     'case-studies': { path: '/case-studies', priority: 0.9, changeFrequency: 'weekly' },
     contact: { path: '/contact', priority: 0.8, changeFrequency: 'monthly' },
-    discovery: { path: '/discovery', priority: 0.8, changeFrequency: 'monthly' },
+    'organic-discovery': { path: '/organic-discovery', priority: 0.8, changeFrequency: 'monthly' },
     'privacy-policy': { path: '/privacy-policy', priority: 0.3, changeFrequency: 'yearly' },
     'terms-and-conditions': { path: '/terms-and-conditions', priority: 0.3, changeFrequency: 'yearly' },
 };

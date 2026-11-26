@@ -14,7 +14,7 @@ const FALLBACK_METADATA = {
 };
 
 export async function generateMetadata() {
-  const data = await getPageBySlug('discovery');
+  const data = await getPageBySlug('organic-discovery');
   if (!data) notFound(); // unpublished or "Page Live" switched off
   return data.seo ? constructMetadata(data.seo) : FALLBACK_METADATA;
 }
@@ -23,8 +23,8 @@ export async function generateMetadata() {
 // switched off is not rendered. Missing = shown.
 const isVisible = (section) => section.isEnabled !== false;
 
-export default async function DiscoveryPage() {
-  const data = await getPageBySlug('discovery');
+export default async function OrganicDiscoveryPage() {
+  const data = await getPageBySlug('organic-discovery');
   if (!data) notFound(); // unpublished or "Page Live" switched off
   const sections = Array.isArray(data?.sections) ? data.sections : [];
 

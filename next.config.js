@@ -39,8 +39,8 @@ const nextConfig = {
                 permanent: true,
             },
             {
-                source: '/organic-discovery',
-                destination: '/discovery',
+                source: '/discovery',
+                destination: '/organic-discovery',
                 permanent: true,
             },
             // The About page moved from /about to /about-us.

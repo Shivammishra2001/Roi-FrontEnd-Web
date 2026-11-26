@@ -32,7 +32,7 @@ export default function ThreePillarsSection({ backgroundImage, pillars = [] }) {
                                     <div className="three-pillars-content">
                                         <div className="three-pillars-tag">
                                             {pillar.number === '01' ? (
-                                                <Link href="/discovery" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                                <Link href="/organic-discovery" style={{ color: 'inherit', textDecoration: 'none' }}>
                                                     {pillar.tag}
                                                 </Link>
                                             ) : (
@@ -41,7 +41,7 @@ export default function ThreePillarsSection({ backgroundImage, pillars = [] }) {
                                         </div>
                                         <h3 className="three-pillars-title">
                                             {pillar.number === '01' ? (
-                                                <Link href="/discovery" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                                <Link href="/organic-discovery" style={{ color: 'inherit', textDecoration: 'none' }}>
                                                     {pillar.title}
                                                 </Link>
                                             ) : (
